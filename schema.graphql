@@ -1,0 +1,116 @@
+type Trade @entity {
+  id: ID!
+  createdAtTimestamp: BigInt!
+  trader: Bytes! # address
+  origin: Bytes! # address
+  target: Bytes! # address
+  originAmount: BigInt! # uint256
+  targetAmount: BigInt! # uint256
+}
+
+type Transfer @entity {
+  id: ID!
+  from: Bytes! # address
+  to: Bytes! # address
+  value: BigInt! # uint256
+}
+
+type DFXFactory @entity {
+  # factory address
+  id: ID!
+
+  # pair info
+  pairCount: Int!
+
+  # total volume
+  totalVolumeUSD: BigDecimal!
+
+  # total liquidity
+  totalLiquidityUSD: BigDecimal!
+  # transactions
+  # txCount: BigInt!
+}
+
+type DFXDayData @entity {
+  id: ID! # timestamp rounded to current day by dividing by 86400
+  date: Int!
+
+  dailyVolumeUSD: BigDecimal!
+
+  totalVolumeUSD: BigDecimal! # Accumulate at each trade, not just calculated off whatever totalVolume is. making it more accurate as it is a live conversion
+  
+  totalLiquidityUSD: BigDecimal!
+  # txCount: BigInt!
+}
+
+type PairHourData @entity {
+  id: ID!
+  hourStartUnix: Int! # unix timestamp for start of hour
+  pair: Pair!
+  
+  # reserves
+  reserve0: BigDecimal!
+  reserve1: BigDecimal!
+  reserveUSD: BigDecimal!
+
+  # volume stats
+  volumeToken0: BigDecimal!
+  volumeToken1: BigDecimal!
+  volumeUSD: BigDecimal!
+  # hourlyTxns: BigInt!
+}
+
+type PairDayData @entity {
+  id: ID!
+  date: Int!
+  pair: Pair!
+
+  # reserves
+  reserve0: BigDecimal!
+  reserve1: BigDecimal!
+  reserveUSD: BigDecimal!
+
+  # volume stats
+  volumeToken0: BigDecimal!
+  volumeToken1: BigDecimal!
+  volumeUSD: BigDecimal!
+  # dailyTxns: BigInt!
+}
+
+type Pair @entity {
+  # Contract address
+  id: ID!
+  
+  # mirrored from the smart contract
+  token0: Token!
+  token1: Token!
+
+  # reserves
+  reserve0: BigDecimal!
+  reserve1: BigDecimal!
+
+  # derived liquidity
+  reserveUSD: BigDecimal!
+  prevReserveUSD: BigDecimal!
+
+  # lifetime volume stats
+  volumeToken0: BigDecimal!
+  volumeToken1: BigDecimal!
+  volumeUSD: BigDecimal!
+  txnsCount: BigInt!
+
+  # creation stats
+  # createdAtTimestamp: BigInt!
+  # createdAtBlockNumber: BigInt!
+
+  # Pair hour data
+  hourData: [PairHourData!]! @derivedFrom(field: "pair")
+}
+
+type Token @entity {
+  # token address
+  id: ID!
+
+  # mirrored from the smart contract
+  decimals: BigInt!
+}

@@ -1,0 +1,31 @@
+specVersion: 0.0.2
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: cadcpool
+    network: mainnet
+    source:
+      address: "0xa6c0cbcaebd93ad3c6c94412ec06aaa37870216d"
+      abi: cadcpool
+      startBlock: 12459281
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Approval
+        - AssetIncluded
+        - AssimilatorIncluded
+        - PartitionRedeemed
+        - Trade
+        - Transfer
+      abis:
+        - name: cadcpool
+          file: cadcpool/abis/cadcpool.json
+      eventHandlers:
+        - event: Trade(indexed address,indexed address,indexed address,uint256,uint256)
+          handler: handleTrade
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+      file: cadcpool/cadcpool.wasm

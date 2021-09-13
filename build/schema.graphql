@@ -1,0 +1,16 @@
+type Trade @entity {
+  id: ID!
+  createdAtTimestamp: BigInt!
+  trader: Bytes! # address
+  origin: Bytes! # address
+  target: Bytes! # address
+  originAmount: BigInt! # uint256
+  targetAmount: BigInt! # uint256
+}
+
+type Transfer @entity {
+  id: ID!
+  from: Bytes! # address
+  to: Bytes! # address
+  value: BigInt! # uint256
+}
