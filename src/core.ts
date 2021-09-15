@@ -41,7 +41,7 @@ export function handleTrade(event: TradeEvent): void {
     entity.target = event.params.target
     entity.originAmount = event.params.originAmount
     entity.targetAmount = event.params.targetAmount
-
+    
     let token0 = Token.load(event.params.origin.toHexString())
     let token1 = Token.load(event.params.target.toHexString())
     
