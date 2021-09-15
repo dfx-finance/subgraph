@@ -24,7 +24,6 @@ export function updateDFXDayData(event: ethereum.Event): DFXDayData {
         dfxDayData.totalLiquidityUSD = ZERO_BD
     }
 
-    dfxDayData.totalVolumeUSD = dfx.totalVolumeUSD
     dfxDayData.totalLiquidityUSD = dfx.totalLiquidityUSD
     dfxDayData.save()
 
