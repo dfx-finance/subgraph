@@ -119,8 +119,8 @@ export function handleTrade(event: TradeEvent): void {
         pair.reserve1 = reserve1
     }
     
-    let amount1ReserveUSD = pair.reserve1.times(fetchUSDMultiplier(pair.token1))
-    let amountReserveUSD = pair.reserve0.plus(amount1ReserveUSD)
+    // let amount1ReserveUSD = pair.reserve1.times(fetchUSDMultiplier(pair.token1))
+    // let amountReserveUSD = pair.reserve0.plus(amount1ReserveUSD)
 
     // update day entities
     let pairHourData = updatePairHourData(event)
@@ -129,12 +129,12 @@ export function handleTrade(event: TradeEvent): void {
 
     let dfx = DFXFactory.load(FACTORY_ADDRESS)
     
-    pair.prevReserveUSD = pair.reserveUSD
-    pair.reserveUSD = amountReserveUSD
-    let reserveDiff = pair.reserveUSD.minus(pair.prevReserveUSD)
-    pair.save()
+    // pair.prevReserveUSD = pair.reserveUSD
+    // pair.reserveUSD = amountReserveUSD
+    // let reserveDiff = pair.reserveUSD.minus(pair.prevReserveUSD)
+    // pair.save()
 
-    dfx.totalLiquidityUSD = dfx.totalLiquidityUSD.plus(reserveDiff)
+    // dfx.totalLiquidityUSD = dfx.totalLiquidityUSD.plus(reserveDiff)
     dfx.totalVolumeUSD = dfx.totalVolumeUSD.plus(amount0)
     dfx.save()
 
@@ -207,12 +207,12 @@ export function handleTransfer(event: TransferEvent): void {
     pair.save()
     dfx.save()
 
-    // let pairHourData = updatePairHourData(event)
-    // pairHourData.save()
-    // let pairDayData = updatePairDayData(event)
-    // pairDayData.save()
-    // let dfxDayData = updateDFXDayData(event)
-    // dfxDayData.save()
+    let pairHourData = updatePairHourData(event)
+    pairHourData.save()
+    let pairDayData = updatePairDayData(event)
+    pairDayData.save()
+    let dfxDayData = updateDFXDayData(event)
+    dfxDayData.save()
 
     token0.save()
     token1.save()
