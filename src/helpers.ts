@@ -13,6 +13,7 @@ export let USDC = '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48'
 export let XSGD = '0x70e8de73ce538da2beed35d14187f6959a8eca96'
 export let CADC = '0xcadc0acd4b445166f12d2c07eac6e2544fbe2eef'
 export let EURS = '0xdb25f211ab05b1c97d595516f45794528a807ad8'
+export let NZDS = '0xDa446fAd08277B4D2591536F204E018f32B6831c'
 
 export function exponentToBigDecimal(decimals: BigInt): BigDecimal {
     let bd = BigDecimal.fromString("1");
@@ -37,12 +38,15 @@ export function convertTokenToDecimal(
 }
 
 export function fetchUSDMultiplier(tokenAddress: string): BigDecimal {
+    // Replaced by dividing the current trades and storing the rates inside hourly pairs / daily.
     if (tokenAddress == XSGD) {
         return BigDecimal.fromString('0.7252')
     } else if (tokenAddress == CADC) {
         return BigDecimal.fromString('0.7457')
     } else if (tokenAddress == EURS) {
         return BigDecimal.fromString('1.1403')
+    } else if (tokenAddress == NZDS){
+        return BigDecimal.fromString('0.6494')
     } else {
         return BigDecimal.fromString('0')
     }
@@ -58,6 +62,8 @@ export function fetchTokenDecimals(tokenAddress: Address): BigInt {
         return BigInt.fromI32(18)
     } else if (address == EURS) {
         return BigInt.fromI32(2)
+    } else if (address == NZDS) {
+        return BigInt.fromI32(6)
     } else {
         return BigInt.fromI32(0)
     }

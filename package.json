@@ -1,13 +1,13 @@
 {
-  "name": "dfx-test",
+  "name": "dfx",
   "license": "UNLICENSED",
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/ dfx-test",
-    "create-local": "graph create --node http://localhost:8020/ dfx-test",
-    "remove-local": "graph remove --node http://localhost:8020/ dfx-test",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 dfx-test"
+    "deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/ dfx",
+    "create-local": "graph create --node http://localhost:8020/ dfx",
+    "remove-local": "graph remove --node http://localhost:8020/ dfx",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 dfx"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.21.1",
