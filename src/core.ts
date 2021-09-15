@@ -118,9 +118,6 @@ export function handleTrade(event: TradeEvent): void {
         let reserve1 = convertTokenToDecimal(reserve1Result.value, token1.decimals)
         pair.reserve1 = reserve1
     }
-
-    let amount1VolumeUSD = amount1.times(fetchUSDMultiplier(pair.token1))
-    let amountVolumeUSD = amount0.plus(amount1VolumeUSD)
     
     let amount1ReserveUSD = pair.reserve1.times(fetchUSDMultiplier(pair.token1))
     let amountReserveUSD = pair.reserve0.plus(amount1ReserveUSD)
@@ -131,38 +128,38 @@ export function handleTrade(event: TradeEvent): void {
     let dfxDayData = updateDFXDayData(event)
 
     let dfx = DFXFactory.load(FACTORY_ADDRESS)
-    dfx.totalVolumeUSD = dfx.totalVolumeUSD.plus(amountVolumeUSD)
-
     
     pair.prevReserveUSD = pair.reserveUSD
     pair.reserveUSD = amountReserveUSD
     let reserveDiff = pair.reserveUSD.minus(pair.prevReserveUSD)
-    dfx.totalLiquidityUSD = dfx.totalLiquidityUSD.plus(reserveDiff)
     pair.save()
+
+    dfx.totalLiquidityUSD = dfx.totalLiquidityUSD.plus(reserveDiff)
+    dfx.totalVolumeUSD = dfx.totalVolumeUSD.plus(amount0)
     dfx.save()
 
+    dfxDayData.dailyVolumeUSD = dfxDayData.dailyVolumeUSD.plus(amount0)
+    dfxDayData.totalVolumeUSD = dfx.totalVolumeUSD
+    dfxDayData.save()
 
     // update hourly pair data
     pairHourData.volumeToken0 = pairHourData.volumeToken0.plus(amount0)
     pairHourData.volumeToken1 = pairHourData.volumeToken1.plus(amount1)
-    pairHourData.volumeUSD = pairHourData.volumeUSD.plus(amountVolumeUSD)
+    pairHourData.volumeUSD = pairHourData.volumeUSD.plus(amount0)
     pairHourData.save()
 
     // update daily pair data
     pairDayData.volumeToken0 = pairDayData.volumeToken0.plus(amount0)
     pairDayData.volumeToken1 = pairDayData.volumeToken1.plus(amount1)
-    pairDayData.volumeUSD = pairDayData.volumeUSD.plus(amountVolumeUSD)
+    pairDayData.volumeUSD = pairDayData.volumeUSD.plus(amount0)
     pairDayData.save()
 
     // update pair volume data
     pair.volumeToken0 = pair.volumeToken0.plus(amount0)
     pair.volumeToken1 = pair.volumeToken1.plus(amount1)
-    pair.volumeUSD = pair.volumeUSD.plus(amountVolumeUSD)
+    pair.volumeUSD = pair.volumeUSD.plus(amount0)
     pair.txnsCount = pair.txnsCount.plus(ONE_BI)
     pair.save()
-
-    dfxDayData.dailyVolumeUSD = dfxDayData.dailyVolumeUSD.plus(amountVolumeUSD)
-    dfxDayData.save()
 
     token0.save()
     token1.save()
@@ -203,8 +200,6 @@ export function handleTransfer(event: TransferEvent): void {
     let amountReserveUSD = pair.reserve0.plus(amount1ReserveUSD)
 
     let dfx = DFXFactory.load(FACTORY_ADDRESS)
-    
-    
     pair.prevReserveUSD = pair.reserveUSD
     pair.reserveUSD = amountReserveUSD
     let reserveDiff = pair.reserveUSD.minus(pair.prevReserveUSD)
@@ -212,12 +207,12 @@ export function handleTransfer(event: TransferEvent): void {
     pair.save()
     dfx.save()
 
-    let pairHourData = updatePairHourData(event)
-    pairHourData.save()
-    let pairDayData = updatePairDayData(event)
-    pairDayData
-    pairDayData.save()
-
+    // let pairHourData = updatePairHourData(event)
+    // pairHourData.save()
+    // let pairDayData = updatePairDayData(event)
+    // pairDayData.save()
+    // let dfxDayData = updateDFXDayData(event)
+    // dfxDayData.save()
 
     token0.save()
     token1.save()

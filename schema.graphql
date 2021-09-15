@@ -48,6 +48,8 @@ type PairHourData @entity {
   hourStartUnix: Int! # unix timestamp for start of hour
   pair: Pair!
   
+  firstTxn: Bytes!
+
   # reserves
   reserve0: BigDecimal!
   reserve1: BigDecimal!
@@ -64,6 +66,8 @@ type PairDayData @entity {
   id: ID!
   date: Int!
   pair: Pair!
+
+  firstTxn: Bytes!
 
   # reserves
   reserve0: BigDecimal!

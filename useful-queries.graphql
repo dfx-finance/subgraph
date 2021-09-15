@@ -1,0 +1,42 @@
+# Verifying hourly volume adds up to daily volume
+{
+  pairDayDatas(where: {date_gte: 1626825600, date_lt: 1626912000, pair_contains: "0x2bab29a12a9527a179da88f422cdaaa223a90bd5"}){
+    id
+    date
+    volumeToken0
+    volumeToken1
+    volumeUSD
+  }
+  pairHourDatas(where: {hourStartUnix_gte: 1626825600, hourStartUnix_lt: 1626912000, pair_contains: "0x2bab29a12a9527a179da88f422cdaaa223a90bd5"}){
+    hourStartUnix
+    id
+    firstTxn
+    volumeToken0
+    volumeToken1
+    volumeUSD
+  }
+}
+
+# Verifying daily volume from all pools adds up to daily volume total
+{
+  pairDayDatas(where: {date_lte: 1621382400}){
+    id
+    date
+    volumeUSD
+  }
+  dfxdayDatas(where: {date_lte: 1621382400}){
+    id
+    date
+    dailyVolumeUSD
+    totalVolumeUSD
+  } 
+}
+# ANOTHER ONE
+{
+  dfxdayDatas(where: {date_lte: 1621555200}){
+    id
+    date
+		dailyVolumeUSD
+    totalVolumeUSD
+  } 
+}

@@ -3,16 +3,41 @@ schema:
   file: schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: cadcpool
+    name: Factory
     network: mainnet
     source:
-      address: "0xa6c0cbcaebd93ad3c6c94412ec06aaa37870216d"
-      abi: cadcpool
-      startBlock: 12459281
+      address: "0xd3C1bF5582b5f3029b15bE04a49C65d3226dFB0C"
+      abi: Factory
+      startBlock: 12459107
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
       language: wasm/assemblyscript
+      entities:
+        - NewCurve
+        - OwnershipTransferred
+      abis:
+        - name: Factory
+          file: Factory/abis/Factory.json
+        - name: ERC20
+          file: Factory/abis/ERC20.json
+      eventHandlers:
+        - event: NewCurve(indexed address,indexed bytes32,indexed address)
+          handler: handleNewCurve
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+      file: Factory/Factory.wasm
+templates:
+  - kind: ethereum/contract
+    name: Curve
+    network: mainnet
+    source:
+      abi: Curve
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      file: templates/Curve/Curve.wasm
       entities:
         - Approval
         - AssetIncluded
@@ -21,11 +46,12 @@ dataSources:
         - Trade
         - Transfer
       abis:
-        - name: cadcpool
-          file: cadcpool/abis/cadcpool.json
+        - name: Curve
+          file: Curve/abis/Curve.json
+        - name: ERC20
+          file: Curve/abis/ERC20.json
       eventHandlers:
         - event: Trade(indexed address,indexed address,indexed address,uint256,uint256)
           handler: handleTrade
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransfer
-      file: cadcpool/cadcpool.wasm

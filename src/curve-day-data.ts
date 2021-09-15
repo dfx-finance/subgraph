@@ -18,6 +18,7 @@ export function updatePairDayData(event: ethereum.Event): PairDayData {
     let pairDayData = PairDayData.load(dayPairID)
     if (pairDayData === null) {
         pairDayData = new PairDayData(dayPairID)
+        pairDayData.firstTxn = event.transaction.hash
         pairDayData.date = dayStartTimestamp
         pairDayData.pair = event.address.toHexString()
         pairDayData.reserve0 = ZERO_BD

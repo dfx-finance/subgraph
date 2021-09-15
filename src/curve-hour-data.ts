@@ -22,6 +22,7 @@ export function updatePairHourData(event: ethereum.Event): PairHourData {
     let pairHourData = PairHourData.load(hourPairID)
     if (pairHourData === null) {
         pairHourData = new PairHourData(hourPairID)
+        pairHourData.firstTxn = event.transaction.hash
         pairHourData.hourStartUnix = hourStartUnix
         pairHourData.pair = event.address.toHexString()
         pairHourData.reserve0 = ZERO_BD

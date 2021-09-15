@@ -328,6 +328,15 @@ export class PairHourData extends Entity {
     this.set("pair", Value.fromString(value));
   }
 
+  get firstTxn(): Bytes {
+    let value = this.get("firstTxn");
+    return value.toBytes();
+  }
+
+  set firstTxn(value: Bytes) {
+    this.set("firstTxn", Value.fromBytes(value));
+  }
+
   get reserve0(): BigDecimal {
     let value = this.get("reserve0");
     return value.toBigDecimal();
@@ -429,6 +438,15 @@ export class PairDayData extends Entity {
 
   set pair(value: string) {
     this.set("pair", Value.fromString(value));
+  }
+
+  get firstTxn(): Bytes {
+    let value = this.get("firstTxn");
+    return value.toBytes();
+  }
+
+  set firstTxn(value: Bytes) {
+    this.set("firstTxn", Value.fromBytes(value));
   }
 
   get reserve0(): BigDecimal {
