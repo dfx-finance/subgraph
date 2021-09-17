@@ -6,7 +6,6 @@ import {
     ONE_BI,
     FACTORY_ADDRESS,
     fetchTokenDecimals, 
-    fetchUSDMultiplier,
     convertTokenToDecimal,
     ONE_BD, 
 } from "./helpers";
@@ -128,9 +127,6 @@ export function handleTrade(event: TradeEvent): void {
         let reserve1 = convertTokenToDecimal(reserve1Result.value, token1.decimals)
         pair.reserve1 = reserve1
     }
-    
-    // let amount1ReserveUSD = pair.reserve1.times(fetchUSDMultiplier(pair.token1))
-    // let amountReserveUSD = pair.reserve0.plus(amount1ReserveUSD)
 
     // update day entities
     let pairHourData = updatePairHourData(event)
@@ -138,15 +134,8 @@ export function handleTrade(event: TradeEvent): void {
     let dfxDayData = updateDFXDayData(event)
     let token0DayData = updateTokenDayData(token0 as Token, event)
     let token1DayData = updateTokenDayData(token1 as Token, event)
-
     let dfx = DFXFactory.load(FACTORY_ADDRESS)
-    
-    // pair.prevReserveUSD = pair.reserveUSD
-    // pair.reserveUSD = amountReserveUSD
-    // let reserveDiff = pair.reserveUSD.minus(pair.prevReserveUSD)
-    // pair.save()
 
-    // dfx.totalLiquidityUSD = dfx.totalLiquidityUSD.plus(reserveDiff)
     dfx.totalVolumeUSD = dfx.totalVolumeUSD.plus(amount0)
     dfx.save()
 
@@ -172,7 +161,7 @@ export function handleTrade(event: TradeEvent): void {
     token0DayData.save()
 
     token1DayData.dailyVolumeToken = token1DayData.dailyVolumeToken.plus(amount1)
-    token1DayData.dailyVolumeUSD = token1DayData.dailyVolumeUSD.plus(amount1.times(token1.priceUSD))
+    token1DayData.dailyVolumeUSD = token1DayData.dailyVolumeUSD.plus(amount1.times(token1DayData.priceUSD))
     token1DayData.save()
 
     // update pair volume data
@@ -217,7 +206,7 @@ export function handleTransfer(event: TransferEvent): void {
         let reserve1 = convertTokenToDecimal(reserve1Result.value, token1.decimals)
         pair.reserve1 = reserve1
     }
-    let amount1ReserveUSD = pair.reserve1.times(fetchUSDMultiplier(pair.token1))
+    let amount1ReserveUSD = pair.reserve1.times(token1.priceUSD)
     let amountReserveUSD = pair.reserve0.plus(amount1ReserveUSD)
 
     let dfx = DFXFactory.load(FACTORY_ADDRESS)
