@@ -1,5 +1,5 @@
 import { BigInt, ethereum } from '@graphprotocol/graph-ts'
-import { ONE_BI, ZERO_BI, ZERO_BD, fetchUSDMultiplier } from './helpers'
+import { ZERO_BD, fetchUSDMultiplier } from './helpers'
 
 import { 
     PairDayData,
