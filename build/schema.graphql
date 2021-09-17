@@ -117,4 +117,23 @@ type Token @entity {
 
   # mirrored from the smart contract
   decimals: BigInt!
+
+  # price stats
+  priceUSD: BigDecimal!
+
+  # derived fields
+  tokenDayData: [TokenDayData!]! @derivedFrom(field: "token")
+}
+
+type TokenDayData @entity {
+  id: ID!
+  date: Int!
+  token: Token
+
+  # volume stats
+  dailyVolumeToken: BigDecimal!
+  dailyVolumeUSD: BigDecimal!
+
+  # price stats
+  priceUSD: BigDecimal!
 }

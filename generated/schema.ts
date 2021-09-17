@@ -672,4 +672,106 @@ export class Token extends Entity {
   set decimals(value: BigInt) {
     this.set("decimals", Value.fromBigInt(value));
   }
+
+  get priceUSD(): BigDecimal {
+    let value = this.get("priceUSD");
+    return value.toBigDecimal();
+  }
+
+  set priceUSD(value: BigDecimal) {
+    this.set("priceUSD", Value.fromBigDecimal(value));
+  }
+
+  get tokenDayData(): Array<string> {
+    let value = this.get("tokenDayData");
+    return value.toStringArray();
+  }
+
+  set tokenDayData(value: Array<string>) {
+    this.set("tokenDayData", Value.fromStringArray(value));
+  }
+}
+
+export class TokenDayData extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save TokenDayData entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save TokenDayData entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("TokenDayData", id.toString(), this);
+  }
+
+  static load(id: string): TokenDayData | null {
+    return store.get("TokenDayData", id) as TokenDayData | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get date(): i32 {
+    let value = this.get("date");
+    return value.toI32();
+  }
+
+  set date(value: i32) {
+    this.set("date", Value.fromI32(value));
+  }
+
+  get token(): string | null {
+    let value = this.get("token");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set token(value: string | null) {
+    if (value === null) {
+      this.unset("token");
+    } else {
+      this.set("token", Value.fromString(value as string));
+    }
+  }
+
+  get dailyVolumeToken(): BigDecimal {
+    let value = this.get("dailyVolumeToken");
+    return value.toBigDecimal();
+  }
+
+  set dailyVolumeToken(value: BigDecimal) {
+    this.set("dailyVolumeToken", Value.fromBigDecimal(value));
+  }
+
+  get dailyVolumeUSD(): BigDecimal {
+    let value = this.get("dailyVolumeUSD");
+    return value.toBigDecimal();
+  }
+
+  set dailyVolumeUSD(value: BigDecimal) {
+    this.set("dailyVolumeUSD", Value.fromBigDecimal(value));
+  }
+
+  get priceUSD(): BigDecimal {
+    let value = this.get("priceUSD");
+    return value.toBigDecimal();
+  }
+
+  set priceUSD(value: BigDecimal) {
+    this.set("priceUSD", Value.fromBigDecimal(value));
+  }
 }

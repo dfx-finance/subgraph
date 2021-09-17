@@ -40,3 +40,21 @@
     totalVolumeUSD
   } 
 }
+
+# Verifying daily token volume adds up to daily pair volume
+
+{
+	pairDayDatas(where: {date: 1621468800}){
+    id
+    volumeToken0
+    volumeToken1
+  }
+  tokenDayDatas (where: {date: 1621468800}){
+    token {
+      id
+    }
+    date
+    priceUSD
+    dailyVolumeToken
+  }
+}
