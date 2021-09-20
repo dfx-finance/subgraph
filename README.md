@@ -29,6 +29,10 @@ Currently there are 4 USD based stablecoin pairs.
 7. Go back to `https://thegraph.com/studio/dfx-test` and you can start querying in the `Playground` even before the subgraph has synced to 100%
 8. Run this query to get the latest trades ordered from newest to oldest
 
+## Deploy Legacy Explorer (Hosted)
+1. `graph auth --product hosted-service <Access Token>`
+2. `graph deploy --product hosted-service chanharryhk/dfx-v1` 
+
 ```graphql:
 {
   trades(
