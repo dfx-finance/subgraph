@@ -7,6 +7,7 @@ export let ZERO_BD = BigDecimal.fromString('0')
 export let ONE_BD = BigDecimal.fromString('1')
 
 export const FACTORY_ADDRESS = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f'
+export const BLACKHOLE_ADDRESS = '0x0000000000000000000000000000000000000000'
 
 // Tokens
 export let USDC = '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48'

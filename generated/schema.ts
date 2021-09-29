@@ -42,13 +42,13 @@ export class Trade extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get createdAtTimestamp(): BigInt {
-    let value = this.get("createdAtTimestamp");
+  get timestamp(): BigInt {
+    let value = this.get("timestamp");
     return value.toBigInt();
   }
 
-  set createdAtTimestamp(value: BigInt) {
-    this.set("createdAtTimestamp", Value.fromBigInt(value));
+  set timestamp(value: BigInt) {
+    this.set("timestamp", Value.fromBigInt(value));
   }
 
   get trader(): Bytes {
@@ -127,6 +127,15 @@ export class Transfer extends Entity {
     this.set("id", Value.fromString(value));
   }
 
+  get timestamp(): BigInt {
+    let value = this.get("timestamp");
+    return value.toBigInt();
+  }
+
+  set timestamp(value: BigInt) {
+    this.set("timestamp", Value.fromBigInt(value));
+  }
+
   get from(): Bytes {
     let value = this.get("from");
     return value.toBytes();
@@ -152,6 +161,15 @@ export class Transfer extends Entity {
 
   set value(value: BigInt) {
     this.set("value", Value.fromBigInt(value));
+  }
+
+  get type(): string {
+    let value = this.get("type");
+    return value.toString();
+  }
+
+  set type(value: string) {
+    this.set("type", Value.fromString(value));
   }
 }
 
