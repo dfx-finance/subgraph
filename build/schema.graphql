@@ -1,6 +1,6 @@
 type Trade @entity {
   id: ID!
-  createdAtTimestamp: BigInt!
+  timestamp: BigInt!
   trader: Bytes! # address
   origin: Bytes! # address
   target: Bytes! # address
@@ -10,9 +10,11 @@ type Trade @entity {
 
 type Transfer @entity {
   id: ID!
+  timestamp: BigInt!
   from: Bytes! # address
   to: Bytes! # address
   value: BigInt! # uint256
+  type: String!
 }
 
 type DFXFactory @entity {

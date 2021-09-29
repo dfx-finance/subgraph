@@ -1,13 +1,14 @@
 import { Address, log, BigInt } from "@graphprotocol/graph-ts";
 import { 
-    USDC,
     ZERO_BI, 
     ZERO_BD, 
     ONE_BI,
+    ONE_BD,
+    USDC,
     FACTORY_ADDRESS,
+    BLACKHOLE_ADDRESS,
     fetchTokenDecimals, 
     convertTokenToDecimal,
-    ONE_BD, 
 } from "./helpers";
 
 import { 
@@ -36,7 +37,7 @@ export function handleTrade(event: TradeEvent): void {
     let entity = new Trade(
         event.transaction.hash.toHex() + "-" + event.logIndex.toString()
     )
-    entity.createdAtTimestamp = event.block.timestamp;
+    entity.timestamp = event.block.timestamp;
     entity.trader = event.params.trader
     entity.origin = event.params.origin
     entity.target = event.params.target
@@ -181,9 +182,18 @@ export function handleTransfer(event: TransferEvent): void {
     let entity = new Transfer(
         event.transaction.hash.toHex() + "-" + event.logIndex.toString()
     )
+    entity.timestamp = event.block.timestamp;
     entity.from = event.params.from
     entity.to = event.params.to
     entity.value = event.params.value
+    
+    if (event.params.to.toHexString() == BLACKHOLE_ADDRESS) {
+        entity.type = "withdraw"
+    } else if (event.params.from.toHexString() == BLACKHOLE_ADDRESS) {
+        entity.type = "deposit"
+    } else {
+        entity.type = "other"
+    }
 
     // Ensuring pair already exists
     let pair = Pair.load(event.address.toHexString())
