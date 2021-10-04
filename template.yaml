@@ -4,11 +4,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: Factory
-    network: mainnet
+    network: {{ network }}
     source:
-      address: '0xd3C1bF5582b5f3029b15bE04a49C65d3226dFB0C'
+      address: '{{ factory_address }}'
       abi: Factory
-      startBlock: 12459107
+      startBlock: {{ startBlock }}
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -30,7 +30,7 @@ dataSources:
 templates:
   - kind: ethereum/contract
     name: Curve
-    network: mainnet
+    network: {{ network }}
     source:
       abi: Curve
     mapping:

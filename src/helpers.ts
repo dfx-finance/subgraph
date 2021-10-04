@@ -1,20 +1,16 @@
-import { log, Address, BigDecimal, BigInt } from "@graphprotocol/graph-ts";
-import { ERC20 } from "../generated/Factory/ERC20";
+import { Address, BigDecimal, BigInt } from "@graphprotocol/graph-ts";
+import { 
+    USDC, 
+    XSGD,
+    CADC,
+    EURS,
+    NZDS,
+} from "../packages/constants/index"
 
 export let ZERO_BI = BigInt.fromI32(0)
 export let ONE_BI = BigInt.fromI32(1)
 export let ZERO_BD = BigDecimal.fromString('0')
 export let ONE_BD = BigDecimal.fromString('1')
-
-export const FACTORY_ADDRESS = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f'
-export const BLACKHOLE_ADDRESS = '0x0000000000000000000000000000000000000000'
-
-// Tokens
-export let USDC = '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48'
-export let XSGD = '0x70e8de73ce538da2beed35d14187f6959a8eca96'
-export let CADC = '0xcadc0acd4b445166f12d2c07eac6e2544fbe2eef'
-export let EURS = '0xdb25f211ab05b1c97d595516f45794528a807ad8'
-export let NZDS = '0xDa446fAd08277B4D2591536F204E018f32B6831c'
 
 export function exponentToBigDecimal(decimals: BigInt): BigDecimal {
     let bd = BigDecimal.fromString("1");

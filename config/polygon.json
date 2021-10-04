@@ -1,0 +1,11 @@
+{
+    "network": "matic",
+    "startBlock": "16908046",
+    "factory_address": "0xAb23B50fC7835D0F1B892746992f28646305306C",
+    
+    "blackhole_address": "0x0000000000000000000000000000000000000000",
+    "usdc_address": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+    "xsgd_address": "0x769434dca303597c8fc4997bf3dab233e961eda2",
+    "cadc_address": "0x5d146d8b1dacb1ebba5cb005ae1059da8a1fbf57",
+    "eurs_address": "0xe111178a87a3bff0c8d18decba5798827539ae99"
+}
