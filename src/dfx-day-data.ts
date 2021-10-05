@@ -1,9 +1,12 @@
 import { ethereum } from '@graphprotocol/graph-ts'
 
 import {
-    FACTORY_ADDRESS,
     ZERO_BD, 
 } from "./helpers";
+
+import {
+    FACTORY_ADDRESS,
+} from "../packages/constants/index"
 
 import { 
     DFXDayData,

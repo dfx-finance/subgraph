@@ -22,7 +22,6 @@ import {
 import {
     Trade,
     Transfer,
-    // Curve,
     Token,
     Pair,
     DFXDayData,

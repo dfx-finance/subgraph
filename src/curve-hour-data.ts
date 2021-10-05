@@ -1,4 +1,4 @@
-import { Address, BigInt, ethereum, log } from '@graphprotocol/graph-ts'
+import { BigInt, ethereum } from '@graphprotocol/graph-ts'
 import { ZERO_BD, fetchUSDMultiplier } from './helpers'
 
 import { 
@@ -6,8 +6,6 @@ import {
     Pair,
     Token
 } from "../generated/schema"
-
-import { ERC20 } from '../generated/Factory/ERC20'
 
 export function updatePairHourData(event: ethereum.Event): PairHourData {
     let timestamp = event.block.timestamp.toI32()

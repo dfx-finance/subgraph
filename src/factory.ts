@@ -4,15 +4,15 @@ import {
     OwnershipTransferred,
 } from "../generated/Factory/Factory"
 
-import {
-    ZERO_BI, 
+import { 
     ZERO_BD,
-    FACTORY_ADDRESS,
 } from "../src/helpers"
 
 import {
-    Token,
-    Pair,
+    FACTORY_ADDRESS
+} from "../packages/constants/index"
+
+import {
     DFXFactory
 } from "../generated/schema"
 
