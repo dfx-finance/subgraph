@@ -3,12 +3,22 @@
 Any USD base pair created by the [DFX factory](https://etherscan.io/address/0xd3C1bF5582b5f3029b15bE04a49C65d3226dFB0C) is tracked by this subgraph. 
 The subgraph tracks DFX for daily and hourly historical data on TVLs and volumes.
 
-Currently there are 4 USD based stablecoin pairs.
+Currently there are *5* USD based stablecoin pairs.
+
+### Mainnet
 
 * Singapore - [USDC/XSGD](https://etherscan.io/address/0x2baB29a12a9527a179Da88F422cDaaA223A90bD5)
 * Europe - [USDC/EURS](https://etherscan.io/address/0x1a4Ffe0DCbDB4d551cfcA61A5626aFD190731347)
 * Canada - [USDC/CADC](https://etherscan.io/address/0xa6c0cbcaebd93ad3c6c94412ec06aaa37870216d)
 * New Zealand - [USDC/NZDS](https://etherscan.io/address/0xe9669516e09f5710023566458f329cce6437aaac)
+* Turkey - [USDC/TRYB](https://etherscan.io/address/0xc574a613a3900e4314da13eb2287f13689a5b64d)
+
+### Polygon
+
+* Singapore - [USDC/XSGD](https://etherscan.io/address/0x288Ab1b113C666Abb097BB2bA51B8f3759D7729e)
+* Europe - [USDC/EURS](https://etherscan.io/address/0xB72d390E07F40D37D42dfCc43E954Ae7c738Ad44)
+* Canada - [USDC/CADC](https://etherscan.io/address/0x8e3e9cB46E593Ec0CaF4a1Dcd6DF3A79a87b1fd7)
+
 ## Setup
 
 1. Go to `https://thegraph.com/studio/`

@@ -5,6 +5,7 @@ import {
     CADC,
     EURS,
     NZDS,
+    TRYB,
 } from "../packages/constants/index"
 
 export let ZERO_BI = BigInt.fromI32(0)
@@ -44,6 +45,8 @@ export function fetchUSDMultiplier(tokenAddress: string): BigDecimal {
         return BigDecimal.fromString('1.1403')
     } else if (tokenAddress == NZDS){
         return BigDecimal.fromString('0.6494')
+    } else if (tokenAddress == TRYB){
+        return BigDecimal.fromString('0.1424')
     } else {
         return BigDecimal.fromString('0')
     }
@@ -60,6 +63,8 @@ export function fetchTokenDecimals(tokenAddress: Address): BigInt {
     } else if (address == EURS) {
         return BigInt.fromI32(2)
     } else if (address == NZDS) {
+        return BigInt.fromI32(6)
+    } else if (address == TRYB) {
         return BigInt.fromI32(6)
     } else {
         return BigInt.fromI32(0)

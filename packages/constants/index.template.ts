@@ -6,3 +6,4 @@ export const XSGD = '{{ xsgd_address }}{{^xsgd_address}}0x0000000000000000000000
 export const CADC = '{{ cadc_address }}{{^cadc_address}}0x0000000000000000000000000000000000000000{{/cadc_address}}'
 export const EURS = '{{ eurs_address }}{{^eurs_address}}0x0000000000000000000000000000000000000000{{/eurs_address}}'
 export const NZDS = '{{ nzds_address }}{{^nzds_address}}0x0000000000000000000000000000000000000000{{/nzds_address}}'
+export const TRYB = '{{ tryb_address }}{{^tryb_address}}0x0000000000000000000000000000000000000000{{/tryb_address}}'
