@@ -1,0 +1,13 @@
+{
+  "name": "const",
+  "version": "1.0.0",
+  "description": "Constants",
+  "main": "index.ts",
+  "scripts": {
+    "prepare:mainnet": "mustache ../../config/mainnet.json index.template.ts > index.ts",
+    "prepare:polygon": "mustache ../../config/polygon.json index.template.ts > index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

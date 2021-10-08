@@ -4,12 +4,15 @@ import {
     ZERO_BD, 
     ONE_BI,
     ONE_BD,
-    USDC,
-    FACTORY_ADDRESS,
-    BLACKHOLE_ADDRESS,
     fetchTokenDecimals, 
     convertTokenToDecimal,
 } from "./helpers";
+
+import { 
+    USDC,
+    FACTORY_ADDRESS,
+    BLACKHOLE_ADDRESS 
+} from "../packages/constants/index"
 
 import { 
     Transfer as TransferEvent,
@@ -19,7 +22,6 @@ import {
 import {
     Trade,
     Transfer,
-    // Curve,
     Token,
     Pair,
     DFXDayData,
