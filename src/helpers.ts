@@ -1,12 +1,6 @@
 import { Address, BigDecimal, BigInt } from "@graphprotocol/graph-ts";
-import { 
-    USDC, 
-    XSGD,
-    CADC,
-    EURS,
-    NZDS,
-    TRYB,
-} from "../packages/constants/index"
+import { ERC20 } from '../generated/Factory/ERC20'
+import { USDC, XSGD, CADC, EURS, NZDS, TRYB } from "../packages/constants/index"
 
 export let ZERO_BI = BigInt.fromI32(0)
 export let ONE_BI = BigInt.fromI32(1)
@@ -53,20 +47,16 @@ export function fetchUSDMultiplier(tokenAddress: string): BigDecimal {
 }
 
 export function fetchTokenDecimals(tokenAddress: Address): BigInt {
-    let address = tokenAddress.toHexString()
-    if (address == USDC){
-        return BigInt.fromI32(6)
-    }else if (address == XSGD) {
-        return BigInt.fromI32(6)
-    } else if (address == CADC) {
-        return BigInt.fromI32(18)
-    } else if (address == EURS) {
-        return BigInt.fromI32(2)
-    } else if (address == NZDS) {
-        return BigInt.fromI32(6)
-    } else if (address == TRYB) {
-        return BigInt.fromI32(6)
-    } else {
-        return BigInt.fromI32(0)
+    let contract = ERC20.bind(tokenAddress)
+
+    // try types uint8 for decimals
+    let decimalValue = null
+  
+    let decimalResult = contract.try_decimals()
+  
+    if (!decimalResult.reverted) {
+      decimalValue = decimalResult.value
     }
+  
+    return BigInt.fromI32(decimalValue as i32)
 }
