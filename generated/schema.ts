@@ -691,6 +691,24 @@ export class Token extends Entity {
     this.set("decimals", Value.fromBigInt(value));
   }
 
+  get symbol(): string {
+    let value = this.get("symbol");
+    return value.toString();
+  }
+
+  set symbol(value: string) {
+    this.set("symbol", Value.fromString(value));
+  }
+
+  get name(): string {
+    let value = this.get("name");
+    return value.toString();
+  }
+
+  set name(value: string) {
+    this.set("name", Value.fromString(value));
+  }
+
   get priceUSD(): BigDecimal {
     let value = this.get("priceUSD");
     return value.toBigDecimal();

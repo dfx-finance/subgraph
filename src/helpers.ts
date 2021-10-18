@@ -60,3 +60,14 @@ export function fetchTokenDecimals(tokenAddress: Address): BigInt {
   
     return BigInt.fromI32(decimalValue as i32)
 }
+
+
+export function fetchTokenSymbol(tokenAddress: Address): string {
+    let contract = ERC20.bind(tokenAddress)
+    return contract.symbol()
+}
+
+export function fetchTokenName(tokenAddress: Address): string {
+    let contract = ERC20.bind(tokenAddress)
+    return contract.name()
+}

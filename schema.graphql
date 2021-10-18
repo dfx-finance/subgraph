@@ -119,6 +119,8 @@ type Token @entity {
 
   # mirrored from the smart contract
   decimals: BigInt!
+  symbol: String!
+  name: String!
 
   # price stats
   priceUSD: BigDecimal!
