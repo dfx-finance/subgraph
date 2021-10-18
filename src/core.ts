@@ -5,6 +5,8 @@ import {
     ONE_BI,
     ONE_BD,
     fetchTokenDecimals, 
+    fetchTokenSymbol,
+    fetchTokenName,
     convertTokenToDecimal,
 } from "./helpers";
 
@@ -58,8 +60,12 @@ export function handleTrade(event: TradeEvent): void {
           log.debug('mybug the decimal on token 0 was null', [])
           return
         }
+        let symbol = fetchTokenSymbol(event.params.origin)
+        let name = fetchTokenName(event.params.origin)
         token0.priceUSD = ONE_BD
         token0.decimals = decimals
+        token0.symbol = symbol
+        token0.name = name
     }
 
     // fetch info if null
@@ -72,8 +78,12 @@ export function handleTrade(event: TradeEvent): void {
             log.debug('mybug the decimal on token 1 was null', [])
             return
         }
+        let symbol = fetchTokenSymbol(event.params.target)
+        let name = fetchTokenName(event.params.target)
         token1.priceUSD = ONE_BD
         token1.decimals = decimals
+        token1.symbol = symbol
+        token1.name = name
     }
 
     let pair = Pair.load(event.address.toHexString())
