@@ -50,6 +50,8 @@ templates:
           file: Curve/abis/Curve.json
         - name: ERC20
           file: Curve/abis/ERC20.json
+        - name: Staking
+          file: Curve/abis/Staking.json
       eventHandlers:
         - event: Trade(indexed address,indexed address,indexed address,uint256,uint256)
           handler: handleTrade

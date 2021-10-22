@@ -8,6 +8,9 @@ import {
     fetchTokenSymbol,
     fetchTokenName,
     convertTokenToDecimal,
+    fetchRewardDuration,
+    fetchRewardsForDuration,
+    fetchTotalStaked,
 } from "./helpers";
 
 import { 
@@ -93,6 +96,8 @@ export function handleTrade(event: TradeEvent): void {
         pair.reserve0 = ZERO_BD
         pair.reserveUSD = ZERO_BD
         pair.prevReserveUSD = ZERO_BD
+        pair.rewardDuration = ZERO_BI
+        pair.rewardsForDuration = ZERO_BD
         pair.volumeToken0 = ZERO_BD
         pair.volumeToken1 = ZERO_BD
         pair.volumeUSD = ZERO_BD
@@ -176,6 +181,15 @@ export function handleTrade(event: TradeEvent): void {
     token1DayData.dailyVolumeToken = token1DayData.dailyVolumeToken.plus(amount1)
     token1DayData.dailyVolumeUSD = token1DayData.dailyVolumeUSD.plus(amount1.times(token1DayData.priceUSD))
     token1DayData.save()
+
+    // update pair yield farming data
+    let rewardDuration = fetchRewardDuration(event.address.toHexString())
+    let rewardsForDuration = fetchRewardsForDuration(event.address.toHexString())
+    let totalStaked = fetchTotalStaked(event.address.toHexString())
+
+    pair.rewardDuration = rewardDuration
+    pair.rewardsForDuration = rewardsForDuration
+    pair.totalStaked = totalStaked
 
     // update pair volume data
     pair.volumeToken0 = pair.volumeToken0.plus(amount0)
