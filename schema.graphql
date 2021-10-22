@@ -99,6 +99,11 @@ type Pair @entity {
   reserveUSD: BigDecimal!
   prevReserveUSD: BigDecimal!
 
+  # staking
+  rewardsForDuration: BigDecimal!
+  rewardDuration: BigInt!
+  totalStaked: BigDecimal!
+
   # lifetime volume stats
   volumeToken0: BigDecimal!
   volumeToken1: BigDecimal!

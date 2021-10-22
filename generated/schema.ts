@@ -606,6 +606,33 @@ export class Pair extends Entity {
     this.set("prevReserveUSD", Value.fromBigDecimal(value));
   }
 
+  get rewardsForDuration(): BigDecimal {
+    let value = this.get("rewardsForDuration");
+    return value.toBigDecimal();
+  }
+
+  set rewardsForDuration(value: BigDecimal) {
+    this.set("rewardsForDuration", Value.fromBigDecimal(value));
+  }
+
+  get rewardDuration(): BigInt {
+    let value = this.get("rewardDuration");
+    return value.toBigInt();
+  }
+
+  set rewardDuration(value: BigInt) {
+    this.set("rewardDuration", Value.fromBigInt(value));
+  }
+
+  get totalStaked(): BigDecimal {
+    let value = this.get("totalStaked");
+    return value.toBigDecimal();
+  }
+
+  set totalStaked(value: BigDecimal) {
+    this.set("totalStaked", Value.fromBigDecimal(value));
+  }
+
   get volumeToken0(): BigDecimal {
     let value = this.get("volumeToken0");
     return value.toBigDecimal();

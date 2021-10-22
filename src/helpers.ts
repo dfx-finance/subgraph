@@ -1,6 +1,11 @@
-import { Address, BigDecimal, BigInt } from "@graphprotocol/graph-ts";
+import { Address, BigDecimal, BigInt, log } from "@graphprotocol/graph-ts";
 import { ERC20 } from '../generated/Factory/ERC20'
-import { USDC, XSGD, CADC, EURS, NZDS, TRYB } from "../packages/constants/index"
+import { Staking } from '../generated/templates/Curve/Staking'
+import { 
+    XSGD, CADC, EURS, NZDS, TRYB,
+    XSGD_POOL, CADC_POOL, EURS_POOL, NZDS_POOL, TRYB_POOL,
+    XSGD_STAKING, CADC_STAKING, EURS_STAKING, NZDS_STAKING, TRYB_STAKING,
+} from "../packages/constants/index"
 
 export let ZERO_BI = BigInt.fromI32(0)
 export let ONE_BI = BigInt.fromI32(1)
@@ -70,4 +75,54 @@ export function fetchTokenSymbol(tokenAddress: Address): string {
 export function fetchTokenName(tokenAddress: Address): string {
     let contract = ERC20.bind(tokenAddress)
     return contract.name()
+}
+
+export function fetchStakingContract(tokenAddress: string): string {
+    // Replaced by dividing the current trades and storing the rates inside hourly pairs / daily.
+    if (tokenAddress == XSGD_POOL) {
+        return XSGD_STAKING
+    } else if (tokenAddress == CADC_POOL) {
+        return CADC_STAKING
+    } else if (tokenAddress == EURS_POOL) {
+        return EURS_STAKING
+    } else if (tokenAddress == NZDS_POOL){
+        return NZDS_STAKING
+    } else if (tokenAddress == TRYB_POOL){
+        return TRYB_STAKING
+    } else {
+        return ""
+    }
+}
+
+export function fetchRewardDuration(tokenAddress: string): BigInt {
+    let stakingAddress = fetchStakingContract(tokenAddress)
+    if (stakingAddress) {
+        let contract = Staking.bind(Address.fromString(stakingAddress))
+        if (contract) {
+            return contract.rewardsDuration()
+        }
+    }
+    return ZERO_BI
+}
+
+export function fetchRewardsForDuration(tokenAddress: string): BigDecimal {
+    let stakingAddress = fetchStakingContract(tokenAddress)
+    if (stakingAddress) {
+        let contract = Staking.bind(Address.fromString(stakingAddress))
+        if (contract) {
+            return convertTokenToDecimal(contract.getRewardForDuration(), BigInt.fromString('18'))
+        }
+    }
+    return ZERO_BD
+}
+
+export function fetchTotalStaked(tokenAddress: string): BigDecimal {
+    let stakingAddress = fetchStakingContract(tokenAddress)
+    if (stakingAddress) {
+        let contract = Staking.bind(Address.fromString(stakingAddress))
+        if (contract) {
+            return convertTokenToDecimal(contract.totalSupply(), BigInt.fromString('18'))
+        }
+    }
+    return ZERO_BD
 }
