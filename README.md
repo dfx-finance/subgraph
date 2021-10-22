@@ -108,6 +108,7 @@ factory.pairCount = 0
 factory.totalVolumeUSD = ZERO_BD
 factory.totalLiquidityUSD = ZERO_BD
 ```
+Configuration constants must be lowercase
 ### Logging
 To help with debugging the The Graph has provided a logging object within the `graph-ts` module.
 ```typescript:
