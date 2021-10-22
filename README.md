@@ -109,6 +109,14 @@ factory.totalVolumeUSD = ZERO_BD
 factory.totalLiquidityUSD = ZERO_BD
 ```
 Configuration constants must be lowercase
+Bad Example
+```
+0x84Bf8151394dcF32146965753B28760550f3D7A8
+```
+Good Example
+```
+0x84bf8151394dcf32146965753b28760550f3d7a8
+```
 ### Logging
 To help with debugging the The Graph has provided a logging object within the `graph-ts` module.
 ```typescript:
