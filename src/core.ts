@@ -1,4 +1,4 @@
-import { Address, log, BigInt } from "@graphprotocol/graph-ts";
+import { Address, log, BigInt, BigDecimal } from "@graphprotocol/graph-ts";
 import { 
     ZERO_BI, 
     ZERO_BD, 
@@ -128,10 +128,12 @@ export function handleTrade(event: TradeEvent): void {
         token1 = token0
         token0 = tempToken
     }
-
-    token1.priceUSD = amount0.div(amount1)
-    token1.save()
-
+    
+    if (amount1.gt(ZERO_BD)) {
+        token1.priceUSD = amount0.div(amount1)
+        token1.save()
+    }
+    
     let contract0 = ERC20.bind(Address.fromString(token0.id))
     let reserve0Result = contract0.try_balanceOf(event.address)
     if (!reserve0Result.reverted){
