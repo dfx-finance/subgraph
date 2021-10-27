@@ -8,7 +8,8 @@
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/ dfx-test",
+    "deploy-test:mainnet": "graph deploy --node https://api.studio.thegraph.com/deploy/ dfx-test",
+    "deploy-test:polygon": "graph deploy --node https://api.studio.thegraph.com/deploy/ dfx-polygon-test",
     "deploy-prod:mainnet": "graph deploy --product hosted-service dfx-finance/dfx-v1",
     "deploy-prod:polygon": "graph deploy --product hosted-service dfx-finance/dfx-v1-polygon",
     "create-local": "graph create --node http://localhost:8020/ dfx-test",
