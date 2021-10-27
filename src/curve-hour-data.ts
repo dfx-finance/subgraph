@@ -26,6 +26,7 @@ export function updatePairHourData(event: ethereum.Event): PairHourData {
         pairHourData.reserve0 = ZERO_BD
         pairHourData.reserve1 = ZERO_BD
         pairHourData.reserveUSD = ZERO_BD
+        pairHourData.swapRateUSD = ZERO_BD
         pairHourData.volumeToken0 = ZERO_BD
         pairHourData.volumeToken1 = ZERO_BD
         pairHourData.volumeUSD = ZERO_BD
@@ -34,6 +35,7 @@ export function updatePairHourData(event: ethereum.Event): PairHourData {
     if (pair !== null) {
         pairHourData.reserve0 = pair.reserve0
         pairHourData.reserve1 = pair.reserve1
+        pairHourData.swapRateUSD = pair.swapRateUSD
 
         let amount1ReserveUSD = pair.reserve1.times(fetchUSDMultiplier(pair.token1))
         pairHourData.reserveUSD = pair.reserve0.plus(amount1ReserveUSD)

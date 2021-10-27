@@ -96,6 +96,7 @@ export function handleTrade(event: TradeEvent): void {
         pair.reserve0 = ZERO_BD
         pair.reserveUSD = ZERO_BD
         pair.prevReserveUSD = ZERO_BD
+        pair.swapRateUSD = ZERO_BD
         pair.rewardDuration = ZERO_BI
         pair.rewardsForDuration = ZERO_BD
         pair.volumeToken0 = ZERO_BD
@@ -130,7 +131,9 @@ export function handleTrade(event: TradeEvent): void {
     }
     
     if (amount1.gt(ZERO_BD)) {
-        token1.priceUSD = amount0.div(amount1)
+        let exchangeRateUSD =  amount0.div(amount1)
+        pair.swapRateUSD = exchangeRateUSD
+        token1.priceUSD = exchangeRateUSD
         token1.save()
     }
     
