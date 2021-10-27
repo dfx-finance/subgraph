@@ -382,6 +382,15 @@ export class PairHourData extends Entity {
     this.set("reserveUSD", Value.fromBigDecimal(value));
   }
 
+  get swapRateUSD(): BigDecimal {
+    let value = this.get("swapRateUSD");
+    return value.toBigDecimal();
+  }
+
+  set swapRateUSD(value: BigDecimal) {
+    this.set("swapRateUSD", Value.fromBigDecimal(value));
+  }
+
   get volumeToken0(): BigDecimal {
     let value = this.get("volumeToken0");
     return value.toBigDecimal();
@@ -494,6 +503,15 @@ export class PairDayData extends Entity {
     this.set("reserveUSD", Value.fromBigDecimal(value));
   }
 
+  get swapRateUSD(): BigDecimal {
+    let value = this.get("swapRateUSD");
+    return value.toBigDecimal();
+  }
+
+  set swapRateUSD(value: BigDecimal) {
+    this.set("swapRateUSD", Value.fromBigDecimal(value));
+  }
+
   get volumeToken0(): BigDecimal {
     let value = this.get("volumeToken0");
     return value.toBigDecimal();
@@ -604,6 +622,15 @@ export class Pair extends Entity {
 
   set prevReserveUSD(value: BigDecimal) {
     this.set("prevReserveUSD", Value.fromBigDecimal(value));
+  }
+
+  get swapRateUSD(): BigDecimal {
+    let value = this.get("swapRateUSD");
+    return value.toBigDecimal();
+  }
+
+  set swapRateUSD(value: BigDecimal) {
+    this.set("swapRateUSD", Value.fromBigDecimal(value));
   }
 
   get rewardsForDuration(): BigDecimal {

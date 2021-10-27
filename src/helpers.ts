@@ -34,23 +34,6 @@ export function convertTokenToDecimal(
     return tokenAmount.toBigDecimal().div(exponentToBigDecimal(exchangeDecimals));
 }
 
-export function fetchUSDMultiplier(tokenAddress: string): BigDecimal {
-    // Replaced by dividing the current trades and storing the rates inside hourly pairs / daily.
-    if (tokenAddress == XSGD) {
-        return BigDecimal.fromString('0.7252')
-    } else if (tokenAddress == CADC) {
-        return BigDecimal.fromString('0.7457')
-    } else if (tokenAddress == EURS) {
-        return BigDecimal.fromString('1.1403')
-    } else if (tokenAddress == NZDS){
-        return BigDecimal.fromString('0.6494')
-    } else if (tokenAddress == TRYB){
-        return BigDecimal.fromString('0.1424')
-    } else {
-        return BigDecimal.fromString('0')
-    }
-}
-
 export function fetchTokenDecimals(tokenAddress: Address): BigInt {
     let contract = ERC20.bind(tokenAddress)
 

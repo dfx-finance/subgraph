@@ -57,6 +57,9 @@ type PairHourData @entity {
   reserve1: BigDecimal!
   reserveUSD: BigDecimal!
 
+  # price stats
+  swapRateUSD: BigDecimal!
+
   # volume stats
   volumeToken0: BigDecimal!
   volumeToken1: BigDecimal!
@@ -75,6 +78,9 @@ type PairDayData @entity {
   reserve0: BigDecimal!
   reserve1: BigDecimal!
   reserveUSD: BigDecimal!
+
+  # price stats
+  swapRateUSD: BigDecimal!
 
   # volume stats
   volumeToken0: BigDecimal!
@@ -98,6 +104,9 @@ type Pair @entity {
   # derived liquidity
   reserveUSD: BigDecimal!
   prevReserveUSD: BigDecimal!
+
+  # price stats
+  swapRateUSD: BigDecimal!
 
   # staking
   rewardsForDuration: BigDecimal!

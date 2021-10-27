@@ -1,5 +1,5 @@
 import { BigInt, ethereum } from '@graphprotocol/graph-ts'
-import { ZERO_BD, fetchUSDMultiplier } from './helpers'
+import { ZERO_BD } from './helpers'
 
 import { 
     PairDayData,
@@ -24,6 +24,7 @@ export function updatePairDayData(event: ethereum.Event): PairDayData {
         pairDayData.reserve0 = ZERO_BD
         pairDayData.reserve1 = ZERO_BD
         pairDayData.reserveUSD = ZERO_BD
+        pairDayData.swapRateUSD = ZERO_BD
         pairDayData.volumeToken0 = ZERO_BD
         pairDayData.volumeToken1 = ZERO_BD
         pairDayData.volumeUSD = ZERO_BD
@@ -32,8 +33,9 @@ export function updatePairDayData(event: ethereum.Event): PairDayData {
     if (pair !== null) {
         pairDayData.reserve0 = pair.reserve0
         pairDayData.reserve1 = pair.reserve1
+        pairDayData.swapRateUSD = pair.swapRateUSD
 
-        let amount1ReserveUSD = pair.reserve1.times(fetchUSDMultiplier(pair.token1))
+        let amount1ReserveUSD = pair.reserve1.times(pair.swapRateUSD)
         pairDayData.reserveUSD = pair.reserve0.plus(amount1ReserveUSD)
     }
     // pairDayData.dailyTxns = pairDayData.dailyTxns.plus(ONE_BI)
