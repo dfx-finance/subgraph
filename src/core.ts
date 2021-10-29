@@ -29,6 +29,7 @@ import {
     Transfer,
     Token,
     Pair,
+    PoolParticipant,
     DFXDayData,
     DFXFactory,
 } from "../generated/schema"
@@ -135,6 +136,12 @@ export function handleTrade(event: TradeEvent): void {
         pair.swapRateUSD = exchangeRateUSD
         token1.priceUSD = exchangeRateUSD
         token1.save()
+    }
+
+    let poolParticipant = PoolParticipant.load(event.address.toHexString())
+    if (poolParticipant === null) {
+        poolParticipant = new PoolParticipant(event.address.toHexString()) as PoolParticipant
+        poolParticipant.pair = event.address.toHexString
     }
     
     let contract0 = ERC20.bind(Address.fromString(token0.id))

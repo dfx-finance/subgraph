@@ -155,3 +155,10 @@ type TokenDayData @entity {
   # price stats
   priceUSD: BigDecimal!
 }
+
+type PoolParticipant @entity {
+  id: ID!
+  pair: Pair!
+  volumeUSD: BigDecimal!
+#   stakedUSD: BigDecimal!
+}
