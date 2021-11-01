@@ -696,6 +696,15 @@ export class Pair extends Entity {
     this.set("txnsCount", Value.fromBigInt(value));
   }
 
+  get participantCount(): BigInt {
+    let value = this.get("participantCount");
+    return value.toBigInt();
+  }
+
+  set participantCount(value: BigInt) {
+    this.set("participantCount", Value.fromBigInt(value));
+  }
+
   get hourData(): Array<string> {
     let value = this.get("hourData");
     return value.toStringArray();

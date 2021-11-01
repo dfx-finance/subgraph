@@ -119,9 +119,8 @@ type Pair @entity {
   volumeUSD: BigDecimal!
   txnsCount: BigInt!
 
-  # creation stats
-  # createdAtTimestamp: BigInt!
-  # createdAtBlockNumber: BigInt!
+  # participant info
+  participantCount: BigInt! 
 
   # Pair hour data
   hourData: [PairHourData!]! @derivedFrom(field: "pair")
@@ -160,5 +159,6 @@ type PoolParticipant @entity {
   id: ID!
   pair: Pair!
   volumeUSD: BigDecimal!
-#   stakedUSD: BigDecimal!
+  # TODO
+  # stakedUSD: BigDecimal!
 }
