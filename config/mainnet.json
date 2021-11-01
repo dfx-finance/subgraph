@@ -2,6 +2,7 @@
     "network": "mainnet",
     "startBlock": "12459107",
     "factory_address": "0xd3C1bF5582b5f3029b15bE04a49C65d3226dFB0C",
+    "staking_abi": "./abis/Staking.json",
     
     "blackhole_address": "0x0000000000000000000000000000000000000000",
     "usdc_address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
