@@ -51,7 +51,7 @@ templates:
         - name: ERC20
           file: ./abis/ERC20.json
         - name: Staking
-          file: ./abis/Staking.json
+          file: {{{ staking_abi }}}
       eventHandlers:
         - event: Trade(indexed address,indexed address,indexed address,uint256,uint256)
           handler: handleTrade
