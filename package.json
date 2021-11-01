@@ -8,6 +8,7 @@
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
+    "auth": "graph auth --studio",
     "deploy-test:mainnet": "graph deploy --node https://api.studio.thegraph.com/deploy/ dfx-test",
     "deploy-test:polygon": "graph deploy --node https://api.studio.thegraph.com/deploy/ dfx-polygon-test",
     "deploy-prod:mainnet": "graph deploy --product hosted-service dfx-finance/dfx-v1",

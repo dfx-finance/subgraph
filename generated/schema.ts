@@ -696,6 +696,15 @@ export class Pair extends Entity {
     this.set("txnsCount", Value.fromBigInt(value));
   }
 
+  get participantCount(): BigInt {
+    let value = this.get("participantCount");
+    return value.toBigInt();
+  }
+
+  set participantCount(value: BigInt) {
+    this.set("participantCount", Value.fromBigInt(value));
+  }
+
   get hourData(): Array<string> {
     let value = this.get("hourData");
     return value.toStringArray();
@@ -863,5 +872,54 @@ export class TokenDayData extends Entity {
 
   set priceUSD(value: BigDecimal) {
     this.set("priceUSD", Value.fromBigDecimal(value));
+  }
+}
+
+export class PoolParticipant extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save PoolParticipant entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save PoolParticipant entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("PoolParticipant", id.toString(), this);
+  }
+
+  static load(id: string): PoolParticipant | null {
+    return store.get("PoolParticipant", id) as PoolParticipant | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get pair(): string {
+    let value = this.get("pair");
+    return value.toString();
+  }
+
+  set pair(value: string) {
+    this.set("pair", Value.fromString(value));
+  }
+
+  get volumeUSD(): BigDecimal {
+    let value = this.get("volumeUSD");
+    return value.toBigDecimal();
+  }
+
+  set volumeUSD(value: BigDecimal) {
+    this.set("volumeUSD", Value.fromBigDecimal(value));
   }
 }
