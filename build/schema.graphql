@@ -65,6 +65,9 @@ type PairHourData @entity {
   volumeToken1: BigDecimal!
   volumeUSD: BigDecimal!
   # hourlyTxns: BigInt!
+
+  # participant info
+  participantCount: BigInt! 
 }
 
 type PairDayData @entity {
@@ -87,6 +90,9 @@ type PairDayData @entity {
   volumeToken1: BigDecimal!
   volumeUSD: BigDecimal!
   # dailyTxns: BigInt!
+
+  # participant info
+  participantCount: BigInt! 
 }
 
 type Pair @entity {
