@@ -46,7 +46,7 @@ export function handleTrade(event: TradeEvent): void {
         event.transaction.hash.toHex() + "-" + event.logIndex.toString()
     )
     entity.timestamp = event.block.timestamp;
-    entity.trader = event.params.trader
+    entity.trader = event.transaction.from
     entity.origin = event.params.origin
     entity.target = event.params.target
     entity.originAmount = event.params.originAmount
