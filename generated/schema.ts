@@ -417,6 +417,15 @@ export class PairHourData extends Entity {
   set volumeUSD(value: BigDecimal) {
     this.set("volumeUSD", Value.fromBigDecimal(value));
   }
+
+  get participantCount(): BigInt {
+    let value = this.get("participantCount");
+    return value.toBigInt();
+  }
+
+  set participantCount(value: BigInt) {
+    this.set("participantCount", Value.fromBigInt(value));
+  }
 }
 
 export class PairDayData extends Entity {
@@ -537,6 +546,15 @@ export class PairDayData extends Entity {
 
   set volumeUSD(value: BigDecimal) {
     this.set("volumeUSD", Value.fromBigDecimal(value));
+  }
+
+  get participantCount(): BigInt {
+    let value = this.get("participantCount");
+    return value.toBigInt();
+  }
+
+  set participantCount(value: BigInt) {
+    this.set("participantCount", Value.fromBigInt(value));
   }
 }
 

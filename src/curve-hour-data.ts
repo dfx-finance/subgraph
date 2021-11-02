@@ -1,5 +1,5 @@
 import { BigInt, ethereum } from '@graphprotocol/graph-ts'
-import { ZERO_BD } from './helpers'
+import { ZERO_BD, ZERO_BI } from './helpers'
 
 import { 
     PairHourData,
@@ -30,12 +30,14 @@ export function updatePairHourData(event: ethereum.Event): PairHourData {
         pairHourData.volumeToken0 = ZERO_BD
         pairHourData.volumeToken1 = ZERO_BD
         pairHourData.volumeUSD = ZERO_BD
+        pairHourData.participantCount = ZERO_BI
     }
     // Why doesnt this work like sushiswap and uniswap
     if (pair !== null) {
         pairHourData.reserve0 = pair.reserve0
         pairHourData.reserve1 = pair.reserve1
         pairHourData.swapRateUSD = pair.swapRateUSD
+        pairHourData.participantCount = pair.participantCount
 
         let amount1ReserveUSD = pair.reserve1.times(pair.swapRateUSD)
         pairHourData.reserveUSD = pair.reserve0.plus(amount1ReserveUSD)
