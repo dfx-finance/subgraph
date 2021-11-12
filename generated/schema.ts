@@ -51,6 +51,15 @@ export class Trade extends Entity {
     this.set("timestamp", Value.fromBigInt(value));
   }
 
+  get pair(): string {
+    let value = this.get("pair");
+    return value.toString();
+  }
+
+  set pair(value: string) {
+    this.set("pair", Value.fromString(value));
+  }
+
   get trader(): Bytes {
     let value = this.get("trader");
     return value.toBytes();
