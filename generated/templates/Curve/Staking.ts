@@ -103,8 +103,8 @@ export class RewardAdded__Params {
     this._event = event;
   }
 
-  get reward(): Array<BigInt> {
-    return this._event.parameters[0].value.toBigIntArray();
+  get reward(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
   }
 }
 
@@ -121,16 +121,12 @@ export class RewardPaid__Params {
     this._event = event;
   }
 
-  get token(): Address {
+  get user(): Address {
     return this._event.parameters[0].value.toAddress();
   }
 
-  get user(): Address {
-    return this._event.parameters[1].value.toAddress();
-  }
-
   get reward(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
+    return this._event.parameters[1].value.toBigInt();
   }
 }
 
@@ -220,46 +216,46 @@ export class Staking extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
-  earned(account: Address): Array<BigInt> {
-    let result = super.call("earned", "earned(address):(uint256[])", [
+  earned(account: Address): BigInt {
+    let result = super.call("earned", "earned(address):(uint256)", [
       ethereum.Value.fromAddress(account)
     ]);
 
-    return result[0].toBigIntArray();
+    return result[0].toBigInt();
   }
 
-  try_earned(account: Address): ethereum.CallResult<Array<BigInt>> {
-    let result = super.tryCall("earned", "earned(address):(uint256[])", [
+  try_earned(account: Address): ethereum.CallResult<BigInt> {
+    let result = super.tryCall("earned", "earned(address):(uint256)", [
       ethereum.Value.fromAddress(account)
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigIntArray());
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
-  getRewardForDuration(): Array<BigInt> {
+  getRewardForDuration(): BigInt {
     let result = super.call(
       "getRewardForDuration",
-      "getRewardForDuration():(uint256[])",
+      "getRewardForDuration():(uint256)",
       []
     );
 
-    return result[0].toBigIntArray();
+    return result[0].toBigInt();
   }
 
-  try_getRewardForDuration(): ethereum.CallResult<Array<BigInt>> {
+  try_getRewardForDuration(): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
       "getRewardForDuration",
-      "getRewardForDuration():(uint256[])",
+      "getRewardForDuration():(uint256)",
       []
     );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigIntArray());
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
   lastPauseTime(): BigInt {
@@ -387,19 +383,17 @@ export class Staking extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
-  rewardRates(param0: BigInt): BigInt {
-    let result = super.call("rewardRates", "rewardRates(uint256):(uint256)", [
-      ethereum.Value.fromUnsignedBigInt(param0)
-    ]);
+  rewardPerToken(): BigInt {
+    let result = super.call("rewardPerToken", "rewardPerToken():(uint256)", []);
 
     return result[0].toBigInt();
   }
 
-  try_rewardRates(param0: BigInt): ethereum.CallResult<BigInt> {
+  try_rewardPerToken(): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "rewardRates",
-      "rewardRates(uint256):(uint256)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      "rewardPerToken",
+      "rewardPerToken():(uint256)",
+      []
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -408,24 +402,56 @@ export class Staking extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
-  rewards(param0: Address, param1: BigInt): BigInt {
-    let result = super.call("rewards", "rewards(address,uint256):(uint256)", [
-      ethereum.Value.fromAddress(param0),
-      ethereum.Value.fromUnsignedBigInt(param1)
+  rewardPerTokenStored(): BigInt {
+    let result = super.call(
+      "rewardPerTokenStored",
+      "rewardPerTokenStored():(uint256)",
+      []
+    );
+
+    return result[0].toBigInt();
+  }
+
+  try_rewardPerTokenStored(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "rewardPerTokenStored",
+      "rewardPerTokenStored():(uint256)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  rewardRate(): BigInt {
+    let result = super.call("rewardRate", "rewardRate():(uint256)", []);
+
+    return result[0].toBigInt();
+  }
+
+  try_rewardRate(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall("rewardRate", "rewardRate():(uint256)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  rewards(param0: Address): BigInt {
+    let result = super.call("rewards", "rewards(address):(uint256)", [
+      ethereum.Value.fromAddress(param0)
     ]);
 
     return result[0].toBigInt();
   }
 
-  try_rewards(param0: Address, param1: BigInt): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      "rewards",
-      "rewards(address,uint256):(uint256)",
-      [
-        ethereum.Value.fromAddress(param0),
-        ethereum.Value.fromUnsignedBigInt(param1)
-      ]
-    );
+  try_rewards(param0: Address): ethereum.CallResult<BigInt> {
+    let result = super.tryCall("rewards", "rewards(address):(uint256)", [
+      ethereum.Value.fromAddress(param0)
+    ]);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -456,68 +482,14 @@ export class Staking extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
-  rewardsPerToken(): Array<BigInt> {
-    let result = super.call(
-      "rewardsPerToken",
-      "rewardsPerToken():(uint256[])",
-      []
-    );
-
-    return result[0].toBigIntArray();
-  }
-
-  try_rewardsPerToken(): ethereum.CallResult<Array<BigInt>> {
-    let result = super.tryCall(
-      "rewardsPerToken",
-      "rewardsPerToken():(uint256[])",
-      []
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigIntArray());
-  }
-
-  rewardsPerTokenStored(param0: BigInt): BigInt {
-    let result = super.call(
-      "rewardsPerTokenStored",
-      "rewardsPerTokenStored(uint256):(uint256)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
-    );
-
-    return result[0].toBigInt();
-  }
-
-  try_rewardsPerTokenStored(param0: BigInt): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      "rewardsPerTokenStored",
-      "rewardsPerTokenStored(uint256):(uint256)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  rewardsTokens(param0: BigInt): Address {
-    let result = super.call(
-      "rewardsTokens",
-      "rewardsTokens(uint256):(address)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
-    );
+  rewardsToken(): Address {
+    let result = super.call("rewardsToken", "rewardsToken():(address)", []);
 
     return result[0].toAddress();
   }
 
-  try_rewardsTokens(param0: BigInt): ethereum.CallResult<Address> {
-    let result = super.tryCall(
-      "rewardsTokens",
-      "rewardsTokens(uint256):(address)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
-    );
+  try_rewardsToken(): ethereum.CallResult<Address> {
+    let result = super.tryCall("rewardsToken", "rewardsToken():(address)", []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -555,30 +527,21 @@ export class Staking extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
-  userRewardPerTokenPaid(param0: Address, param1: BigInt): BigInt {
+  userRewardPerTokenPaid(param0: Address): BigInt {
     let result = super.call(
       "userRewardPerTokenPaid",
-      "userRewardPerTokenPaid(address,uint256):(uint256)",
-      [
-        ethereum.Value.fromAddress(param0),
-        ethereum.Value.fromUnsignedBigInt(param1)
-      ]
+      "userRewardPerTokenPaid(address):(uint256)",
+      [ethereum.Value.fromAddress(param0)]
     );
 
     return result[0].toBigInt();
   }
 
-  try_userRewardPerTokenPaid(
-    param0: Address,
-    param1: BigInt
-  ): ethereum.CallResult<BigInt> {
+  try_userRewardPerTokenPaid(param0: Address): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
       "userRewardPerTokenPaid",
-      "userRewardPerTokenPaid(address,uint256):(uint256)",
-      [
-        ethereum.Value.fromAddress(param0),
-        ethereum.Value.fromUnsignedBigInt(param1)
-      ]
+      "userRewardPerTokenPaid(address):(uint256)",
+      [ethereum.Value.fromAddress(param0)]
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -609,8 +572,8 @@ export class ConstructorCall__Inputs {
     return this._call.inputValues[0].value.toAddress();
   }
 
-  get _rewardsTokens(): Array<Address> {
-    return this._call.inputValues[1].value.toAddressArray();
+  get _rewardsToken(): Address {
+    return this._call.inputValues[1].value.toAddress();
   }
 
   get _stakingToken(): Address {
@@ -751,8 +714,8 @@ export class NotifyRewardAmountCall__Inputs {
     this._call = call;
   }
 
-  get _rewards(): Array<BigInt> {
-    return this._call.inputValues[0].value.toBigIntArray();
+  get reward(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
   }
 }
 

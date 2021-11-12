@@ -1,6 +1,7 @@
 type Trade @entity {
   id: ID!
   timestamp: BigInt!
+  pair: Pair!
   trader: Bytes! # address
   origin: Bytes! # address
   target: Bytes! # address

@@ -93,7 +93,7 @@ export function fetchRewardsForDuration(tokenAddress: string): BigDecimal {
     if (stakingAddress) {
         let contract = Staking.bind(Address.fromString(stakingAddress))
         if (contract) {
-            return convertTokenToDecimal(contract.getRewardForDuration()[0], BigInt.fromString('18'))
+            return convertTokenToDecimal(contract.getRewardForDuration(), BigInt.fromString('18'))
         }
     }
     return ZERO_BD

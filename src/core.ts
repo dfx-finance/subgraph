@@ -49,6 +49,7 @@ export function handleTrade(event: TradeEvent): void {
     entity.trader = event.transaction.from
     entity.origin = event.params.origin
     entity.target = event.params.target
+    entity.pair = null
     entity.originAmount = event.params.originAmount
     entity.targetAmount = event.params.targetAmount
     
@@ -114,6 +115,7 @@ export function handleTrade(event: TradeEvent): void {
             pair.token1 = token0.id
         }
     }
+    entity.pair = pair.id
 
     let amount0 = ZERO_BD
     let amount1 = ZERO_BD
