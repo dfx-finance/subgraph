@@ -145,6 +145,15 @@ export class Transfer extends Entity {
     this.set("timestamp", Value.fromBigInt(value));
   }
 
+  get pair(): string {
+    let value = this.get("pair");
+    return value.toString();
+  }
+
+  set pair(value: string) {
+    this.set("pair", Value.fromString(value));
+  }
+
   get from(): Bytes {
     let value = this.get("from");
     return value.toBytes();

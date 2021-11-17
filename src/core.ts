@@ -228,6 +228,7 @@ export function handleTransfer(event: TransferEvent): void {
         event.transaction.hash.toHex() + "-" + event.logIndex.toString()
     )
     entity.timestamp = event.block.timestamp;
+    entity.pair = null
     entity.from = event.params.from
     entity.to = event.params.to
     entity.value = event.params.value
@@ -245,6 +246,8 @@ export function handleTransfer(event: TransferEvent): void {
     if (pair === null) {
         return
     }
+    entity.pair = pair.id
+    
     let token0 = Token.load(pair.token0)
     let token1 = Token.load(pair.token1)
     

@@ -12,6 +12,7 @@ type Trade @entity {
 type Transfer @entity {
   id: ID!
   timestamp: BigInt!
+  pair: Pair!
   from: Bytes! # address
   to: Bytes! # address
   value: BigInt! # uint256
