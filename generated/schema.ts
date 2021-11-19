@@ -172,6 +172,24 @@ export class Transfer extends Entity {
     this.set("to", Value.fromBytes(value));
   }
 
+  get token0Amount(): BigDecimal {
+    let value = this.get("token0Amount");
+    return value.toBigDecimal();
+  }
+
+  set token0Amount(value: BigDecimal) {
+    this.set("token0Amount", Value.fromBigDecimal(value));
+  }
+
+  get token1Amount(): BigDecimal {
+    let value = this.get("token1Amount");
+    return value.toBigDecimal();
+  }
+
+  set token1Amount(value: BigDecimal) {
+    this.set("token1Amount", Value.fromBigDecimal(value));
+  }
+
   get value(): BigInt {
     let value = this.get("value");
     return value.toBigInt();
@@ -649,15 +667,6 @@ export class Pair extends Entity {
 
   set reserveUSD(value: BigDecimal) {
     this.set("reserveUSD", Value.fromBigDecimal(value));
-  }
-
-  get prevReserveUSD(): BigDecimal {
-    let value = this.get("prevReserveUSD");
-    return value.toBigDecimal();
-  }
-
-  set prevReserveUSD(value: BigDecimal) {
-    this.set("prevReserveUSD", Value.fromBigDecimal(value));
   }
 
   get swapRateUSD(): BigDecimal {
