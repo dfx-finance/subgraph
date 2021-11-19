@@ -97,7 +97,6 @@ export function handleTrade(event: TradeEvent): void {
         pair.reserve1 = ZERO_BD
         pair.reserve0 = ZERO_BD
         pair.reserveUSD = ZERO_BD
-        pair.prevReserveUSD = ZERO_BD
         pair.swapRateUSD = ZERO_BD
         pair.rewardDuration = ZERO_BI
         pair.rewardsForDuration = ZERO_BD
@@ -231,6 +230,8 @@ export function handleTransfer(event: TransferEvent): void {
     entity.pair = null
     entity.from = event.params.from
     entity.to = event.params.to
+    entity.token0Amount = ZERO_BD
+    entity.token1Amount = ZERO_BD
     entity.value = event.params.value
     
     if (event.params.to.toHexString() == BLACKHOLE_ADDRESS) {
@@ -247,7 +248,9 @@ export function handleTransfer(event: TransferEvent): void {
         return
     }
     entity.pair = pair.id
-    
+    let prevReserve0 = pair.reserve0
+    let prevReserve1 = pair.reserve1
+
     let token0 = Token.load(pair.token0)
     let token1 = Token.load(pair.token1)
     
@@ -264,14 +267,27 @@ export function handleTransfer(event: TransferEvent): void {
         let reserve1 = convertTokenToDecimal(reserve1Result.value, token1.decimals)
         pair.reserve1 = reserve1
     }
+
+    let reserve0Diff = pair.reserve0.minus(prevReserve0)
+    let reserve1Diff = pair.reserve1.minus(prevReserve1)
+
+    
+    if (entity.type == "withdraw") {
+        reserve0Diff = reserve0Diff.neg()
+        reserve1Diff = reserve1Diff.neg()
+    }
+
+    entity.token0Amount = reserve0Diff
+    entity.token1Amount = reserve1Diff
+
     let amount1ReserveUSD = pair.reserve1.times(token1.priceUSD)
     let amountReserveUSD = pair.reserve0.plus(amount1ReserveUSD)
 
     let dfx = DFXFactory.load(FACTORY_ADDRESS)
-    pair.prevReserveUSD = pair.reserveUSD
+    let prevReserveUSD = pair.reserveUSD
     pair.reserveUSD = amountReserveUSD
-    let reserveDiff = pair.reserveUSD.minus(pair.prevReserveUSD)
-    dfx.totalLiquidityUSD = dfx.totalLiquidityUSD.plus(reserveDiff)
+    let reserveUSDDiff = pair.reserveUSD.minus(prevReserveUSD)
+    dfx.totalLiquidityUSD = dfx.totalLiquidityUSD.plus(reserveUSDDiff)
     pair.save()
     dfx.save()
 
