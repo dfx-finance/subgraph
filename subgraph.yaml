@@ -4,11 +4,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: Factory
-    network: mainnet
+    network: matic
     source:
-      address: '0xd3C1bF5582b5f3029b15bE04a49C65d3226dFB0C'
+      address: '0xAb23B50fC7835D0F1B892746992f28646305306C'
       abi: Factory
-      startBlock: 12459107
+      startBlock: 16908046
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -30,7 +30,7 @@ dataSources:
 templates:
   - kind: ethereum/contract
     name: Curve
-    network: mainnet
+    network: matic
     source:
       abi: Curve
     mapping:
@@ -51,7 +51,7 @@ templates:
         - name: ERC20
           file: ./abis/ERC20.json
         - name: Staking
-          file: ./abis/Staking.json
+          file: ./abis/Staking-Polygon.json
       eventHandlers:
         - event: Trade(indexed address,indexed address,indexed address,uint256,uint256)
           handler: handleTrade

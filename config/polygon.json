@@ -9,12 +9,18 @@
     "xsgd_address": "0x769434dca303597c8fc4997bf3dab233e961eda2",
     "cadc_address": "0x5d146d8b1dacb1ebba5cb005ae1059da8a1fbf57",
     "eurs_address": "0xe111178a87a3bff0c8d18decba5798827539ae99",
+    "nzds_address": "0xeafe31cd9e8e01c8f0073a2c974f728fb80e9dce",
+    "tryb_address": "0x4fb71290ac171e1d144f7221d882becac7196eb5",
 
     "xsgd_pool_address": "0x8e3e9cb46e593ec0caf4a1dcd6df3a79a87b1fd7",
     "cadc_pool_address": "0x288ab1b113c666abb097bb2ba51b8f3759d7729e",
     "eurs_pool_address": "0xb72d390e07f40d37d42dfcc43e954ae7c738ad44",
+    "nzds_pool_address": "0x931d6a6cc3f992beee80a1a14a6530d34104b000",
+    "tryb_pool_address": "0xea75cd0b12a8b48f5bddad37ceb15f8cb3d2cc75",
 
     "xsgd_staking_address": "0x89141b3c8a35f5323853d8c8839488fc0b90aa4d",
     "cadc_staking_address": "0x416e075c7893ceae8e4531655fb7725b79f86e10",
-    "eurs_staking_address": "0xb748a5509246e0a47d20fb64343dbfad5b26dae7"
+    "eurs_staking_address": "0xb748a5509246e0a47d20fb64343dbfad5b26dae7",
+    "nzds_staking_address": "0x6e01699ef5c36dce95d627b2e29e8323a086122c",
+    "tryb_staking_address": "0xfcbb946cbc0434a541433e97e835072f54a438f6"
 }
