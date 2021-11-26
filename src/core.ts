@@ -11,6 +11,7 @@ import {
     fetchRewardDuration,
     fetchRewardsForDuration,
     fetchTotalStaked,
+    isStakingContract,
 } from "./helpers";
 
 import { 
@@ -104,6 +105,7 @@ export function handleTrade(event: TradeEvent): void {
         pair.volumeToken1 = ZERO_BD
         pair.volumeUSD = ZERO_BD
         pair.txnsCount = ZERO_BI
+        pair.totalLPToken = ZERO_BD
         pair.participantCount = ZERO_BI
         if (token0.id == USDC) {
             // USDC first
@@ -144,7 +146,9 @@ export function handleTrade(event: TradeEvent): void {
     if (poolParticipant === null) {
         poolParticipant = new PoolParticipant(event.address.toHexString() + "-" + event.transaction.from.toHexString()) as PoolParticipant
         poolParticipant.pair = pair.id
+        poolParticipant.participant = event.transaction.from
         poolParticipant.volumeUSD = ZERO_BD
+        poolParticipant.liquidityProvided = ZERO_BD
         pair.participantCount = pair.participantCount.plus(ONE_BI)
     }
     poolParticipant.volumeUSD = poolParticipant.volumeUSD.plus(amount0)
@@ -238,6 +242,10 @@ export function handleTransfer(event: TransferEvent): void {
         entity.type = "withdraw"
     } else if (event.params.from.toHexString() == BLACKHOLE_ADDRESS) {
         entity.type = "deposit"
+    } else if (isStakingContract(event.params.to.toHexString())){
+        entity.type = "stake"
+    } else if (isStakingContract(event.params.from.toHexString())){
+        entity.type = "unstake"
     } else {
         entity.type = "other"
     }
@@ -271,11 +279,27 @@ export function handleTransfer(event: TransferEvent): void {
     let reserve0Diff = pair.reserve0.minus(prevReserve0)
     let reserve1Diff = pair.reserve1.minus(prevReserve1)
 
-    
+    let poolParticipant = PoolParticipant.load(event.address.toHexString() + "-" + event.transaction.from.toHexString())
+    if (poolParticipant === null) {
+        poolParticipant = new PoolParticipant(event.address.toHexString() + "-" + event.transaction.from.toHexString()) as PoolParticipant
+        poolParticipant.pair = pair.id
+        poolParticipant.participant = event.transaction.from
+        poolParticipant.volumeUSD = ZERO_BD
+        poolParticipant.liquidityProvided = ZERO_BD
+        pair.participantCount = pair.participantCount.plus(ONE_BI)
+    }
+    let decimals = fetchTokenDecimals(event.address)
+    let LPTokens = convertTokenToDecimal(entity.value, decimals)
     if (entity.type == "withdraw") {
         reserve0Diff = reserve0Diff.neg()
         reserve1Diff = reserve1Diff.neg()
+        poolParticipant.liquidityProvided = poolParticipant.liquidityProvided.minus(LPTokens)
+        pair.totalLPToken = pair.totalLPToken.minus(LPTokens)
+    } else if (entity.type == "deposit") {
+        poolParticipant.liquidityProvided = poolParticipant.liquidityProvided.plus(LPTokens)
+        pair.totalLPToken = pair.totalLPToken.plus(LPTokens)
     }
+    poolParticipant.save()
 
     entity.token0Amount = reserve0Diff
     entity.token1Amount = reserve1Diff

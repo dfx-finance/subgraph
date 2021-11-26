@@ -130,6 +130,7 @@ type Pair @entity {
 
   # participant info
   participantCount: BigInt! 
+  totalLPToken: BigDecimal!
 
   # Pair hour data
   hourData: [PairHourData!]! @derivedFrom(field: "pair")
@@ -167,7 +168,7 @@ type TokenDayData @entity {
 type PoolParticipant @entity {
   id: ID!
   pair: Pair!
+  participant: Bytes! # address
   volumeUSD: BigDecimal!
-  # TODO
-  # stakedUSD: BigDecimal!
+  liquidityProvided: BigDecimal!
 }

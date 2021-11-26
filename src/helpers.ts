@@ -60,6 +60,22 @@ export function fetchTokenName(tokenAddress: Address): string {
     return contract.name()
 }
 
+export function isStakingContract(tokenAddress: string): boolean {
+    if (tokenAddress == XSGD_STAKING) {
+        return true
+    } else if (tokenAddress == CADC_STAKING) {
+        return true
+    } else if (tokenAddress == EURS_STAKING) {
+        return true
+    } else if (tokenAddress == NZDS_STAKING) {
+        return true
+    } else if (tokenAddress == TRYB_STAKING) {
+        return true
+    } else {
+        return false
+    }
+}
+
 export function fetchStakingContract(tokenAddress: string): string {
     // Replaced by dividing the current trades and storing the rates inside hourly pairs / daily.
     if (tokenAddress == XSGD_POOL) {
@@ -93,7 +109,7 @@ export function fetchRewardsForDuration(tokenAddress: string): BigDecimal {
     if (stakingAddress) {
         let contract = Staking.bind(Address.fromString(stakingAddress))
         if (contract) {
-            return convertTokenToDecimal(contract.getRewardForDuration()[0], BigInt.fromString('18'))
+            return convertTokenToDecimal(contract.getRewardForDuration(), BigInt.fromString('18'))
         }
     }
     return ZERO_BD
