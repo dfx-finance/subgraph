@@ -750,6 +750,15 @@ export class Pair extends Entity {
     this.set("participantCount", Value.fromBigInt(value));
   }
 
+  get totalLPToken(): BigDecimal {
+    let value = this.get("totalLPToken");
+    return value.toBigDecimal();
+  }
+
+  set totalLPToken(value: BigDecimal) {
+    this.set("totalLPToken", Value.fromBigDecimal(value));
+  }
+
   get hourData(): Array<string> {
     let value = this.get("hourData");
     return value.toStringArray();
@@ -959,6 +968,15 @@ export class PoolParticipant extends Entity {
     this.set("pair", Value.fromString(value));
   }
 
+  get participant(): Bytes {
+    let value = this.get("participant");
+    return value.toBytes();
+  }
+
+  set participant(value: Bytes) {
+    this.set("participant", Value.fromBytes(value));
+  }
+
   get volumeUSD(): BigDecimal {
     let value = this.get("volumeUSD");
     return value.toBigDecimal();
@@ -966,5 +984,14 @@ export class PoolParticipant extends Entity {
 
   set volumeUSD(value: BigDecimal) {
     this.set("volumeUSD", Value.fromBigDecimal(value));
+  }
+
+  get liquidityProvided(): BigDecimal {
+    let value = this.get("liquidityProvided");
+    return value.toBigDecimal();
+  }
+
+  set liquidityProvided(value: BigDecimal) {
+    this.set("liquidityProvided", Value.fromBigDecimal(value));
   }
 }
