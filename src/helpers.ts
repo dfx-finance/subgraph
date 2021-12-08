@@ -2,9 +2,8 @@ import { Address, BigDecimal, BigInt, log } from "@graphprotocol/graph-ts";
 import { ERC20 } from '../generated/Factory/ERC20'
 import { Staking } from '../generated/templates/Curve/Staking'
 import { 
-    XSGD, CADC, EURS, NZDS, TRYB,
-    XSGD_POOL, CADC_POOL, EURS_POOL, NZDS_POOL, TRYB_POOL,
-    XSGD_STAKING, CADC_STAKING, EURS_STAKING, NZDS_STAKING, TRYB_STAKING,
+    XSGD_POOL, CADC_POOL, EURS_POOL, NZDS_POOL, TRYB_POOL, XIDR_POOL, 
+    XSGD_STAKING, CADC_STAKING, EURS_STAKING, NZDS_STAKING, TRYB_STAKING, XIDR_STAKING,
 } from "../packages/constants/index"
 
 export let ZERO_BI = BigInt.fromI32(0)
@@ -88,6 +87,8 @@ export function fetchStakingContract(tokenAddress: string): string {
         return NZDS_STAKING
     } else if (tokenAddress == TRYB_POOL){
         return TRYB_STAKING
+    } else if (tokenAddress == XIDR_POOL){
+        return XIDR_STAKING
     } else {
         return ""
     }
