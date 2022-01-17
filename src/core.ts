@@ -36,6 +36,7 @@ import {
 } from "../generated/schema"
 
 import { ERC20 } from '../generated/Factory/ERC20'
+import { Curve } from '../generated/templates/Curve/Curve'
 
 import { updatePairHourData } from "./curve-hour-data";
 import { updatePairDayData } from "./curve-day-data";
@@ -262,15 +263,16 @@ export function handleTransfer(event: TransferEvent): void {
     let token0 = Token.load(pair.token0)
     let token1 = Token.load(pair.token1)
     
-    let contract0 = ERC20.bind(Address.fromString(token0.id))
-    let reserve0Result = contract0.try_balanceOf(event.address)
+    let tokenContract0 = ERC20.bind(Address.fromString(token0.id))
+    let reserve0Result = tokenContract0.try_balanceOf(event.address)
     if (!reserve0Result.reverted){
         let reserve0 = convertTokenToDecimal(reserve0Result.value, token0.decimals)
         pair.reserve0 = reserve0
     } 
 
-    let contract1 = ERC20.bind(Address.fromString(token1.id))
-    let reserve1Result = contract1.try_balanceOf(event.address)
+
+    let tokenContract1 = ERC20.bind(Address.fromString(token1.id))
+    let reserve1Result = tokenContract1.try_balanceOf(event.address)
     if (!reserve1Result.reverted){
         let reserve1 = convertTokenToDecimal(reserve1Result.value, token1.decimals)
         pair.reserve1 = reserve1
@@ -304,12 +306,15 @@ export function handleTransfer(event: TransferEvent): void {
     entity.token0Amount = reserve0Diff
     entity.token1Amount = reserve1Diff
 
-    let amount1ReserveUSD = pair.reserve1.times(token1.priceUSD)
-    let amountReserveUSD = pair.reserve0.plus(amount1ReserveUSD)
-
+    let curveContract = Curve.bind(Address.fromString(pair.id))
+    let reserveResult = curveContract.try_liquidity()
+    if (!reserveResult.reverted){
+        let reserveUSD = convertTokenToDecimal(reserveResult.value[0], BigInt.fromString('18'))
+        pair.reserveUSD = reserveUSD
+    }
+    
     let dfx = DFXFactory.load(FACTORY_ADDRESS)
     let prevReserveUSD = pair.reserveUSD
-    pair.reserveUSD = amountReserveUSD
     let reserveUSDDiff = pair.reserveUSD.minus(prevReserveUSD)
     dfx.totalLiquidityUSD = dfx.totalLiquidityUSD.plus(reserveUSDDiff)
     pair.save()
