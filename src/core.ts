@@ -308,13 +308,14 @@ export function handleTransfer(event: TransferEvent): void {
 
     let curveContract = Curve.bind(Address.fromString(pair.id))
     let reserveResult = curveContract.try_liquidity()
+    let reserveUSD = ZERO_BD
     if (!reserveResult.reverted){
-        let reserveUSD = convertTokenToDecimal(reserveResult.value[0], BigInt.fromString('18'))
-        pair.reserveUSD = reserveUSD
+        reserveUSD = convertTokenToDecimal(reserveResult.value[0], BigInt.fromString('18'))
     }
     
     let dfx = DFXFactory.load(FACTORY_ADDRESS)
     let prevReserveUSD = pair.reserveUSD
+    pair.reserveUSD = reserveUSD
     let reserveUSDDiff = pair.reserveUSD.minus(prevReserveUSD)
     dfx.totalLiquidityUSD = dfx.totalLiquidityUSD.plus(reserveUSDDiff)
     pair.save()
