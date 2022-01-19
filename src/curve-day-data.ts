@@ -24,6 +24,7 @@ export function updatePairDayData(event: ethereum.Event): PairDayData {
         pairDayData.reserve0 = ZERO_BD
         pairDayData.reserve1 = ZERO_BD
         pairDayData.reserveUSD = ZERO_BD
+        pairDayData.reserveChange = ZERO_BD
         pairDayData.swapRateUSD = ZERO_BD
         pairDayData.volumeToken0 = ZERO_BD
         pairDayData.volumeToken1 = ZERO_BD

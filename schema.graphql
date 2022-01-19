@@ -85,6 +85,7 @@ type PairDayData @entity {
   reserve0: BigDecimal!
   reserve1: BigDecimal!
   reserveUSD: BigDecimal!
+  reserveChange: BigDecimal!
 
   # price stats
   swapRateUSD: BigDecimal!
