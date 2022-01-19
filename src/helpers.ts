@@ -70,6 +70,8 @@ export function isStakingContract(tokenAddress: string): boolean {
         return true
     } else if (tokenAddress == TRYB_STAKING) {
         return true
+    } else if (tokenAddress == XIDR_STAKING){
+        return true
     } else {
         return false
     }
