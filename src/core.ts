@@ -330,9 +330,9 @@ export function handleTransfer(event: TransferEvent): void {
     pairHourData.save()
     let pairDayData = updatePairDayData(event)
     if (entity.type == "withdraw") {
-        pairDayData.reserveChange = pairDayData.reserveChange.plus(amountTransferedUSD)
-    } else if (entity.type == "deposit") {
         pairDayData.reserveChange = pairDayData.reserveChange.minus(amountTransferedUSD)
+    } else if (entity.type == "deposit") {
+        pairDayData.reserveChange = pairDayData.reserveChange.plus(amountTransferedUSD)
     }
     pairDayData.save()
     let dfxDayData = updateDFXDayData(event)
