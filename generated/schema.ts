@@ -548,6 +548,15 @@ export class PairDayData extends Entity {
     this.set("reserveUSD", Value.fromBigDecimal(value));
   }
 
+  get reserveChange(): BigDecimal {
+    let value = this.get("reserveChange");
+    return value.toBigDecimal();
+  }
+
+  set reserveChange(value: BigDecimal) {
+    this.set("reserveChange", Value.fromBigDecimal(value));
+  }
+
   get swapRateUSD(): BigDecimal {
     let value = this.get("swapRateUSD");
     return value.toBigDecimal();
