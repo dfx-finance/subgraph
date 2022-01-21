@@ -1,6 +1,10 @@
 export const FACTORY_ADDRESS = '{{ factory_address }}{{^factory_address}}0x0000000000000000000000000000000000000000{{/factory_address}}'
 export const BLACKHOLE_ADDRESS = '{{ blackhole_address }}{{^blackhole_address}}0x0000000000000000000000000000000000000000{{/blackhole_address}}'
 
+export const ZAP_LEGACY = '{{ zap_legacy_address }}{{^zap_legacy_address}}0x0000000000000000000000000000000000000000{{/zap_legacy_address}}'
+export const ZAP = '{{ zap_address }}{{^zap_address}}0x0000000000000000000000000000000000000000{{/zap_address}}'
+export const ZAP_DUST = '{{ zap_dust_address }}{{^zap_dust_address}}0x0000000000000000000000000000000000000000{{/zap_dust_address}}'
+
 export const USDC = '{{ usdc_address }}{{^usdc_address}}0x0000000000000000000000000000000000000000{{/usdc_address}}'
 export const XSGD = '{{ xsgd_address }}{{^xsgd_address}}0x0000000000000000000000000000000000000000{{/xsgd_address}}'
 export const CADC = '{{ cadc_address }}{{^cadc_address}}0x0000000000000000000000000000000000000000{{/cadc_address}}'

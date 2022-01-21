@@ -247,6 +247,7 @@ export function handleTransfer(event: TransferEvent): void {
         entity.type = "stake"
     } else if (isStakingContract(event.params.from.toHexString())){
         entity.type = "unstake"
+    // } else if {
     } else {
         entity.type = "other"
     }
