@@ -548,13 +548,58 @@ export class PairDayData extends Entity {
     this.set("reserveUSD", Value.fromBigDecimal(value));
   }
 
-  get reserveChange(): BigDecimal {
-    let value = this.get("reserveChange");
+  get reserve0Deposit(): BigDecimal {
+    let value = this.get("reserve0Deposit");
     return value.toBigDecimal();
   }
 
-  set reserveChange(value: BigDecimal) {
-    this.set("reserveChange", Value.fromBigDecimal(value));
+  set reserve0Deposit(value: BigDecimal) {
+    this.set("reserve0Deposit", Value.fromBigDecimal(value));
+  }
+
+  get reserve1Deposit(): BigDecimal {
+    let value = this.get("reserve1Deposit");
+    return value.toBigDecimal();
+  }
+
+  set reserve1Deposit(value: BigDecimal) {
+    this.set("reserve1Deposit", Value.fromBigDecimal(value));
+  }
+
+  get reserve1DepositUSD(): BigDecimal {
+    let value = this.get("reserve1DepositUSD");
+    return value.toBigDecimal();
+  }
+
+  set reserve1DepositUSD(value: BigDecimal) {
+    this.set("reserve1DepositUSD", Value.fromBigDecimal(value));
+  }
+
+  get reserve0Withdraw(): BigDecimal {
+    let value = this.get("reserve0Withdraw");
+    return value.toBigDecimal();
+  }
+
+  set reserve0Withdraw(value: BigDecimal) {
+    this.set("reserve0Withdraw", Value.fromBigDecimal(value));
+  }
+
+  get reserve1Withdraw(): BigDecimal {
+    let value = this.get("reserve1Withdraw");
+    return value.toBigDecimal();
+  }
+
+  set reserve1Withdraw(value: BigDecimal) {
+    this.set("reserve1Withdraw", Value.fromBigDecimal(value));
+  }
+
+  get reserve1WithdrawUSD(): BigDecimal {
+    let value = this.get("reserve1WithdrawUSD");
+    return value.toBigDecimal();
+  }
+
+  set reserve1WithdrawUSD(value: BigDecimal) {
+    this.set("reserve1WithdrawUSD", Value.fromBigDecimal(value));
   }
 
   get swapRateUSD(): BigDecimal {
