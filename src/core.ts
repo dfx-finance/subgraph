@@ -305,8 +305,8 @@ export function handleTransfer(event: TransferEvent): void {
     entity.token0Amount = reserve0Diff
     entity.token1Amount = reserve1Diff
 
-    let token1Transfered = reserve1Diff.times(token1.priceUSD)
-    let amountTransferedUSD = reserve0Diff.plus(token1Transfered)
+    // let token1Transfered = reserve1Diff.times(token1.priceUSD)
+    // let amountTransferedUSD = reserve0Diff.plus(token1Transfered)
 
     // let amount1ReserveUSD = pair.reserve1.times(token1.priceUSD)
     // let amountReserveUSD = pair.reserve0.plus(amount1ReserveUSD)
@@ -329,10 +329,15 @@ export function handleTransfer(event: TransferEvent): void {
     let pairHourData = updatePairHourData(event)
     pairHourData.save()
     let pairDayData = updatePairDayData(event)
+    let reserve1DiffUSD = reserve1Diff.times(pair.swapRateUSD)
     if (entity.type == "withdraw") {
-        pairDayData.reserveChange = pairDayData.reserveChange.minus(amountTransferedUSD)
+        pairDayData.reserve0Withdraw = pairDayData.reserve0Withdraw.plus(reserve0Diff)
+        pairDayData.reserve1Withdraw = pairDayData.reserve1Withdraw.plus(reserve1Diff)
+        pairDayData.reserve1WithdrawUSD = pairDayData.reserve1WithdrawUSD.plus(reserve1DiffUSD)
     } else if (entity.type == "deposit") {
-        pairDayData.reserveChange = pairDayData.reserveChange.plus(amountTransferedUSD)
+        pairDayData.reserve0Deposit = pairDayData.reserve0Deposit.plus(reserve0Diff)
+        pairDayData.reserve1Deposit = pairDayData.reserve1Deposit.plus(reserve1Diff)
+        pairDayData.reserve1DepositUSD = pairDayData.reserve1DepositUSD.plus(reserve1DiffUSD)
     }
     pairDayData.save()
     let dfxDayData = updateDFXDayData(event)
