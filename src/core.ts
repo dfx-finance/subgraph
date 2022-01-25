@@ -331,11 +331,11 @@ export function handleTransfer(event: TransferEvent): void {
     if (!reserveResult.reverted){
         reserveUSD = convertTokenToDecimal(reserveResult.value.value0, BigInt.fromString('18'))
     }
+    
+    entity.token0Amount = reserve0Diff
+    entity.token1Amount = reserve1Diff
 
-    if (entity.type == "two-sided-deposit") {
-        entity.token0Amount = reserve0Diff
-        entity.token1Amount = reserve1Diff
-    } else if (entity.type == "single-sided-deposit") {
+    if (entity.type == "single-sided-deposit") {
         let LPToDepositResult = curveContract.viewWithdraw(entity.value)
         entity.token0Amount = convertTokenToDecimal(LPToDepositResult[1], token0.decimals)
         entity.token1Amount = convertTokenToDecimal(LPToDepositResult[0], token1.decimals)
