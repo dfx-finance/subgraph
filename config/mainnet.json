@@ -3,6 +3,10 @@
     "startBlock": "12459107",
     "factory_address": "0xd3C1bF5582b5f3029b15bE04a49C65d3226dFB0C",
     "staking_abi": "./abis/Staking.json",
+
+    "zap_address": "0x64d65e3d70ba0f8812a9d1d7b8b5c51dab78cd15",
+    "zap_optimized_address": "0x607690f749fadb8fb87fc01f6dbdee277eea5fdf",
+    "zap_legacy_address": "0x0e1532173120b81226eaf012c553267c0f5346ff",
     
     "blackhole_address": "0x0000000000000000000000000000000000000000",
     "usdc_address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",

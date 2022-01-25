@@ -12,6 +12,7 @@ import {
     fetchRewardsForDuration,
     fetchTotalStaked,
     isStakingContract,
+    isZapContract,
 } from "./helpers";
 
 import { 
@@ -241,14 +242,22 @@ export function handleTransfer(event: TransferEvent): void {
     
     if (event.params.to.toHexString() == BLACKHOLE_ADDRESS) {
         entity.type = "withdraw"
-    } else if (event.params.from.toHexString() == BLACKHOLE_ADDRESS) {
-        entity.type = "deposit"
+    // Only accepts LP tokens minted from blackhole address to an address that is not any of the zap contracts
+    } else if (event.params.from.toHexString() == BLACKHOLE_ADDRESS && !isZapContract(event.params.to.toHexString())) {
+        entity.type = "two-sided-deposit"
+    // 2 transfers are made in single sided deposits only taking 1 to avoid duplicate counts
+    //      1. blackhole -> zap
+    //      2. zap -> personal
+    } else if (event.params.from.toHexString() == BLACKHOLE_ADDRESS && isZapContract(event.params.to.toHexString())) {
+        entity.type = "single-sided-deposit"
+    } else if (isZapContract(event.params.from.toHexString())) {
+        entity.type = "single-sided-deposit-ignore"
     } else if (isStakingContract(event.params.to.toHexString())){
         entity.type = "stake"
     } else if (isStakingContract(event.params.from.toHexString())){
         entity.type = "unstake"
     } else {
-        entity.type = "other"
+        entity.type = "LP-transfer"
     }
 
     // Ensuring pair already exists
@@ -296,26 +305,40 @@ export function handleTransfer(event: TransferEvent): void {
         reserve1Diff = reserve1Diff.neg()
         poolParticipant.liquidityProvided = poolParticipant.liquidityProvided.minus(LPTokens)
         pair.totalLPToken = pair.totalLPToken.minus(LPTokens)
-    } else if (entity.type == "deposit") {
+        if (poolParticipant.liquidityProvided <= ZERO_BD) {
+            pair.participantCount.minus(ONE_BI)
+        }
+    } else if (entity.type == "two-sided-deposit" || entity.type == "single-sided-deposit") {
         poolParticipant.liquidityProvided = poolParticipant.liquidityProvided.plus(LPTokens)
         pair.totalLPToken = pair.totalLPToken.plus(LPTokens)
+    } else if (entity.type == "LP-transfer") {
+        let poolParticipant2 = PoolParticipant.load(event.address.toHexString() + "-" + entity.to.toHexString())
+        if (poolParticipant2 === null) {
+            poolParticipant2 = new PoolParticipant(event.address.toHexString() + "-" + entity.to.toHexString()) as PoolParticipant
+            poolParticipant2.pair = pair.id
+            poolParticipant2.participant = event.transaction.from
+            poolParticipant2.volumeUSD = ZERO_BD
+            poolParticipant2.liquidityProvided = ZERO_BD
+        }
+        poolParticipant2.liquidityProvided = poolParticipant2.liquidityProvided.plus(LPTokens)
+        poolParticipant.liquidityProvided = poolParticipant.liquidityProvided.minus(LPTokens)
     }
     poolParticipant.save()
-
-    entity.token0Amount = reserve0Diff
-    entity.token1Amount = reserve1Diff
-
-    let token1Transfered = reserve1Diff.times(token1.priceUSD)
-    let amountTransferedUSD = reserve0Diff.plus(token1Transfered)
-
-    // let amount1ReserveUSD = pair.reserve1.times(token1.priceUSD)
-    // let amountReserveUSD = pair.reserve0.plus(amount1ReserveUSD)
 
     let curveContract = Curve.bind(Address.fromString(pair.id))
     let reserveResult = curveContract.try_liquidity()
     let reserveUSD = ZERO_BD
     if (!reserveResult.reverted){
         reserveUSD = convertTokenToDecimal(reserveResult.value.value0, BigInt.fromString('18'))
+    }
+    
+    entity.token0Amount = reserve0Diff
+    entity.token1Amount = reserve1Diff
+
+    if (entity.type == "single-sided-deposit") {
+        let LPToDepositResult = curveContract.viewWithdraw(entity.value)
+        entity.token0Amount = convertTokenToDecimal(LPToDepositResult[1], token0.decimals)
+        entity.token1Amount = convertTokenToDecimal(LPToDepositResult[0], token1.decimals)
     }
 
     let dfx = DFXFactory.load(FACTORY_ADDRESS)
@@ -328,11 +351,17 @@ export function handleTransfer(event: TransferEvent): void {
 
     let pairHourData = updatePairHourData(event)
     pairHourData.save()
+
     let pairDayData = updatePairDayData(event)
+    let reserve1DiffUSD = entity.token1Amount.times(pair.swapRateUSD)
     if (entity.type == "withdraw") {
-        pairDayData.reserveChange = pairDayData.reserveChange.minus(amountTransferedUSD)
-    } else if (entity.type == "deposit") {
-        pairDayData.reserveChange = pairDayData.reserveChange.plus(amountTransferedUSD)
+        pairDayData.reserve0Withdraw = pairDayData.reserve0Withdraw.plus(entity.token0Amount)
+        pairDayData.reserve1Withdraw = pairDayData.reserve1Withdraw.plus(entity.token1Amount)
+        pairDayData.reserve1WithdrawUSD = pairDayData.reserve1WithdrawUSD.plus(reserve1DiffUSD)
+    } else if (entity.type == "two-sided-deposit" || entity.type == "single-sided-deposit") {
+        pairDayData.reserve0Deposit = pairDayData.reserve0Deposit.plus(entity.token0Amount)
+        pairDayData.reserve1Deposit = pairDayData.reserve1Deposit.plus(entity.token1Amount)
+        pairDayData.reserve1DepositUSD = pairDayData.reserve1DepositUSD.plus(reserve1DiffUSD)
     }
     pairDayData.save()
     let dfxDayData = updateDFXDayData(event)

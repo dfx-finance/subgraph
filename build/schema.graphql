@@ -85,7 +85,12 @@ type PairDayData @entity {
   reserve0: BigDecimal!
   reserve1: BigDecimal!
   reserveUSD: BigDecimal!
-  reserveChange: BigDecimal!
+  reserve0Deposit: BigDecimal!
+  reserve1Deposit: BigDecimal!
+  reserve1DepositUSD: BigDecimal!
+  reserve0Withdraw: BigDecimal!
+  reserve1Withdraw: BigDecimal!
+  reserve1WithdrawUSD: BigDecimal!
 
   # price stats
   swapRateUSD: BigDecimal!
