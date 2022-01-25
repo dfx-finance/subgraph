@@ -3,7 +3,7 @@
 Any USD base pair created by the [DFX factory](https://etherscan.io/address/0xd3C1bF5582b5f3029b15bE04a49C65d3226dFB0C) is tracked by this subgraph. 
 The subgraph tracks DFX for daily and hourly historical data on TVLs and volumes.
 
-Currently there are *5* USD based stablecoin pairs.
+Currently there are *6* USD based stablecoin pairs on mainnet and *5* on polygon.
 
 ### Mainnet
 
@@ -12,12 +12,14 @@ Currently there are *5* USD based stablecoin pairs.
 * Canada - [USDC/CADC](https://etherscan.io/address/0xa6c0cbcaebd93ad3c6c94412ec06aaa37870216d)
 * New Zealand - [USDC/NZDS](https://etherscan.io/address/0xe9669516e09f5710023566458f329cce6437aaac)
 * Turkey - [USDC/TRYB](https://etherscan.io/address/0xc574a613a3900e4314da13eb2287f13689a5b64d)
-
+* Indonesia - [USDC/XIDR](https://etherscan.io/address/0xdd39379ab7c93b9baae29e6ec03795d0bc99a889)
 ### Polygon
 
 * Singapore - [USDC/XSGD](https://etherscan.io/address/0x288Ab1b113C666Abb097BB2bA51B8f3759D7729e)
 * Europe - [USDC/EURS](https://etherscan.io/address/0xB72d390E07F40D37D42dfCc43E954Ae7c738Ad44)
 * Canada - [USDC/CADC](https://etherscan.io/address/0x8e3e9cB46E593Ec0CaF4a1Dcd6DF3A79a87b1fd7)
+* New Zealand - [USDC/NZDS](https://etherscan.io/address/0x6e01699eF5C36DCe95D627B2E29E8323a086122c)
+* Turkey - [USDC/TRYB](https://etherscan.io/address/0xfCBb946CbC0434a541433E97e835072f54a438F6)
 
 ## Setup
 
@@ -34,51 +36,20 @@ Currently there are *5* USD based stablecoin pairs.
 2. Copy the Deploy Key from `https://thegraph.com/studio/` under 'dfx-test'
 3. In your command line, `graph auth --studio`
 4. Paste your Deploy Key when prompted
-5. Deploy to your instance `yarn deploy`
+5. Deploy to your instance `yarn deploy-test:mainnet`
 6. Set version to 'v0.0.1' and increment as you update the schema and source code.
 7. Go back to `https://thegraph.com/studio/dfx-test` and you can start querying in the `Playground` even before the subgraph has synced to 100%
 8. Run this query to get the latest trades ordered from newest to oldest
 
 ## Deploy Legacy Explorer (Hosted)
-1. `graph auth --product hosted-service <Access Token>`
-2. `graph deploy --product hosted-service chanharryhk/dfx-v1` 
+The legacy explorer is the free public subgraph service provided by the graph. It can be seen as the centralized production environment.
 
-```graphql:
-{
-  trades(
-    orderBy: createdAtTimestamp
-    orderDirection: desc
-    where: {createdAtTimestamp_gte: 1631670701, createdAtTimestamp_lt: 1631685194}
-  ) {
-    id
-    createdAtTimestamp
-    trader
-    origin
-    target
-    originAmount
-    targetAmount
-  }
-}
-```
-Full documentation on how to use GraphQL queries in The Graph playground can be found [here](https://thegraph.com/docs/developer/graphql-api).
+1. `yarn prepare:mainnet` 
+2. `yarn codegen`
+3. `yarn deploy-prod:mainnet`
 
-## Schema Overview
-
-### DFXFactory, DFXDayData
-Contains information across of all DFX pools. Overall and daily data is sepertaed by each type resepectively.
-
-### Trade
-Contains information everytime a swap is made within any of the stablecoin pairs that are created by the DFX factory. This includes which token is being swaped as well as the respective amount.
-
-### Transfer
-Contains information everytime tokens are moved in and out of each of the stablecoin pools. This includes which token is being moved as well as the respective amount.
-
-### Pair, PairDayData, PairHourData
-Contains combined and individual volume and TVL on each of the curve pools. Overall, daily and hourly data is seperated by each type respectively.
-
-### Token
-Contains the address and decimals a token has.
-
+## Documentation 
+Full documentation on how to use GraphQL queries in The Graph playground can be found [here](https://docs.dfx.finance/protocol/api/dfx-subgraphs).
 ## Debugging
 ### Common issues
 One of the most common issues when changing the schema is all specified fields except for the id must be initialized or the subgraph will fail to index. 
@@ -117,6 +88,10 @@ Good Example
 ```
 0x84bf8151394dcf32146965753b28760550f3d7a8
 ```
+Switching from mainnet to polygon and vice versa requires a small change in `subgraph\src\helpers.ts`. 
+
+In `fetchRewardsForDuration()` there is a function that makes calls to the staking contracts `contract.getRewardForDuration()` in mainnet it is just 1 BigDecimal but polygon the number is inside an array so upon switching between the two there needs to be a small change of `contract.getRewardForDuration()[0]`.
+
 ### Logging
 To help with debugging the The Graph has provided a logging object within the `graph-ts` module.
 ```typescript:
