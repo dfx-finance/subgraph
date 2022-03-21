@@ -3,6 +3,8 @@
     "startBlock": "16908046",
     "factory_address": "0xAb23B50fC7835D0F1B892746992f28646305306C",
     "staking_abi": "./abis/Staking-Polygon.json",
+
+    "zap_address": "0x921a33b6f2cf9bc79fdd1f052c36b12efeec2aa7",
     
     "blackhole_address": "0x0000000000000000000000000000000000000000",
     "usdc_address": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
