@@ -1,0 +1,6 @@
+{
+    "network": "mainnet",
+    "startBlock": "12459107",
+    "factory_address": "0xd3C1bF5582b5f3029b15bE04a49C65d3226dFB0C",
+    "staking_abi": "../../packages/abis/Staking.json"
+}

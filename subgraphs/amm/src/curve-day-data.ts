@@ -4,7 +4,7 @@ import { ZERO_BD, ZERO_BI } from './helpers'
 import { 
     PairDayData,
     Pair
-} from "../generated/schema"
+} from "../../../generated/schema"
 
 export function updatePairDayData(event: ethereum.Event): PairDayData {
     let timestamp = event.block.timestamp.toI32()

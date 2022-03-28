@@ -1,10 +1,10 @@
 import { Address, BigDecimal, BigInt, log } from "@graphprotocol/graph-ts";
-import { ERC20 } from '../generated/Factory/ERC20'
-import { Staking } from '../generated/templates/Curve/Staking'
+import { ERC20 } from '../../../generated/Factory/ERC20'
+import { Staking } from '../../../generated/templates/Curve/Staking'
 import { 
     XSGD_POOL, CADC_POOL, EURS_POOL, NZDS_POOL, TRYB_POOL, XIDR_POOL, 
     XSGD_STAKING, CADC_STAKING, EURS_STAKING, NZDS_STAKING, TRYB_STAKING, XIDR_STAKING, ZAP_ADDRESS, ZAP_OPTIMIZED_ADDRESS, ZAP_LEGACY_ADDRESS,
-} from "../packages/constants/index"
+} from "../../../packages/constants/index"
 
 export let ZERO_BI = BigInt.fromI32(0)
 export let ONE_BI = BigInt.fromI32(1)

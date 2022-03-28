@@ -1,43 +1,43 @@
 specVersion: 0.0.2
 schema:
-  file: schema.graphql
+  file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
     name: Factory
-    network: matic
+    network: {{ network }}
     source:
-      address: "0xAb23B50fC7835D0F1B892746992f28646305306C"
+      address: '{{ factory_address }}'
       abi: Factory
-      startBlock: 16908046
+      startBlock: {{ startBlock }}
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.5
       language: wasm/assemblyscript
       entities:
         - NewCurve
         - OwnershipTransferred
       abis:
         - name: Factory
-          file: Factory/abis/Factory.json
+          file: ../../packages/abis/Factory.json
         - name: ERC20
-          file: Factory/abis/ERC20.json
+          file: ../../packages/abis/ERC20.json
       eventHandlers:
         - event: NewCurve(indexed address,indexed bytes32,indexed address)
           handler: handleNewCurve
         - event: OwnershipTransferred(indexed address,indexed address)
           handler: handleOwnershipTransferred
-      file: Factory/Factory.wasm
+      file: ./src/factory.ts
 templates:
   - kind: ethereum/contract
     name: Curve
-    network: matic
+    network: {{ network }}
     source:
       abi: Curve
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.5
       language: wasm/assemblyscript
-      file: templates/Curve/Curve.wasm
+      file: ./src/core.ts
       entities:
         - Approval
         - AssetIncluded
@@ -47,11 +47,11 @@ templates:
         - Transfer
       abis:
         - name: Curve
-          file: Curve/abis/Curve.json
+          file: ../../packages/abis/Curve.json
         - name: ERC20
-          file: Curve/abis/ERC20.json
+          file: ../../packages/abis/ERC20.json
         - name: Staking
-          file: Curve/abis/Staking-Polygon.json
+          file: {{{ staking_abi }}}
       eventHandlers:
         - event: Trade(indexed address,indexed address,indexed address,uint256,uint256)
           handler: handleTrade

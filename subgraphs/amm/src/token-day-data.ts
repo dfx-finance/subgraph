@@ -3,7 +3,7 @@ import { BigInt, ethereum } from '@graphprotocol/graph-ts'
 import { 
     Token,
     TokenDayData 
-} from '../generated/schema'
+} from '../../../generated/schema'
 
 import {
     ZERO_BD

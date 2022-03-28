@@ -1,28 +1,19 @@
 {
   "name": "dfx-subgraph",
   "private": true,
-  "license": "UNLICENSED",
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "subgraphs/*"
   ],
   "scripts": {
-    "codegen": "graph codegen",
-    "build": "graph build",
-    "auth-test": "graph auth --studio",
-    "auth-prod": "graph auth --product hosted-servic", 
-    "deploy-test:mainnet": "graph deploy --node https://api.studio.thegraph.com/deploy/ dfx-test",
-    "deploy-test:polygon": "graph deploy --node https://api.studio.thegraph.com/deploy/ dfx-polygon-test",
-    "deploy-prod:mainnet": "graph deploy --product hosted-service dfx-finance/dfx-v1",
-    "deploy-prod:polygon": "graph deploy --product hosted-service dfx-finance/dfx-v1-polygon",
-    "create-local": "graph create --node http://localhost:8020/ dfx-test",
-    "remove-local": "graph remove --node http://localhost:8020/ dfx-test",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 dfx-test",
-    "prepare:mainnet": "yarn workspaces run prepare:mainnet && mustache config/mainnet.json template.yaml > subgraph.yaml",
-    "prepare:polygon": "yarn workspaces run prepare:polygon && mustache config/polygon.json template.yaml > subgraph.yaml"
+    "build": "yarn workspaces run build",
+    "codegen": "yarn workspaces run codegen",
+    "prepare:mainnet": "yarn workspaces run prepare:mainnet",
+    "prepare:polygon": "yarn workspaces run prepare:polygon"
   },
   "dependencies": {
-    "@graphprotocol/graph-cli": "0.21.1",
-    "@graphprotocol/graph-ts": "0.20.0",
+    "@graphprotocol/graph-cli": "0.29.0",
+    "@graphprotocol/graph-ts": "0.26.0",
     "@types/mustache": "^4.1.2",
     "mustache": "^4.2.0"
   }

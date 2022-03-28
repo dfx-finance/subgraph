@@ -19,12 +19,12 @@ import {
     USDC,
     FACTORY_ADDRESS,
     BLACKHOLE_ADDRESS 
-} from "../packages/constants/index"
+} from "../../../packages/constants/index"
 
 import { 
     Transfer as TransferEvent,
     Trade as TradeEvent,
-} from "../generated/templates/Curve/Curve"
+} from "../../../generated/templates/Curve/Curve"
 
 import {
     Trade,
@@ -34,10 +34,10 @@ import {
     PoolParticipant,
     DFXDayData,
     DFXFactory,
-} from "../generated/schema"
+} from "../../../generated/schema"
 
-import { ERC20 } from '../generated/templates/Curve/ERC20'
-import { Curve } from '../generated/templates/Curve/Curve'
+import { ERC20 } from '../../../generated/templates/Curve/ERC20'
+import { Curve } from '../../../generated/templates/Curve/Curve'
 
 import { updatePairHourData } from "./curve-hour-data";
 import { updatePairDayData } from "./curve-day-data";

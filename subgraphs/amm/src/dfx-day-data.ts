@@ -6,12 +6,12 @@ import {
 
 import {
     FACTORY_ADDRESS,
-} from "../packages/constants/index"
+} from "../../../packages/constants/index"
 
 import { 
     DFXDayData,
     DFXFactory
-} from "../generated/schema"
+} from "../../../generated/schema"
 
 export function updateDFXDayData(event: ethereum.Event): DFXDayData {
     let dfx = DFXFactory.load(FACTORY_ADDRESS)

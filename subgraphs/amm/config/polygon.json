@@ -1,0 +1,6 @@
+{
+    "network": "matic",
+    "startBlock": "16908046",
+    "factory_address": "0xAb23B50fC7835D0F1B892746992f28646305306C",
+    "staking_abi": "../../abis/Staking-Polygon.json"
+}

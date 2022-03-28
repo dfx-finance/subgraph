@@ -5,7 +5,7 @@ import {
     PairHourData,
     Pair,
     Token
-} from "../generated/schema"
+} from "../../../generated/schema"
 
 export function updatePairHourData(event: ethereum.Event): PairHourData {
     let timestamp = event.block.timestamp.toI32()
