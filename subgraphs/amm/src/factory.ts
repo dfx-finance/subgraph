@@ -10,7 +10,7 @@ import {
 
 import {
     FACTORY_ADDRESS
-} from "../packages/constants/index"
+} from "../../../packages/constants/index"
 
 import {
     DFXFactory

@@ -11,7 +11,7 @@ import {
 import { 
     DFXDayData,
     DFXFactory
-} from "../../../generated/schema"
+} from "../generated/schema"
 
 export function updateDFXDayData(event: ethereum.Event): DFXDayData {
     let dfx = DFXFactory.load(FACTORY_ADDRESS)

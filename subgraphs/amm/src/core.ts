@@ -1,4 +1,4 @@
-import { Address, log, BigInt, BigDecimal } from "@graphprotocol/graph-ts";
+import { Address, log, BigInt } from "@graphprotocol/graph-ts";
 import { 
     ZERO_BI, 
     ZERO_BD, 
@@ -24,7 +24,7 @@ import {
 import { 
     Transfer as TransferEvent,
     Trade as TradeEvent,
-} from "../../../generated/templates/Curve/Curve"
+} from "../generated/templates/Curve/Curve"
 
 import {
     Trade,
@@ -34,10 +34,10 @@ import {
     PoolParticipant,
     DFXDayData,
     DFXFactory,
-} from "../../../generated/schema"
+} from "../generated/schema"
 
-import { ERC20 } from '../../../generated/templates/Curve/ERC20'
-import { Curve } from '../../../generated/templates/Curve/Curve'
+import { ERC20 } from '../generated/templates/Curve/ERC20'
+import { Curve } from '../generated/templates/Curve/Curve'
 
 import { updatePairHourData } from "./curve-hour-data";
 import { updatePairDayData } from "./curve-day-data";
