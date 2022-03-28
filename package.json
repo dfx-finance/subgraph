@@ -12,8 +12,8 @@
     "prepare:polygon": "yarn workspaces run prepare:polygon"
   },
   "dependencies": {
-    "@graphprotocol/graph-cli": "0.29.0",
-    "@graphprotocol/graph-ts": "0.26.0",
+    "@graphprotocol/graph-cli": "0.21.0",
+    "@graphprotocol/graph-ts": "0.20.0",
     "@types/mustache": "^4.1.2",
     "mustache": "^4.2.0"
   }
