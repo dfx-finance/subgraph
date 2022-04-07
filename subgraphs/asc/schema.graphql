@@ -1,0 +1,18 @@
+type Transfer @entity {
+  id: ID!
+  timestamp: BigInt!
+  from: Bytes! # address
+  to: Bytes! # address
+  token0Amount: BigDecimal!
+  token1Amount: BigDecimal!
+  value: BigInt! # uint256
+  type: String!
+}
+
+type ASC @entity {
+  id: ID!
+  totalDFX: BigDecimal!
+  totalCADC: BigDecimal!
+  totalMint: BigDecimal!
+  totalBurn: BigDecimal!
+}
