@@ -11,8 +11,30 @@ type Transfer @entity {
 
 type ASC @entity {
   id: ID!
-  totalDFX: BigDecimal!
-  totalCADC: BigDecimal!
-  totalMint: BigDecimal!
-  totalBurn: BigDecimal!
+  reserveDfx: BigDecimal!
+  reserveCadc: BigDecimal!
+  totalMintVolume: BigDecimal!
+  totalBurnVolume: BigDecimal!
+}
+
+type ASCHourData @entity {
+  id: ID!
+  hourStartUnix: Int! # unix timestamp for start of hour
+
+  reserveDfx: BigDecimal!
+  reserveCadc: BigDecimal!
+
+  mintVolume: BigDecimal!
+  burnVolume: BigDecimal!
+}
+
+type ASCDayData @entity {
+  id: ID!
+  date: Int!
+
+  reserveDfx: BigDecimal!
+  reserveCadc: BigDecimal!
+
+  mintVolume: BigDecimal!
+  burnVolume: BigDecimal!
 }

@@ -31,6 +31,8 @@ import {
 } from "../../../packages/constants/index"
 
 import { ERC20 } from '../generated/ASC/ERC20'
+import { updateASCDayData } from "./asc-day-data";
+import { updateASCHourData } from "./asc-hour-data";
 
 export function handleTransfer(event: TransferEvent): void {
   let asc = ASC.load(DFX_CADC_PROXY)
@@ -38,8 +40,8 @@ export function handleTransfer(event: TransferEvent): void {
     asc = new ASC(DFX_CADC_PROXY)
     asc.reserveDfx = ZERO_BD
     asc.reserveCadc = ZERO_BD
-    asc.totalMint = ZERO_BD
-    asc.totalBurn = ZERO_BD
+    asc.totalMintVolume = ZERO_BD
+    asc.totalBurnVolume = ZERO_BD
   }
   asc.save()
 
@@ -58,26 +60,32 @@ export function handleTransfer(event: TransferEvent): void {
 
   let cadcContract = ERC20.bind(Address.fromString(CADC))
   let reserveCadcResult = cadcContract.try_balanceOf(event.address)
+  let reserveCadcDiff = ZERO_BD
   if (!reserveCadcResult.reverted){
     let reserveCadc = convertTokenToDecimal(reserveCadcResult.value, BigInt.fromI32(18))
+    reserveCadcDiff = reserveCadc.minus(asc.reserveCadc)
+    entity.token0Amount = reserveCadcDiff
     asc.reserveCadc = reserveCadc
   }
 
   let dfxContract = ERC20.bind(Address.fromString(DFX))
   let reserveDfxResult = dfxContract.try_balanceOf(event.address)
+  let reserveDfxDiff = ZERO_BD
   if (!reserveDfxResult.reverted){
     let reserveDfx = convertTokenToDecimal(reserveDfxResult.value, BigInt.fromI32(18))
+    reserveDfxDiff = reserveDfx.minus(asc.reserveDfx)
+    entity.token1Amount = reserveDfxDiff
     asc.reserveDfx = reserveDfx
   }
 
-  if (event.params.to.toHexString() == BLACKHOLE_ADDRESS) {
-    entity.type = "burn"
-    asc.totalBurn = asc.totalBurn.plus(amount)
+  if (event.params.to.toHexString() == DFX_MULTISIG_ADDRESS) {
+    entity.type = "mint-burn-fee"
+    asc.totalBurnVolume = asc.totalBurnVolume.plus(amount)
   } else if (event.params.from.toHexString() == BLACKHOLE_ADDRESS) {
     entity.type = "mint"
-    asc.totalMint = asc.totalMint.plus(amount)
-  } else if (event.params.to.toHexString() == DFX_MULTISIG_ADDRESS) {
-    entity.type = "mint-burn-fee"
+    asc.totalMintVolume = asc.totalMintVolume.plus(amount)
+  } else if (event.params.to.toHexString() == BLACKHOLE_ADDRESS) {
+    entity.type = "burn"
   } else if (isStakingContract(event.params.to.toHexString())){
     entity.type = "stake"
   } else if (isStakingContract(event.params.from.toHexString())){
@@ -85,6 +93,19 @@ export function handleTransfer(event: TransferEvent): void {
   } else {
     entity.type = "transfer"
   }
+
+  let ascDayData = updateASCDayData(event)
+  let ascHourData = updateASCHourData(event)
+  if (entity.type === "mint") {
+    ascDayData.mintVolume = ascDayData.mintVolume.plus(amount)
+    ascHourData.mintVolume = ascHourData.mintVolume.plus(amount)
+  } else if (entity.type === "burn") {
+    ascDayData.burnVolume = ascDayData.burnVolume.plus(amount)
+    ascHourData.burnVolume = ascHourData.burnVolume.plus(amount)
+  }
+  ascDayData.save()
+  ascHourData.save()
+  
   
   asc.save()
   entity.save()
