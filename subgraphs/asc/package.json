@@ -1,0 +1,22 @@
+{
+  "name": "asc",
+  "license": "UNLICENSED",
+  "version": "1.0.0",
+  "author": "DFX",
+  "scripts": {
+    "build": "graph build",
+    "codegen": "graph codegen subgraph.yaml",
+
+    "auth-test": "graph auth --studio",
+    "auth-prod": "graph auth --product hosted-service", 
+    
+    "deploy-test:mainnet": "graph deploy --node https://api.studio.thegraph.com/deploy/ asc-test",
+    "deploy-prod:mainnet": "graph deploy --product hosted-service dfx-finance/asc-v1",
+
+    "create-local": "graph create --node http://localhost:8020/ asc-test",
+    "remove-local": "graph remove --node http://localhost:8020/ acs-test",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 asc-test",
+
+    "prepare:mainnet": "mustache config/mainnet.json template.yaml > subgraph.yaml"
+  }
+}

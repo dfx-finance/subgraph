@@ -2,6 +2,7 @@
     "network": "mainnet",
     "startBlock": "12459107",
     "factory_address": "0xd3C1bF5582b5f3029b15bE04a49C65d3226dFB0C",
+    "dfx_multisig_address": "0x26f539A0fE189A7f228D7982BF10Bc294FA9070c",
     "staking_abi": "./abis/Staking.json",
 
     "zap_address": "0x64d65e3d70ba0f8812a9d1d7b8b5c51dab78cd15",
@@ -9,6 +10,7 @@
     "zap_legacy_address": "0x0e1532173120b81226eaf012c553267c0f5346ff",
     
     "blackhole_address": "0x0000000000000000000000000000000000000000",
+    "dfx_address": "0x888888435FDe8e7d4c54cAb67f206e4199454c60",
     "usdc_address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
     "xsgd_address": "0x70e8de73ce538da2beed35d14187f6959a8eca96",
     "cadc_address": "0xcadc0acd4b445166f12d2c07eac6e2544fbe2eef",
@@ -29,5 +31,8 @@
     "eurs_staking_address": "0x5eaaeff69f2ab64d1cc0244fb31b236ca989544f",
     "nzds_staking_address": "0xe06fa52e0d2d58fe192285bfa0507f09cdd9824a",
     "tryb_staking_address": "0xddb720069fdfe7be2e2883a1c06be0f353f7c4c8",
-    "xidr_staking_address": "0xe29b7285c1169a9765e2a9bfe74209077bee55d6"
+    "xidr_staking_address": "0xe29b7285c1169a9765e2a9bfe74209077bee55d6",
+
+    "crv_cadc_dfxcad_staking_address": "0x9ca41a2dab3cee15308998868ca644e2e3be5c59",
+    "dfx_cadc_proxy": "0xfe32747d0251ba92bcb80b6d16c8257ecf25ab1c"
 }
