@@ -8,7 +8,7 @@
       "codegen": "graph codegen subgraph.yaml",
       
       "auth-test": "graph auth --studio",
-      "auth-prod": "graph auth --product hosted-servic", 
+      "auth-prod": "graph auth --product hosted-service", 
       
       "deploy-test:mainnet": "graph deploy --node https://api.studio.thegraph.com/deploy/ dfx-test",
       "deploy-test:polygon": "graph deploy --node https://api.studio.thegraph.com/deploy/ dfx-polygon-test",
