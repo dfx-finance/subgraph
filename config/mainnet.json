@@ -19,6 +19,7 @@
     "tryb_address": "0x2c537e5624e4af88a7ae4060c022609376c8d0eb",
     "xidr_address": "0xebf2096e01455108badcbaf86ce30b6e5a72aa52",
     "euroc_address": "0x1abaea1f7c830bd89acc67ec4af516284b1bc33c",
+    "gyen_address": "0xc08512927d12348f6620a698105e1baac6ecd911",
 
     "xsgd_pool_address": "0x2bab29a12a9527a179da88f422cdaaa223a90bd5",
     "cadc_pool_address": "0xa6c0cbcaebd93ad3c6c94412ec06aaa37870216d",
@@ -27,6 +28,7 @@
     "tryb_pool_address": "0xc574a613a3900e4314da13eb2287f13689a5b64d",
     "xidr_pool_address": "0xdd39379ab7c93b9baae29e6ec03795d0bc99a889",
     "euroc_pool_address": "0x66310ec13f36caf5532c32b4359760592db835ab",
+    "gyen_pool_address": "0x57bc10876febdc57f0abb8c82ffae600eecc03a2",
 
     "xsgd_staking_address": "0xd52d48db08e8224ef6e2be8f54f3c84e790b1c32",
     "cadc_staking_address": "0x84bf8151394dcf32146965753b28760550f3d7a8",
@@ -35,6 +37,7 @@
     "tryb_staking_address": "0xddb720069fdfe7be2e2883a1c06be0f353f7c4c8",
     "xidr_staking_address": "0xe29b7285c1169a9765e2a9bfe74209077bee55d6",
     "euroc_staking_address": "0x47b16412c0c9e22362c07ccef8879172ddc06f6d",
+    "gyen_staking_address": "0x8e41303aaeb500108bf229f6666f9eb6071e18cb",
 
     "crv_cadc_dfxcad_staking_address": "0x9ca41a2dab3cee15308998868ca644e2e3be5c59",
     "dfx_cadc_proxy": "0xfe32747d0251ba92bcb80b6d16c8257ecf25ab1c"

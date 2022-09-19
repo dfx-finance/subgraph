@@ -15,6 +15,7 @@ export const NZDS = '{{ nzds_address }}{{^nzds_address}}0x0000000000000000000000
 export const TRYB = '{{ tryb_address }}{{^tryb_address}}0x0000000000000000000000000000000000000000{{/tryb_address}}'
 export const XIDR = '{{ xidr_address }}{{^xidr_address}}0x0000000000000000000000000000000000000000{{/xidr_address}}'
 export const EUROC = '{{ euroc_address }}{{^euroc_address}}0x0000000000000000000000000000000000000000{{/euroc_address}}'
+export const GYEN = '{{ gyen_address }}{{^gyen_address}}0x0000000000000000000000000000000000000000{{/gyen_address}}'
 
 export const XSGD_POOL = '{{ xsgd_pool_address }}{{^xsgd_pool_address}}0x0000000000000000000000000000000000000000{{/xsgd_pool_address}}'
 export const CADC_POOL = '{{ cadc_pool_address }}{{^cadc_pool_address}}0x0000000000000000000000000000000000000000{{/cadc_pool_address}}'
@@ -23,6 +24,7 @@ export const NZDS_POOL = '{{ nzds_pool_address }}{{^nzds_pool_address}}0x0000000
 export const TRYB_POOL = '{{ tryb_pool_address }}{{^tryb_pool_address}}0x0000000000000000000000000000000000000000{{/tryb_pool_address}}'
 export const XIDR_POOL = '{{ xidr_pool_address }}{{^xidr_pool_address}}0x0000000000000000000000000000000000000000{{/xidr_pool_address}}'
 export const EUROC_POOL = '{{ euroc_pool_address }}{{^euroc_pool_address}}0x0000000000000000000000000000000000000000{{/euroc_pool_address}}'
+export const GYEN_POOL = '{{ gyen_pool_address }}{{^gyen_pool_address}}0x0000000000000000000000000000000000000000{{/gyen_pool_address}}'
 
 export const XSGD_STAKING = '{{ xsgd_staking_address }}{{^xsgd_staking_address}}0x0000000000000000000000000000000000000000{{/xsgd_staking_address}}'
 export const CADC_STAKING = '{{ cadc_staking_address }}{{^cadc_staking_address}}0x0000000000000000000000000000000000000000{{/cadc_staking_address}}'
@@ -31,6 +33,7 @@ export const NZDS_STAKING = '{{ nzds_staking_address }}{{^nzds_staking_address}}
 export const TRYB_STAKING = '{{ tryb_staking_address }}{{^tryb_staking_address}}0x0000000000000000000000000000000000000000{{/tryb_staking_address}}'
 export const XIDR_STAKING = '{{ xidr_staking_address }}{{^xidr_staking_address}}0x0000000000000000000000000000000000000000{{/xidr_staking_address}}'
 export const EUROC_STAKING = '{{ euroc_staking_address }}{{^euroc_staking_address}}0x0000000000000000000000000000000000000000{{/euroc_staking_address}}'
+export const GYEN_STAKING = '{{ gyen_staking_address }}{{^gyen_staking_address}}0x0000000000000000000000000000000000000000{{/gyen_staking_address}}'
 
 export const CRV_CADC_DFXCAD_STAKING = '{{ crv_cadc_dfxcad_staking_address }}{{^crv_cadc_dfxcad_staking_address}}0x0000000000000000000000000000000000000000{{/crv_cadc_dfxcad_staking_address}}'
 export const DFX_CADC_PROXY = '{{ dfx_cadc_proxy }}{{^dfx_cadc_proxy}}0x0000000000000000000000000000000000000000{{/dfx_cadc_proxy}}'
