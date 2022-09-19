@@ -2,8 +2,8 @@ import { Address, BigDecimal, BigInt, log } from "@graphprotocol/graph-ts";
 import { ERC20 } from '../generated/Factory/ERC20'
 import { Staking } from '../generated/templates/Curve/Staking'
 import { 
-    XSGD_POOL, CADC_POOL, EURS_POOL, NZDS_POOL, TRYB_POOL, XIDR_POOL, EUROC_POOL,
-    XSGD_STAKING, CADC_STAKING, EURS_STAKING, NZDS_STAKING, TRYB_STAKING, XIDR_STAKING, EUROC_STAKING,
+    XSGD_POOL, CADC_POOL, EURS_POOL, NZDS_POOL, TRYB_POOL, XIDR_POOL, EUROC_POOL, GYEN_POOL,
+    XSGD_STAKING, CADC_STAKING, EURS_STAKING, NZDS_STAKING, TRYB_STAKING, XIDR_STAKING, EUROC_STAKING, GYEN_STAKING,
     ZAP_ADDRESS, ZAP_OPTIMIZED_ADDRESS, ZAP_LEGACY_ADDRESS,
 } from "../../../packages/constants/index"
 
@@ -75,6 +75,8 @@ export function isStakingContract(tokenAddress: string): boolean {
         return true
     } else if (tokenAddress == EUROC_STAKING){
         return true
+    } else if (tokenAddress == GYEN_STAKING){
+        return true
     } else {
         return false
     }
@@ -108,6 +110,8 @@ export function fetchStakingContract(tokenAddress: string): string {
         return XIDR_STAKING
     } else if (tokenAddress == EUROC_POOL) {
         return EUROC_STAKING
+    } else if (tokenAddress == GYEN_POOL) {
+        return GYEN_STAKING
     } else {
         return ""
     }
