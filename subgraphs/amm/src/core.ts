@@ -52,13 +52,13 @@ export function handleTrade(event: TradeEvent): void {
     entity.trader = event.transaction.from
     entity.origin = event.params.origin
     entity.target = event.params.target
-    entity.pair = null
+    entity.pair = ''
     entity.originAmount = event.params.originAmount
     entity.targetAmount = event.params.targetAmount
     
-    let token0 = Token.load(event.params.origin.toHexString())
-    let token1 = Token.load(event.params.target.toHexString())
     
+    
+    let token0 = Token.load(event.params.origin.toHexString())
     // fetch info if null
     if (token0 === null) {
         token0 = new Token(event.params.origin.toHexString())
@@ -75,7 +75,7 @@ export function handleTrade(event: TradeEvent): void {
         token0.symbol = symbol
         token0.name = name
     }
-
+    let token1 = Token.load(event.params.target.toHexString())
     // fetch info if null
     if (token1 === null) {
         token1 = new Token(event.params.target.toHexString())
@@ -176,7 +176,7 @@ export function handleTrade(event: TradeEvent): void {
     let dfxDayData = updateDFXDayData(event)
     let token0DayData = updateTokenDayData(token0 as Token, event)
     let token1DayData = updateTokenDayData(token1 as Token, event)
-    let dfx = DFXFactory.load(FACTORY_ADDRESS)
+    let dfx = DFXFactory.load(FACTORY_ADDRESS)!
 
     dfx.totalVolumeUSD = dfx.totalVolumeUSD.plus(amount0)
     dfx.save()
@@ -232,8 +232,13 @@ export function handleTransfer(event: TransferEvent): void {
     let entity = new Transfer(
         event.transaction.hash.toHex() + "-" + event.logIndex.toString()
     )
+    // Ensuring pair already exists
+    let pair = Pair.load(event.address.toHexString())
+    if (pair === null) {
+        return
+    }
     entity.timestamp = event.block.timestamp;
-    entity.pair = null
+    entity.pair = pair.id
     entity.from = event.params.from
     entity.to = event.params.to
     entity.token0Amount = ZERO_BD
@@ -260,17 +265,11 @@ export function handleTransfer(event: TransferEvent): void {
         entity.type = "LP-transfer"
     }
 
-    // Ensuring pair already exists
-    let pair = Pair.load(event.address.toHexString())
-    if (pair === null) {
-        return
-    }
-    entity.pair = pair.id
     let prevReserve0 = pair.reserve0
     let prevReserve1 = pair.reserve1
 
-    let token0 = Token.load(pair.token0)
-    let token1 = Token.load(pair.token1)
+    let token0 = Token.load(pair.token0)!
+    let token1 = Token.load(pair.token1)!
     
     let tokenContract0 = ERC20.bind(Address.fromString(token0.id))
     let reserve0Result = tokenContract0.try_balanceOf(event.address)
@@ -341,7 +340,7 @@ export function handleTransfer(event: TransferEvent): void {
         entity.token1Amount = convertTokenToDecimal(LPToDepositResult[0], token1.decimals)
     }
 
-    let dfx = DFXFactory.load(FACTORY_ADDRESS)
+    let dfx = DFXFactory.load(FACTORY_ADDRESS)!
     let prevReserveUSD = pair.reserveUSD
     pair.reserveUSD = reserveUSD
     let reserveUSDDiff = pair.reserveUSD.minus(prevReserveUSD)

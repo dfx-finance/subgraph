@@ -14,7 +14,7 @@ import {
 } from "../generated/schema"
 
 export function updateDFXDayData(event: ethereum.Event): DFXDayData {
-    let dfx = DFXFactory.load(FACTORY_ADDRESS)
+    let dfx = DFXFactory.load(FACTORY_ADDRESS)!
     let timestamp = event.block.timestamp.toI32()
     let dayID = timestamp / 86400
     let dayStartTimestamp = dayID * 86400
