@@ -1,0 +1,36 @@
+specVersion: 0.0.4
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: CurveFactoryV2
+    network: mainnet
+    source:
+      address: "0xDE5bb69892D663f1facBE351363509BcB65573AA"
+      abi: CurveFactoryV2
+      startBlock: 15747375
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - NewCurve
+        - OwnershipTransferred
+        - ProtocolFeeUpdated
+        - TreasuryUpdated
+      abis:
+        - name: CurveFactoryV2
+          file: ../../packages/abis/CurveFactoryV2.json
+        - name: ERC20
+          file: ../../packages/abis/ERC20.json
+      eventHandlers:
+        - event: NewCurve(indexed address,indexed bytes32,indexed address)
+          handler: handleNewCurve
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: ProtocolFeeUpdated(indexed address,indexed int128)
+          handler: handleProtocolFeeUpdated
+        - event: TreasuryUpdated(indexed address)
+          handler: handleTreasuryUpdated
+      file: ./src/factory.ts
+

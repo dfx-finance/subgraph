@@ -1,0 +1,6 @@
+type DFXFactoryV2 @entity {
+  id: ID!
+  pairCount: Int!
+  # totalVolumeUSD: BigDecimal!
+  # totalLiquidityUSD: BigDecimal!
+}

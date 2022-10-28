@@ -12,7 +12,7 @@ import {
     DFXDayData,
     DFXFactory
 } from "../generated/schema"
-// sub
+
 export function updateDFXDayData(event: ethereum.Event): DFXDayData {
     let dfx = DFXFactory.load(FACTORY_ADDRESS)!
     let timestamp = event.block.timestamp.toI32()
