@@ -1,0 +1,64 @@
+specVersion: 0.0.4
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: CurveFactoryV2
+    network: {{ network }}
+    source:
+      address: '{{ factory_address }}'
+      abi: CurveFactoryV2
+      startBlock: {{ startBlock }}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - NewCurve
+        - OwnershipTransferred
+        - ProtocolFeeUpdated
+        - TreasuryUpdated
+      abis:
+        - name: CurveFactoryV2
+          file: ../../packages/abis/CurveFactoryV2.json
+        - name: ERC20
+          file: ../../packages/abis/ERC20.json
+      eventHandlers:
+        - event: NewCurve(indexed address,indexed bytes32,indexed address)
+          handler: handleNewCurve
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: ProtocolFeeUpdated(indexed address,indexed int128)
+          handler: handleProtocolFeeUpdated
+        - event: TreasuryUpdated(indexed address)
+          handler: handleTreasuryUpdated
+      file: ./src/factory.ts
+templates:
+  - kind: ethereum/contract
+    name: Curve
+    network: {{ network }}
+    source:
+      abi: Curve
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/core.ts
+      entities:
+        - Approval
+        - AssetIncluded
+        - AssimilatorIncluded
+        - PartitionRedeemed
+        - Trade
+        - Transfer
+      abis:
+        - name: Curve
+          file: ../../packages/abis/Curve.json
+        - name: ERC20
+          file: ../../packages/abis/ERC20.json
+      eventHandlers:
+        - event: Trade(indexed address,indexed address,indexed address,uint256,uint256)
+          handler: handleTrade
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+
