@@ -17,7 +17,7 @@ import {
 
 import { 
     USDC,
-    FACTORY_ADDRESS,
+    FACTORY_ADDRESS_V1,
     BLACKHOLE_ADDRESS 
 } from "../../../packages/constants/index"
 
@@ -176,7 +176,7 @@ export function handleTrade(event: TradeEvent): void {
     let dfxDayData = updateDFXDayData(event)
     let token0DayData = updateTokenDayData(token0 as Token, event)
     let token1DayData = updateTokenDayData(token1 as Token, event)
-    let dfx = DFXFactory.load(FACTORY_ADDRESS)!
+    let dfx = DFXFactory.load(FACTORY_ADDRESS_V1)!
 
     dfx.totalVolumeUSD = dfx.totalVolumeUSD.plus(amount0)
     dfx.save()
@@ -340,7 +340,7 @@ export function handleTransfer(event: TransferEvent): void {
         entity.token1Amount = convertTokenToDecimal(LPToDepositResult[0], token1.decimals)
     }
 
-    let dfx = DFXFactory.load(FACTORY_ADDRESS)!
+    let dfx = DFXFactory.load(FACTORY_ADDRESS_V1)!
     let prevReserveUSD = pair.reserveUSD
     pair.reserveUSD = reserveUSD
     let reserveUSDDiff = pair.reserveUSD.minus(prevReserveUSD)

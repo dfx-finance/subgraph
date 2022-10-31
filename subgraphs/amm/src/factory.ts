@@ -9,7 +9,7 @@ import {
 } from "../src/helpers"
 
 import {
-    FACTORY_ADDRESS
+    FACTORY_ADDRESS_V1
 } from "../../../packages/constants/index"
 
 import {
@@ -19,9 +19,9 @@ import {
 import { Curve as CurveTemplate} from "../generated/templates"
 
 export function handleNewCurve(event: NewCurve): void {
-    let factory = DFXFactory.load(FACTORY_ADDRESS)
+    let factory = DFXFactory.load(FACTORY_ADDRESS_V1)
     if (factory === null) {
-      factory = new DFXFactory(FACTORY_ADDRESS)
+      factory = new DFXFactory(FACTORY_ADDRESS_V1)
       factory.pairCount = 0
       factory.totalVolumeUSD = ZERO_BD
       factory.totalLiquidityUSD = ZERO_BD
