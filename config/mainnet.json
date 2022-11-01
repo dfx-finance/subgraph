@@ -1,15 +1,9 @@
 {
     "network": "mainnet",
-    "startBlock": "12459107",
-    "factory_address": "0xd3C1bF5582b5f3029b15bE04a49C65d3226dFB0C",
-    "dfx_multisig_address": "0x26f539A0fE189A7f228D7982BF10Bc294FA9070c",
-    "staking_abi": "./abis/Staking.json",
 
-    "zap_address": "0x64d65e3d70ba0f8812a9d1d7b8b5c51dab78cd15",
-    "zap_optimized_address": "0x607690f749fadb8fb87fc01f6dbdee277eea5fdf",
-    "zap_legacy_address": "0x0e1532173120b81226eaf012c553267c0f5346ff",
-    
     "blackhole_address": "0x0000000000000000000000000000000000000000",
+    "dfx_multisig_address": "0x26f539A0fE189A7f228D7982BF10Bc294FA9070c",
+
     "dfx_address": "0x888888435FDe8e7d4c54cAb67f206e4199454c60",
     "usdc_address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
     "xsgd_address": "0x70e8de73ce538da2beed35d14187f6959a8eca96",
@@ -21,14 +15,23 @@
     "euroc_address": "0x1abaea1f7c830bd89acc67ec4af516284b1bc33c",
     "gyen_address": "0xc08512927d12348f6620a698105e1baac6ecd911",
 
-    "xsgd_pool_address": "0x2bab29a12a9527a179da88f422cdaaa223a90bd5",
-    "cadc_pool_address": "0xa6c0cbcaebd93ad3c6c94412ec06aaa37870216d",
-    "eurs_pool_address": "0x1a4ffe0dcbdb4d551cfca61a5626afd190731347",
-    "nzds_pool_address": "0xe9669516e09f5710023566458f329cce6437aaac",
-    "tryb_pool_address": "0xc574a613a3900e4314da13eb2287f13689a5b64d",
-    "xidr_pool_address": "0xdd39379ab7c93b9baae29e6ec03795d0bc99a889",
-    "euroc_pool_address": "0x66310ec13f36caf5532c32b4359760592db835ab",
-    "gyen_pool_address": "0x57bc10876febdc57f0abb8c82ffae600eecc03a2",
+    "factory_address_v2": "0xDE5bb69892D663f1facBE351363509BcB65573AA",
+    "assim_factory_address_v2": "0x46Fa2e883cc7DdFfEd39C55300Ee4e6d31a8268c",
+    "zap_address_v2": "0xEff6A7d39eeAa696d7421fa47B498B31F3bd0e39",
+
+    "factory_address_v1": "0xd3C1bF5582b5f3029b15bE04a49C65d3226dFB0C",
+    "zap_address_v1": "0x64d65e3d70ba0f8812a9d1d7b8b5c51dab78cd15",
+    "zap_optimized_address_v1": "0x607690f749fadb8fb87fc01f6dbdee277eea5fdf",
+    "zap_legacy_address_v1": "0x0e1532173120b81226eaf012c553267c0f5346ff",
+
+    "xsgd_pool_address_v1": "0x2bab29a12a9527a179da88f422cdaaa223a90bd5",
+    "cadc_pool_address_v1": "0xa6c0cbcaebd93ad3c6c94412ec06aaa37870216d",
+    "eurs_pool_address_v1": "0x1a4ffe0dcbdb4d551cfca61a5626afd190731347",
+    "nzds_pool_address_v1": "0xe9669516e09f5710023566458f329cce6437aaac",
+    "tryb_pool_address_v1": "0xc574a613a3900e4314da13eb2287f13689a5b64d",
+    "xidr_pool_address_v1": "0xdd39379ab7c93b9baae29e6ec03795d0bc99a889",
+    "euroc_pool_address_v1": "0x66310ec13f36caf5532c32b4359760592db835ab",
+    "gyen_pool_address_v1": "0x57bc10876febdc57f0abb8c82ffae600eecc03a2",
 
     "xsgd_staking_address": "0xd52d48db08e8224ef6e2be8f54f3c84e790b1c32",
     "cadc_staking_address": "0x84bf8151394dcf32146965753b28760550f3d7a8",

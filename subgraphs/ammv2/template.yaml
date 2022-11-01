@@ -21,8 +21,14 @@ dataSources:
       abis:
         - name: CurveFactoryV2
           file: ../../packages/abis/CurveFactoryV2.json
+        - name: AssimilatorFactory
+          file: ../../packages/abis/AssimilatorFactory.json
+        - name: AssimilatorV2
+          file: ../../packages/abis/AssimilatorV2.json
         - name: ERC20
           file: ../../packages/abis/ERC20.json
+        - name: Curve
+          file: ../../packages/abis/Curve.json
       eventHandlers:
         - event: NewCurve(indexed address,indexed bytes32,indexed address)
           handler: handleNewCurve

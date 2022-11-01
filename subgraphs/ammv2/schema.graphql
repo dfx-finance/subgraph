@@ -1,3 +1,16 @@
+type NewCurve @entity {
+  id: ID!
+  from: Bytes! # address creating the new curve
+  curveID: Bytes! # curve identifier 32 bytes 
+}
+
+type NewAssimilator @entity {
+  id: ID!
+  assimilator: Bytes!
+  oracle: Bytes!
+  token: Bytes!
+}
+
 type Trade @entity {
   id: ID!
   timestamp: BigInt!
@@ -85,33 +98,33 @@ type Pair @entity {
   token0: Token!
   token1: Token!
 
-  # reserves
+  # # reserves
   reserve0: BigDecimal!
   reserve1: BigDecimal!
 
-  # derived liquidity
-  reserveUSD: BigDecimal!
+  # # derived liquidity
+  # reserveUSD: BigDecimal!
 
-  # price stats
-  swapRateUSD: BigDecimal!
+  # # price stats
+  # swapRateUSD: BigDecimal!
 
-  # staking
-  rewardsForDuration: BigDecimal!
-  rewardDuration: BigInt!
-  totalStaked: BigDecimal!
+  # # staking
+  # rewardsForDuration: BigDecimal!
+  # rewardDuration: BigInt!
+  # totalStaked: BigDecimal!
 
-  # lifetime volume stats
-  volumeToken0: BigDecimal!
-  volumeToken1: BigDecimal!
-  volumeUSD: BigDecimal!
-  txnsCount: BigInt!
+  # # lifetime volume stats
+  # volumeToken0: BigDecimal!
+  # volumeToken1: BigDecimal!
+  # volumeUSD: BigDecimal!
+  # txnsCount: BigInt!
 
-  # participant info
-  participantCount: BigInt! 
-  totalLPToken: BigDecimal!
+  # # participant info
+  # participantCount: BigInt! 
+  # totalLPToken: BigDecimal!
 
-  # Pair hour data
-  hourData: [PairHourData!]! @derivedFrom(field: "pair")
+  # # Pair hour data
+  # hourData: [PairHourData!]! @derivedFrom(field: "pair")
 }
 
 type Token @entity {
@@ -124,10 +137,10 @@ type Token @entity {
   name: String!
 
   # price stats
-  priceUSD: BigDecimal!
+  # priceUSD: BigDecimal!
 
   # derived fields
-  tokenDayData: [TokenDayData!]! @derivedFrom(field: "token")
+  # tokenDayData: [TokenDayData!]! @derivedFrom(field: "token")
 }
 
 type TokenDayData @entity {

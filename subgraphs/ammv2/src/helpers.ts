@@ -1,5 +1,8 @@
-import { Address, BigDecimal, BigInt, log } from "@graphprotocol/graph-ts";
+import { Address, BigDecimal, BigInt, Bytes, log } from "@graphprotocol/graph-ts";
 import { ERC20 } from '../generated/CurveFactoryV2/ERC20'
+import { Curve } from "../generated/CurveFactoryV2/Curve";
+import { AssimilatorFactory } from "../generated/CurveFactoryV2/AssimilatorFactory";
+import { AssimilatorV2 } from "../generated/CurveFactoryV2/AssimilatorV2";
 
 export let ZERO_BI = BigInt.fromI32(0)
 export let ONE_BI = BigInt.fromI32(1)
@@ -23,6 +26,17 @@ export function convertTokenToDecimal(tokenAmount: BigInt, exchangeDecimals: Big
         return tokenAmount.toBigDecimal();
     }
     return tokenAmount.toBigDecimal().div(exponentToBigDecimal(exchangeDecimals));
+}
+
+// export function fetchAssimilator(assimFactoryAddress: Address, curveAddress: Address): Address {
+//     // get assimilator factory
+//     let assimFactory = AssimilatorFactory.bind(assimFactoryAddress)
+//     return assimFactory.getAssimilator(curveAddress)
+// }
+
+export function fetchToken(curveAddress: Address, derivative: BigInt): Address {
+    let curve = Curve.bind(curveAddress)
+    return curve.derivatives(derivative)
 }
 
 export function fetchTokenDecimals(tokenAddress: Address): BigInt {

@@ -14,6 +14,7 @@ import {
 import { 
     USDC,
     FACTORY_ADDRESS_V2,
+    ASSIM_FACTORY_ADDRESS_V2,
     BLACKHOLE_ADDRESS 
 } from "../../../packages/constants/index"
 
@@ -43,39 +44,39 @@ export function handleTrade(event: TradeEvent): void {
     entity.originAmount = event.params.originAmount
     entity.targetAmount = event.params.targetAmount
 
-    let token0 = Token.load(event.params.origin.toHexString())
-    if (token0 === null) {
-        token0 = new Token(event.params.origin.toHexString())
-        let decimals = fetchTokenDecimals(event.params.origin)
-        // bail if we couldn't figure out the decimals
-        if (decimals === null) {
-          log.debug('the decimal on token 0 was null', [])
-          return
-        }
-        let symbol = fetchTokenSymbol(event.params.origin)
-        let name = fetchTokenName(event.params.origin)
-        token0.priceUSD = ONE_BD
-        token0.decimals = decimals
-        token0.symbol = symbol
-        token0.name = name
-    }
+    // let token0 = Token.load(event.params.origin.toHexString())
+    // if (token0 === null) {
+    //     token0 = new Token(event.params.origin.toHexString())
+    //     let decimals = fetchTokenDecimals(event.params.origin)
+    //     // bail if we couldn't figure out the decimals
+    //     if (decimals === null) {
+    //       log.debug('the decimal on token 0 was null', [])
+    //       return
+    //     }
+    //     let symbol = fetchTokenSymbol(event.params.origin)
+    //     let name = fetchTokenName(event.params.origin)
+    //     token0.priceUSD = ONE_BD
+    //     token0.decimals = decimals
+    //     token0.symbol = symbol
+    //     token0.name = name
+    // }
 
-    let token1 = Token.load(event.params.target.toHexString())
-    if (token1 === null) {
-        token1 = new Token(event.params.target.toHexString())
-        let decimals = fetchTokenDecimals(event.params.target)
-        // bail if we couldn't figure out the decimals
-        if (decimals === null) {
-            log.debug('mybug the decimal on token 1 was null', [])
-            return
-        }
-        let symbol = fetchTokenSymbol(event.params.target)
-        let name = fetchTokenName(event.params.target)
-        token1.priceUSD = ONE_BD
-        token1.decimals = decimals
-        token1.symbol = symbol
-        token1.name = name
-    }
+    // let token1 = Token.load(event.params.target.toHexString())
+    // if (token1 === null) {
+    //     token1 = new Token(event.params.target.toHexString())
+    //     let decimals = fetchTokenDecimals(event.params.target)
+    //     // bail if we couldn't figure out the decimals
+    //     if (decimals === null) {
+    //         log.debug('mybug the decimal on token 1 was null', [])
+    //         return
+    //     }
+    //     let symbol = fetchTokenSymbol(event.params.target)
+    //     let name = fetchTokenName(event.params.target)
+    //     token1.priceUSD = ONE_BD
+    //     token1.decimals = decimals
+    //     token1.symbol = symbol
+    //     token1.name = name
+    // }
 
     // let pair = Pair.load(event.address.toHexString())
     // if (pair === null) {
@@ -198,8 +199,8 @@ export function handleTrade(event: TradeEvent): void {
     //   pair.txnsCount = pair.txnsCount.plus(ONE_BI)
     //   pair.save()
   
-      token0.save()
-      token1.save()
+    //   token0.save()
+    //   token1.save()
     //   pair.save()
       entity.save()
 }
