@@ -4,11 +4,14 @@ type NewCurve @entity {
   curveID: Bytes! # curve identifier 32 bytes 
 }
 
-type NewAssimilator @entity {
+type Oracle @entity {
   id: ID!
-  assimilator: Bytes!
-  oracle: Bytes!
-  token: Bytes!
+  decimals: BigInt!
+}
+
+type Assimilator @entity {
+  id: ID!
+  oracle: Oracle!
 }
 
 type Trade @entity {
@@ -136,6 +139,7 @@ type Token @entity {
   symbol: String!
   name: String!
 
+  assimilator: Assimilator!
   # price stats
   # priceUSD: BigDecimal!
 

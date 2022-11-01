@@ -1,6 +1,7 @@
 import { Address, BigDecimal, BigInt, Bytes, log } from "@graphprotocol/graph-ts";
 import { ERC20 } from '../generated/CurveFactoryV2/ERC20'
 import { Curve } from "../generated/CurveFactoryV2/Curve";
+import { Oracle } from "../generated/AssimilatorFactory/Oracle";
 import { AssimilatorFactory } from "../generated/CurveFactoryV2/AssimilatorFactory";
 import { AssimilatorV2 } from "../generated/CurveFactoryV2/AssimilatorV2";
 
@@ -26,6 +27,16 @@ export function convertTokenToDecimal(tokenAmount: BigInt, exchangeDecimals: Big
         return tokenAmount.toBigDecimal();
     }
     return tokenAmount.toBigDecimal().div(exponentToBigDecimal(exchangeDecimals));
+}
+
+export function fetchOracleDecimals(oracleAddress: Address): BigInt {
+    let oracle = Oracle.bind(oracleAddress)
+    let decimalValue = 0
+    let decimalResult = oracle.try_decimals()
+    if (!decimalResult.reverted) {
+        decimalValue = decimalResult.value
+    }
+    return BigInt.fromI32(decimalValue as i32)
 }
 
 // export function fetchAssimilator(assimFactoryAddress: Address, curveAddress: Address): Address {

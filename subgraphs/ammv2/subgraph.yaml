@@ -67,6 +67,8 @@ dataSources:
           file: ../../packages/abis/ERC20.json
         - name: Curve
           file: ../../packages/abis/Curve.json
+        - name: Oracle
+          file: ../../packages/abis/Oracle.json
       eventHandlers:
         - event: AssimilatorRevoked(indexed address,indexed bytes32,indexed address)
           handler: handleAssimilatorRevoked

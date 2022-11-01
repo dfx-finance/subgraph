@@ -22,10 +22,11 @@ import {
   fetchToken,
   fetchTokenDecimals,
   fetchTokenSymbol,
-  fetchTokenName
+  fetchTokenName,
+  fetchOracleDecimals
 } from "./helpers"
 import { FACTORY_ADDRESS_V2 } from "../../../packages/constants/index"
-import { DFXFactoryV2, NewCurve, Pair, Token, NewAssimilator } from "../generated/schema"
+import { DFXFactoryV2, NewCurve, Pair, Token, NewAssimilator, Oracle, Assimilator} from "../generated/schema"
 import { Curve, Curve as CurveTemplate} from "../generated/templates"
 
 // CurveFactoryV2
@@ -102,13 +103,35 @@ export function handleTreasuryUpdated(event: TreasuryUpdated): void {}
 
 // AssimilatorFactory
 export function handleNewAssimilator(event: NewAssimilatorEvent): void {
+  // TODO: Delete this because it is unessesary
   let entity = new NewAssimilator(
     event.transaction.hash.toHex() + "-" + event.logIndex.toString()
   )
   entity.assimilator = event.params.assimilator
   entity.oracle = event.params.oracle
   entity.token = event.params.token
-  entity.save()
+
+  let oracle = Oracle.load(event.params.oracle.toHexString())
+  if (oracle === null) {
+    oracle = new Token(event.params.oracle.toHexString())
+    let decimals = fetchOracleDecimals(event.params.oracle)
+    oracle.decimals = decimals
+  }
+  
+  let assimilator = Assimilator.load(event.params.assimilator.toHexString())
+  if (assimilator === null) {
+    assimilator = new Assimilator(event.params.assimilator.toHexString())
+    assimilator.oracle = oracle.id
+  }
+
+  let token = Token.load(event.params.token.toHexString())
+  if (token !== null) {
+    token.assimilator = assimilator.id
+  }
+
+  oracle.save()
+  assimilator.save()
+  token?.save()
 }
 
 export function handleAssimilatorRevoked(event: AssimilatorRevoked): void {}
