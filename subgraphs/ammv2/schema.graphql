@@ -101,7 +101,10 @@ type Pair @entity {
   token0: Token!
   token1: Token!
 
-  # # reserves
+  assimilator0: Assimilator!
+  assimilator1: Assimilator!
+
+  # reserves
   reserve0: BigDecimal!
   reserve1: BigDecimal!
 
@@ -117,8 +120,8 @@ type Pair @entity {
   # totalStaked: BigDecimal!
 
   # # lifetime volume stats
-  # volumeToken0: BigDecimal!
-  # volumeToken1: BigDecimal!
+  volumeToken0: BigDecimal!
+  volumeToken1: BigDecimal!
   # volumeUSD: BigDecimal!
   # txnsCount: BigInt!
 
@@ -139,7 +142,6 @@ type Token @entity {
   symbol: String!
   name: String!
 
-  assimilator: Assimilator!
   # price stats
   # priceUSD: BigDecimal!
 

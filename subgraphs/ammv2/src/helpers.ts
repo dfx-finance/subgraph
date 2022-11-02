@@ -21,13 +21,19 @@ export function exponentToBigDecimal(decimals: BigInt): BigDecimal {
     }
     return bd;
 }
-  
+
 export function convertTokenToDecimal(tokenAmount: BigInt, exchangeDecimals: BigInt): BigDecimal {
     if (exchangeDecimals == BigInt.fromI32(0)) {
         return tokenAmount.toBigDecimal();
     }
     return tokenAmount.toBigDecimal().div(exponentToBigDecimal(exchangeDecimals));
 }
+
+// export function fetchBalanceOf(tokenAddress: Address, accountAddress: Address): BigInt {
+//     let contract = ERC20.bind(tokenAddress)
+//     let reserve = contract.try_balanceOf(accountAddress)
+//     return reserve.value
+// }
 
 export function fetchOracleDecimals(oracleAddress: Address): BigInt {
     let oracle = Oracle.bind(oracleAddress)
@@ -39,11 +45,10 @@ export function fetchOracleDecimals(oracleAddress: Address): BigInt {
     return BigInt.fromI32(decimalValue as i32)
 }
 
-// export function fetchAssimilator(assimFactoryAddress: Address, curveAddress: Address): Address {
-//     // get assimilator factory
-//     let assimFactory = AssimilatorFactory.bind(assimFactoryAddress)
-//     return assimFactory.getAssimilator(curveAddress)
-// }
+export function fetchAssimilator(assimFactoryAddress: Address, tokenAddress: Address): Address {
+    let assimFactory = AssimilatorFactory.bind(assimFactoryAddress)
+    return assimFactory.getAssimilator(tokenAddress)
+}
 
 export function fetchToken(curveAddress: Address, derivative: BigInt): Address {
     let curve = Curve.bind(curveAddress)

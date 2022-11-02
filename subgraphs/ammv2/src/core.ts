@@ -8,6 +8,7 @@ import {
     fetchTokenDecimals, 
     fetchTokenSymbol,
     fetchTokenName,
+    // fetchBalanceOf,
     convertTokenToDecimal,
 } from "./helpers";
 
@@ -44,67 +45,24 @@ export function handleTrade(event: TradeEvent): void {
     entity.originAmount = event.params.originAmount
     entity.targetAmount = event.params.targetAmount
 
-    // let token0 = Token.load(event.params.origin.toHexString())
-    // if (token0 === null) {
-    //     token0 = new Token(event.params.origin.toHexString())
-    //     let decimals = fetchTokenDecimals(event.params.origin)
-    //     // bail if we couldn't figure out the decimals
-    //     if (decimals === null) {
-    //       log.debug('the decimal on token 0 was null', [])
-    //       return
-    //     }
-    //     let symbol = fetchTokenSymbol(event.params.origin)
-    //     let name = fetchTokenName(event.params.origin)
-    //     token0.priceUSD = ONE_BD
-    //     token0.decimals = decimals
-    //     token0.symbol = symbol
-    //     token0.name = name
-    // }
+    let pair = Pair.load(event.address.toHexString())!
+    pair.volumeToken0 = ONE_BD
+    pair.volumeToken1 = ONE_BD
+    entity.pair = pair.id
 
-    // let token1 = Token.load(event.params.target.toHexString())
-    // if (token1 === null) {
-    //     token1 = new Token(event.params.target.toHexString())
-    //     let decimals = fetchTokenDecimals(event.params.target)
-    //     // bail if we couldn't figure out the decimals
-    //     if (decimals === null) {
-    //         log.debug('mybug the decimal on token 1 was null', [])
-    //         return
-    //     }
-    //     let symbol = fetchTokenSymbol(event.params.target)
-    //     let name = fetchTokenName(event.params.target)
-    //     token1.priceUSD = ONE_BD
-    //     token1.decimals = decimals
-    //     token1.symbol = symbol
-    //     token1.name = name
-    // }
+    // Do this properly
+    let token0 = Token.load(pair.token0)!
+    let token1 = Token.load(pair.token1)!
 
-    // let pair = Pair.load(event.address.toHexString())
-    // if (pair === null) {
-    //     pair = new Pair(event.address.toHexString()) as Pair
-    //     pair.reserve1 = ZERO_BD
-    //     pair.reserve0 = ZERO_BD
-    //     pair.reserveUSD = ZERO_BD
-    //     pair.swapRateUSD = ZERO_BD
-    //     pair.rewardDuration = ZERO_BI
-    //     pair.rewardsForDuration = ZERO_BD
-    //     pair.volumeToken0 = ZERO_BD
-    //     pair.volumeToken1 = ZERO_BD
-    //     pair.volumeUSD = ZERO_BD
-    //     pair.txnsCount = ZERO_BI
-    //     pair.totalLPToken = ZERO_BD
-    //     pair.participantCount = ZERO_BI
-    //     // TODO: Could potentially break when new non USDC pools are generated
-    //     if (token0.id == USDC) {
-    //         // USDC first
-    //         pair.token0 = token0.id
-    //         pair.token1 = token1.id
-    //     } else {
-    //         pair.token0 = token1.id
-    //         pair.token1 = token0.id
-    //     }
-    // }
-    // entity.pair = pair.id
-
+    let amount0 = ZERO_BD
+    let amount1 = ZERO_BD
+    if (event.params.origin.toHexString() === token0.id) {
+        amount0 = convertTokenToDecimal(event.params.originAmount, token0.decimals)
+        amount1 = convertTokenToDecimal(event.params.targetAmount, token1.decimals)
+    } else if (event.params.origin.toHexString() === token1.id) {
+        amount0 = convertTokenToDecimal(event.params.targetAmount, token0.decimals)
+        amount1 = convertTokenToDecimal(event.params.originAmount, token1.decimals)
+    }
     // let amount0 = ZERO_BD
     // let amount1 = ZERO_BD
             
@@ -133,19 +91,28 @@ export function handleTrade(event: TradeEvent): void {
 
     // // TODO: POOL PARTICIPANT
 
-    // let contract0 = ERC20.bind(Address.fromString(token0.id))
-    // let reserve0Result = contract0.try_balanceOf(event.address)
-    // if (!reserve0Result.reverted){
-    //     let reserve0 = convertTokenToDecimal(reserve0Result.value, token0.decimals)
-    //     pair.reserve0 = reserve0
-    // } 
+    // BAD way of doing it because token0 is determined by origin
+    // instead should be read directly off of the curve being ping'd
+    // let rawReserve0 = fetchBalanceOf(Address.fromString(token0.id), event.address)
+    // let rawReserve1 = fetchBalanceOf(Address.fromString(token1.id), event.address)
+    // log.debug('Zero balance', [token0.id, token1.id, event.address.toHexString()])
 
-    // let contract1 = ERC20.bind(Address.fromString(token1.id))
-    // let reserve1Result = contract1.try_balanceOf(event.address)
-    // if (!reserve1Result.reverted){
-    //     let reserve1 = convertTokenToDecimal(reserve1Result.value, token1.decimals)
-    //     pair.reserve1 = reserve1
-    // }
+    // pair.reserve0 = convertTokenToDecimal(rawReserve0, token0.decimals)
+    // pair.reserve1 = convertTokenToDecimal(rawReserve1, token1.decimals)
+
+    let contract0 = ERC20.bind(Address.fromString(token0.id))
+    let reserve0Result = contract0.try_balanceOf(event.address)
+    if (!reserve0Result.reverted){
+        let reserve0 = convertTokenToDecimal(reserve0Result.value, token0.decimals)
+        pair.reserve0 = reserve0
+    } 
+
+    let contract1 = ERC20.bind(Address.fromString(token1.id))
+    let reserve1Result = contract1.try_balanceOf(event.address)
+    if (!reserve1Result.reverted){
+        let reserve1 = convertTokenToDecimal(reserve1Result.value, token1.decimals)
+        pair.reserve1 = reserve1
+    }
 
       // update day entities
     //   let pairHourData = updatePairHourData(event)
@@ -193,16 +160,16 @@ export function handleTrade(event: TradeEvent): void {
     //   pair.totalStaked = totalStaked
   
       // update pair volume data
-    //   pair.volumeToken0 = pair.volumeToken0.plus(amount0)
-    //   pair.volumeToken1 = pair.volumeToken1.plus(amount1)
+    // pair.volumeToken0 = pair.volumeToken0.plus(amount0)
+    // pair.volumeToken1 = pair.volumeToken1.plus(amount1)
     //   pair.volumeUSD = pair.volumeUSD.plus(amount0)
     //   pair.txnsCount = pair.txnsCount.plus(ONE_BI)
     //   pair.save()
   
     //   token0.save()
     //   token1.save()
-    //   pair.save()
-      entity.save()
+    pair.save()
+    entity.save()
 }
 
 export function handleTransfer(event: TransferEvent): void {
