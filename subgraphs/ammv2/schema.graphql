@@ -123,7 +123,7 @@ type Pair @entity {
   volumeToken0: BigDecimal!
   volumeToken1: BigDecimal!
   # volumeUSD: BigDecimal!
-  # txnsCount: BigInt!
+  txnsCount: BigInt!
 
   # # participant info
   # participantCount: BigInt! 

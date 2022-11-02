@@ -29,11 +29,11 @@ export function convertTokenToDecimal(tokenAmount: BigInt, exchangeDecimals: Big
     return tokenAmount.toBigDecimal().div(exponentToBigDecimal(exchangeDecimals));
 }
 
-// export function fetchBalanceOf(tokenAddress: Address, accountAddress: Address): BigInt {
-//     let contract = ERC20.bind(tokenAddress)
-//     let reserve = contract.try_balanceOf(accountAddress)
-//     return reserve.value
-// }
+export function fetchBalanceOf(tokenAddress: Address, accountAddress: Address): BigInt {
+    let contract = ERC20.bind(tokenAddress)
+    let reserve = contract.try_balanceOf(accountAddress)
+    return reserve.value
+}
 
 export function fetchOracleDecimals(oracleAddress: Address): BigInt {
     let oracle = Oracle.bind(oracleAddress)

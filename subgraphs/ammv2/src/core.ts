@@ -8,7 +8,7 @@ import {
     fetchTokenDecimals, 
     fetchTokenSymbol,
     fetchTokenName,
-    // fetchBalanceOf,
+    fetchBalanceOf,
     convertTokenToDecimal,
 } from "./helpers";
 
@@ -46,8 +46,6 @@ export function handleTrade(event: TradeEvent): void {
     entity.targetAmount = event.params.targetAmount
 
     let pair = Pair.load(event.address.toHexString())!
-    pair.volumeToken0 = ONE_BD
-    pair.volumeToken1 = ONE_BD
     entity.pair = pair.id
 
     // Do this properly
@@ -56,12 +54,14 @@ export function handleTrade(event: TradeEvent): void {
 
     let amount0 = ZERO_BD
     let amount1 = ZERO_BD
-    if (event.params.origin.toHexString() === token0.id) {
+
+    // TODO: This is right with my math but understand the else statement 
+    if (event.params.origin.toHexString() == token0.id) {
         amount0 = convertTokenToDecimal(event.params.originAmount, token0.decimals)
         amount1 = convertTokenToDecimal(event.params.targetAmount, token1.decimals)
-    } else if (event.params.origin.toHexString() === token1.id) {
-        amount0 = convertTokenToDecimal(event.params.targetAmount, token0.decimals)
-        amount1 = convertTokenToDecimal(event.params.originAmount, token1.decimals)
+    } else {
+        amount0 = convertTokenToDecimal(event.params.targetAmount, token1.decimals)
+        amount1 = convertTokenToDecimal(event.params.originAmount, token0.decimals)
     }
     // let amount0 = ZERO_BD
     // let amount1 = ZERO_BD
@@ -90,29 +90,11 @@ export function handleTrade(event: TradeEvent): void {
     // }
 
     // // TODO: POOL PARTICIPANT
+    let rawReserve0 = fetchBalanceOf(Address.fromString(token0.id), event.address)
+    let rawReserve1 = fetchBalanceOf(Address.fromString(token1.id), event.address)
 
-    // BAD way of doing it because token0 is determined by origin
-    // instead should be read directly off of the curve being ping'd
-    // let rawReserve0 = fetchBalanceOf(Address.fromString(token0.id), event.address)
-    // let rawReserve1 = fetchBalanceOf(Address.fromString(token1.id), event.address)
-    // log.debug('Zero balance', [token0.id, token1.id, event.address.toHexString()])
-
-    // pair.reserve0 = convertTokenToDecimal(rawReserve0, token0.decimals)
-    // pair.reserve1 = convertTokenToDecimal(rawReserve1, token1.decimals)
-
-    let contract0 = ERC20.bind(Address.fromString(token0.id))
-    let reserve0Result = contract0.try_balanceOf(event.address)
-    if (!reserve0Result.reverted){
-        let reserve0 = convertTokenToDecimal(reserve0Result.value, token0.decimals)
-        pair.reserve0 = reserve0
-    } 
-
-    let contract1 = ERC20.bind(Address.fromString(token1.id))
-    let reserve1Result = contract1.try_balanceOf(event.address)
-    if (!reserve1Result.reverted){
-        let reserve1 = convertTokenToDecimal(reserve1Result.value, token1.decimals)
-        pair.reserve1 = reserve1
-    }
+    pair.reserve0 = convertTokenToDecimal(rawReserve0, token0.decimals)
+    pair.reserve1 = convertTokenToDecimal(rawReserve1, token1.decimals)
 
       // update day entities
     //   let pairHourData = updatePairHourData(event)
@@ -160,10 +142,10 @@ export function handleTrade(event: TradeEvent): void {
     //   pair.totalStaked = totalStaked
   
       // update pair volume data
-    // pair.volumeToken0 = pair.volumeToken0.plus(amount0)
-    // pair.volumeToken1 = pair.volumeToken1.plus(amount1)
+    pair.volumeToken0 = pair.volumeToken0.plus(amount0)
+    pair.volumeToken1 = pair.volumeToken1.plus(amount1)
     //   pair.volumeUSD = pair.volumeUSD.plus(amount0)
-    //   pair.txnsCount = pair.txnsCount.plus(ONE_BI)
+    pair.txnsCount = pair.txnsCount.plus(ONE_BI)
     //   pair.save()
   
     //   token0.save()
