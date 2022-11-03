@@ -1,3 +1,12 @@
+type PoolParticipant @entity {
+  id: ID!
+  pair: Pair!
+  participant: Bytes! # address
+  volumeNative: BigDecimal!
+  volumeUSD: BigDecimal!
+  # liquidityProvided: BigDecimal!
+}
+
 type NewCurve @entity {
   id: ID!
   from: Bytes! # address creating the new curve
@@ -34,7 +43,7 @@ type Transfer @entity {
   token0Amount: BigDecimal!
   token1Amount: BigDecimal!
   value: BigInt! # uint256
-  type: String!
+  # type: String!
 }
 
 type PairHourData @entity {
@@ -96,7 +105,18 @@ type PairDayData @entity {
 type Pair @entity {
   # Contract address
   id: ID!
-  
+  decimals: BigInt!
+  symbol: String!
+  name: String!
+
+  alpha: BigInt!
+  beta: BigInt!
+  delta: BigInt!
+  epsilon: BigInt!
+  lambda: BigInt!
+
+  protocolFee: BigInt!
+
   # mirrored from the smart contract
   token0: Token!
   token1: Token!
@@ -109,10 +129,12 @@ type Pair @entity {
   reserve1: BigDecimal!
 
   # # derived liquidity
-  # reserveUSD: BigDecimal!
+  reserveUSD: BigDecimal!
+  reserveNative: BigDecimal!
 
   # # price stats
-  # swapRateUSD: BigDecimal!
+  swapRateUSD: BigDecimal!
+  swapRateNative: BigDecimal!
 
   # # staking
   # rewardsForDuration: BigDecimal!
@@ -122,12 +144,12 @@ type Pair @entity {
   # # lifetime volume stats
   volumeToken0: BigDecimal!
   volumeToken1: BigDecimal!
-  # volumeUSD: BigDecimal!
+  volumeUSD: BigDecimal!
   txnsCount: BigInt!
 
   # # participant info
   # participantCount: BigInt! 
-  # totalLPToken: BigDecimal!
+  totalLPToken: BigDecimal!
 
   # # Pair hour data
   # hourData: [PairHourData!]! @derivedFrom(field: "pair")
@@ -142,8 +164,8 @@ type Token @entity {
   symbol: String!
   name: String!
 
-  # price stats
-  # priceUSD: BigDecimal!
+  # price stats (last recorded USD swap)
+  priceUSD: BigDecimal!
 
   # derived fields
   # tokenDayData: [TokenDayData!]! @derivedFrom(field: "token")

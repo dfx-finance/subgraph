@@ -4,6 +4,8 @@ import { Curve } from "../generated/CurveFactoryV2/Curve";
 import { Oracle } from "../generated/AssimilatorFactory/Oracle";
 import { AssimilatorFactory } from "../generated/CurveFactoryV2/AssimilatorFactory";
 import { AssimilatorV2 } from "../generated/CurveFactoryV2/AssimilatorV2";
+import { Token } from "../generated/schema";
+import { CurveFactoryV2 } from "../generated/CurveFactoryV2/CurveFactoryV2";
 
 export let ZERO_BI = BigInt.fromI32(0)
 export let ONE_BI = BigInt.fromI32(1)
@@ -29,10 +31,21 @@ export function convertTokenToDecimal(tokenAmount: BigInt, exchangeDecimals: Big
     return tokenAmount.toBigDecimal().div(exponentToBigDecimal(exchangeDecimals));
 }
 
-export function fetchBalanceOf(tokenAddress: Address, accountAddress: Address): BigInt {
-    let contract = ERC20.bind(tokenAddress)
-    let reserve = contract.try_balanceOf(accountAddress)
-    return reserve.value
+export function fetchLiquidity(curveAddress: Address): BigDecimal {
+    let curveContract = Curve.bind(curveAddress)
+    let reserveResult = curveContract.try_liquidity()
+    let reserveTotal = ZERO_BD
+    if (!reserveResult.reverted) {
+        reserveTotal = convertTokenToDecimal(reserveResult.value.value0, BigInt.fromString('18'))
+    }
+    return reserveTotal
+}
+
+export function fetchBalanceOf(token: Token, accountAddress: Address): BigDecimal {
+    let contract = ERC20.bind(Address.fromString(token.id))
+    let rawReserve = contract.balanceOf(accountAddress)
+    let reserve = convertTokenToDecimal(rawReserve, token.decimals)
+    return reserve
 }
 
 export function fetchOracleDecimals(oracleAddress: Address): BigInt {
@@ -75,4 +88,44 @@ export function fetchTokenSymbol(tokenAddress: Address): string {
 export function fetchTokenName(tokenAddress: Address): string {
     let contract = ERC20.bind(tokenAddress)
     return contract.name()
+}
+
+export function fetchProtocolFee(factoryAddress: Address): BigInt {
+    let contract = CurveFactoryV2.bind(factoryAddress)
+    return contract.protocolFee()
+}
+
+export function fetchProtocolAlpha(curveAddress: Address): BigInt {
+    let contract = Curve.bind(curveAddress)
+    return contract.curve().value0
+}
+
+export function fetchProtocolBeta(curveAddress: Address): BigInt {
+    let contract = Curve.bind(curveAddress)
+    return contract.curve().value1
+}
+
+export function fetchProtocolDelta(curveAddress: Address): BigInt {
+    let contract = Curve.bind(curveAddress)
+    return contract.curve().value2
+}
+
+export function fetchProtocolEpsilon(curveAddress: Address): BigInt {
+    let contract = Curve.bind(curveAddress)
+    return contract.curve().value3
+}
+
+export function fetchProtocolLambda(curveAddress: Address): BigInt {
+    let contract = Curve.bind(curveAddress)
+    return contract.curve().value4
+}
+
+export function fetchTotalLPT(curveAddress: Address): BigDecimal {
+    let curveContract = Curve.bind(curveAddress)
+    let totalLPTResult = curveContract.try_totalSupply()
+    let totalLPT = ZERO_BD
+    if (!totalLPTResult.reverted) {
+        totalLPT = convertTokenToDecimal(totalLPTResult.value, BigInt.fromString('18'))
+    }
+    return totalLPT
 }

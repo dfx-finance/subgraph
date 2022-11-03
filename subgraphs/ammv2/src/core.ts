@@ -10,6 +10,8 @@ import {
     fetchTokenName,
     fetchBalanceOf,
     convertTokenToDecimal,
+    fetchLiquidity,
+    fetchTotalLPT
 } from "./helpers";
 
 import { 
@@ -28,7 +30,8 @@ import {
     Trade,
     Transfer,
     Token,
-    Pair   
+    Pair,
+    PoolParticipant,
 } from "../generated/schema"
 
 import { ERC20 } from '../generated/templates/Curve/ERC20'
@@ -48,53 +51,69 @@ export function handleTrade(event: TradeEvent): void {
     let pair = Pair.load(event.address.toHexString())!
     entity.pair = pair.id
 
-    // Do this properly
     let token0 = Token.load(pair.token0)!
     let token1 = Token.load(pair.token1)!
 
     let amount0 = ZERO_BD
     let amount1 = ZERO_BD
 
-    // TODO: This is right with my math but understand the else statement 
     if (event.params.origin.toHexString() == token0.id) {
         amount0 = convertTokenToDecimal(event.params.originAmount, token0.decimals)
         amount1 = convertTokenToDecimal(event.params.targetAmount, token1.decimals)
-    } else {
+    } else if (event.params.origin.toHexString() == token0.id) {
         amount0 = convertTokenToDecimal(event.params.targetAmount, token1.decimals)
         amount1 = convertTokenToDecimal(event.params.originAmount, token0.decimals)
     }
-    // let amount0 = ZERO_BD
-    // let amount1 = ZERO_BD
-            
-    // // TODO: Could potentially break when new non USDC pools are generated
-    // if (event.params.origin.toHexString() == USDC) {
-    //     amount0 = convertTokenToDecimal(event.params.originAmount, token0.decimals)
-    //     amount1 = convertTokenToDecimal(event.params.targetAmount, token1.decimals)
-    // } else {
-    //     amount0 = convertTokenToDecimal(event.params.targetAmount, token1.decimals)
-    //     amount1 = convertTokenToDecimal(event.params.originAmount, token0.decimals)
-    // }
 
-    // // TODO: Figure out what this is doing
-    // if (token1.id == USDC) {
-    //     let tempToken = token1
-    //     token1 = token0
-    //     token0 = tempToken
-    // }
+    if (token0.id == USDC) {
+        if (amount1.gt(ZERO_BD)) {
+            let exchangeRateUSD = amount0.div(amount1)
+            pair.swapRateUSD = exchangeRateUSD
+            token1.priceUSD = exchangeRateUSD
+        }
+    } else if (token1.id == USDC) {
+        if (amount0.gt(ZERO_BD)) {
+            let exchangeRateUSD = amount1.div(amount1)
+            pair.swapRateUSD = exchangeRateUSD
+            token0.priceUSD = exchangeRateUSD
+        }
+    }
 
-    // if (amount1.gt(ZERO_BD)) {
-    //     let exchangeRateUSD =  amount0.div(amount1)
-    //     pair.swapRateUSD = exchangeRateUSD
-    //     token1.priceUSD = exchangeRateUSD
-    //     token1.save()
-    // }
+    if (amount1.gt(ZERO_BD)) {
+        let exchangeRate = amount0.div(amount1)
+        pair.swapRateNative = exchangeRate
+    }
 
-    // // TODO: POOL PARTICIPANT
-    let rawReserve0 = fetchBalanceOf(Address.fromString(token0.id), event.address)
-    let rawReserve1 = fetchBalanceOf(Address.fromString(token1.id), event.address)
+    token0.save()
+    token1.save()
 
-    pair.reserve0 = convertTokenToDecimal(rawReserve0, token0.decimals)
-    pair.reserve1 = convertTokenToDecimal(rawReserve1, token1.decimals)
+    // TODO: POOL PARTICIPANT
+    let reserve0 = fetchBalanceOf(token0, event.address)
+    let reserve0USD = token0.priceUSD.times(reserve0)
+    let reserve1 = fetchBalanceOf(token1, event.address)
+    let reserve1USD = token1.priceUSD.times(reserve1)
+
+    pair.reserve0 = fetchBalanceOf(token0, event.address)
+    pair.reserve1 = fetchBalanceOf(token1, event.address)
+    pair.reserveNative = fetchLiquidity(event.address)
+    pair.reserveUSD = reserve0USD.plus(reserve1USD)
+
+    let poolParticipant = PoolParticipant.load(event.address.toHexString() + "-" + event.transaction.from.toHexString())
+    if (poolParticipant === null) {
+        poolParticipant = new PoolParticipant(event.address.toHexString() + "-" + event.transaction.from.toHexString()) as PoolParticipant
+        poolParticipant.pair = pair.id
+        poolParticipant.participant = event.transaction.from
+        poolParticipant.volumeUSD = ZERO_BD
+        poolParticipant.volumeNative = ZERO_BD
+    //     pair.participantCount = pair.participantCount.plus(ONE_BI)
+    }
+    // TODO:maybe put this at the top?
+    // WHY IS THIS GIVING ME ZERO
+    let amount0USD = amount0.times(token0.priceUSD)
+    poolParticipant.volumeUSD = poolParticipant.volumeUSD.plus(amount0USD)
+    poolParticipant.volumeNative = poolParticipant.volumeNative.plus(amount0)
+    
+
 
       // update day entities
     //   let pairHourData = updatePairHourData(event)
@@ -144,7 +163,7 @@ export function handleTrade(event: TradeEvent): void {
       // update pair volume data
     pair.volumeToken0 = pair.volumeToken0.plus(amount0)
     pair.volumeToken1 = pair.volumeToken1.plus(amount1)
-    //   pair.volumeUSD = pair.volumeUSD.plus(amount0)
+    pair.volumeUSD = pair.volumeUSD.plus(amount0USD)
     pair.txnsCount = pair.txnsCount.plus(ONE_BI)
     //   pair.save()
   
@@ -152,10 +171,28 @@ export function handleTrade(event: TradeEvent): void {
     //   token1.save()
     pair.save()
     entity.save()
+    poolParticipant.save()
 }
 
 export function handleTransfer(event: TransferEvent): void {
     let entity = new Transfer(
         event.transaction.hash.toHex() + "-" + event.logIndex.toString()
     )
+
+    let pair = Pair.load(event.address.toHexString())
+    if (pair === null) {
+        return
+    }
+    entity.timestamp = event.block.timestamp;
+    entity.pair = pair.id
+    entity.from = event.params.from
+    entity.to = event.params.to
+    entity.token0Amount = ZERO_BD
+    entity.token1Amount = ZERO_BD
+    entity.value = event.params.value
+
+    pair.totalLPToken = fetchTotalLPT(Address.fromString(pair.id))
+    
+    entity.save()
+    pair.save()
 }

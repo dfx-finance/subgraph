@@ -15,6 +15,10 @@ import {
 } from "../generated/AssimilatorFactory/AssimilatorFactory"
 
 import { 
+  USDC
+} from "../../../packages/constants/index"
+
+import { 
   ZERO_BI, 
   ZERO_BD, 
   ONE_BI,
@@ -25,6 +29,12 @@ import {
   fetchTokenName,
   fetchOracleDecimals,
   fetchAssimilator,
+  fetchProtocolAlpha,
+  fetchProtocolBeta,
+  fetchProtocolDelta,
+  fetchProtocolEpsilon,
+  fetchProtocolLambda,
+  fetchProtocolFee,
 } from "./helpers"
 import { FACTORY_ADDRESS_V2, ASSIM_FACTORY_ADDRESS_V2 } from "../../../packages/constants/index"
 import { DFXFactoryV2, NewCurve, Pair, Token, Oracle, Assimilator} from "../generated/schema"
@@ -51,17 +61,35 @@ export function handleNewCurve(event: NewCurveEvent): void {
   let pair = Pair.load(event.params.curve.toHexString())
   if (pair === null) {
     pair = new Pair(event.params.curve.toHexString()) as Pair
+    let decimals = fetchTokenDecimals(event.params.curve)
+    let symbol = fetchTokenSymbol(event.params.curve)
+    let name = fetchTokenName(event.params.curve)
+    pair.decimals = decimals
+    pair.symbol = symbol
+    pair.name = name
+
+    pair.alpha = fetchProtocolAlpha(event.params.curve)
+    pair.beta = fetchProtocolBeta(event.params.curve)
+    pair.delta = fetchProtocolDelta(event.params.curve)
+    pair.epsilon = fetchProtocolEpsilon(event.params.curve)
+    pair.lambda = fetchProtocolLambda(event.params.curve)
+
+    pair.protocolFee = fetchProtocolFee(event.address)
+
     pair.reserve1 = ZERO_BD
     pair.reserve0 = ZERO_BD
-    //     pair.reserveUSD = ZERO_BD
-    //     pair.swapRateUSD = ZERO_BD
+    pair.reserveUSD = ZERO_BD
+    pair.reserveNative = ZERO_BD
+
+    pair.swapRateUSD = ZERO_BD
+    pair.swapRateNative = ZERO_BD
     //     pair.rewardDuration = ZERO_BI
     //     pair.rewardsForDuration = ZERO_BD
     pair.volumeToken0 = ZERO_BD
     pair.volumeToken1 = ZERO_BD
-    //     pair.volumeUSD = ZERO_BD
+    pair.volumeUSD = ZERO_BD
     pair.txnsCount = ZERO_BI
-    //     pair.totalLPToken = ZERO_BD
+    pair.totalLPToken = ZERO_BD
     //     pair.participantCount = ZERO_BI
     pair.assimilator0 = assimilator0.id
     pair.assimilator1 = assimilator1.id
@@ -122,6 +150,11 @@ export function handleNewAssimilator(event: NewAssimilatorEvent): void {
     token.decimals = decimals
     token.symbol = symbol
     token.name = name
+    if (token.id == USDC) {
+      token.priceUSD = ONE_BD
+    } else {
+      token.priceUSD = ZERO_BD
+    }
   }
 
   oracle.save()
