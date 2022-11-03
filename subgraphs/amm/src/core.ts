@@ -144,17 +144,17 @@ export function handleTrade(event: TradeEvent): void {
         token1.save()
     }
 
-    let poolParticipant = PoolParticipant.load(event.address.toHexString() + "-" + event.transaction.from.toHexString())
-    if (poolParticipant === null) {
-        poolParticipant = new PoolParticipant(event.address.toHexString() + "-" + event.transaction.from.toHexString()) as PoolParticipant
-        poolParticipant.pair = pair.id
-        poolParticipant.participant = event.transaction.from
-        poolParticipant.volumeUSD = ZERO_BD
-        poolParticipant.liquidityProvided = ZERO_BD
-        pair.participantCount = pair.participantCount.plus(ONE_BI)
-    }
-    poolParticipant.volumeUSD = poolParticipant.volumeUSD.plus(amount0)
-    poolParticipant.save()
+    // let poolParticipant = PoolParticipant.load(event.address.toHexString() + "-" + event.transaction.from.toHexString())
+    // if (poolParticipant === null) {
+    //     poolParticipant = new PoolParticipant(event.address.toHexString() + "-" + event.transaction.from.toHexString()) as PoolParticipant
+    //     poolParticipant.pair = pair.id
+    //     poolParticipant.participant = event.transaction.from
+    //     poolParticipant.volumeUSD = ZERO_BD
+    //     poolParticipant.liquidityProvided = ZERO_BD
+    //     pair.participantCount = pair.participantCount.plus(ONE_BI)
+    // }
+    // poolParticipant.volumeUSD = poolParticipant.volumeUSD.plus(amount0)
+    // poolParticipant.save()
     
     let contract0 = ERC20.bind(Address.fromString(token0.id))
     let reserve0Result = contract0.try_balanceOf(event.address)
