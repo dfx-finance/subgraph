@@ -1,11 +1,13 @@
 import { Address, BigDecimal, BigInt, Bytes, log } from "@graphprotocol/graph-ts";
 import { ERC20 } from '../generated/CurveFactoryV2/ERC20'
 import { Curve } from "../generated/CurveFactoryV2/Curve";
+import { Gauge } from "../generated/templates/Curve/Gauge";
 import { Oracle } from "../generated/AssimilatorFactory/Oracle";
 import { AssimilatorFactory } from "../generated/CurveFactoryV2/AssimilatorFactory";
 import { AssimilatorV2 } from "../generated/CurveFactoryV2/AssimilatorV2";
 import { Token } from "../generated/schema";
 import { CurveFactoryV2 } from "../generated/CurveFactoryV2/CurveFactoryV2";
+import { CADC_GAUGE, CADC_POOL_V2, EUROC_GAUGE, EUROC_POOL_V2, EURS_GAUGE, GYEN_GAUGE, GYEN_POOL_V2, NZDS_GAUGE, NZDS_POOL_V2, TRYB_GAUGE, TRYB_POOL_V2, XIDR_GAUGE, XIDR_POOL_V2, XSGD_GAUGE, XSGD_POOL_V2 } from "../../../packages/constants";
 
 export let ZERO_BI = BigInt.fromI32(0)
 export let ONE_BI = BigInt.fromI32(1)
@@ -118,6 +120,49 @@ export function fetchProtocolEpsilon(curveAddress: Address): BigInt {
 export function fetchProtocolLambda(curveAddress: Address): BigInt {
     let contract = Curve.bind(curveAddress)
     return contract.curve().value4
+}
+
+export function fetchStakingContract(tokenAddress: string): string | null {
+    // Replaced by dividing the current trades and storing the rates inside hourly pairs / daily.
+    if (tokenAddress == XSGD_POOL_V2) {
+        return XSGD_GAUGE
+    } else if (tokenAddress == CADC_POOL_V2) {
+        return CADC_GAUGE
+    } else if (tokenAddress == NZDS_POOL_V2){
+        return NZDS_GAUGE
+    } else if (tokenAddress == TRYB_POOL_V2){
+        return TRYB_GAUGE
+    } else if (tokenAddress == XIDR_POOL_V2){
+        return XIDR_GAUGE
+    } else if (tokenAddress == EUROC_POOL_V2) {
+        return EUROC_GAUGE
+    } else if (tokenAddress == GYEN_POOL_V2) {
+        return GYEN_GAUGE
+    } else {
+        return null
+    }
+}
+
+// export function fetchPoolParticipantUnstakedLPT(curveAddress: Address, participantAddress: Address): BigDecimal {
+    
+// }
+
+export function fetchPoolParticipantStakedLPT(curveAddress: Address, participantAddress: Address): BigDecimal {
+    let stakingAddress = fetchStakingContract(curveAddress.toHexString())
+    let lptInGauge = ZERO_BD
+    if (stakingAddress) {
+        let contract = Gauge.bind(Address.fromString(stakingAddress))
+        let rawLptInGauge = contract.try_balanceOf(participantAddress)
+        if (!rawLptInGauge.reverted) {
+            lptInGauge = convertTokenToDecimal(rawLptInGauge.value, BigInt.fromString('18'))
+        }
+    }
+    return lptInGauge
+}
+
+export function fetchPoolParticipantTotalLPT(curveAddress: Address, participantAddress: Address): BigDecimal {
+    let lptInGauge = fetchPoolParticipantStakedLPT(curveAddress, participantAddress)
+    return lptInGauge
 }
 
 export function fetchTotalLPT(curveAddress: Address): BigDecimal {

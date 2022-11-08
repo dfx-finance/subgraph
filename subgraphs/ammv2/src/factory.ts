@@ -90,7 +90,7 @@ export function handleNewCurve(event: NewCurveEvent): void {
     pair.volumeUSD = ZERO_BD
     pair.txnsCount = ZERO_BI
     pair.totalLPToken = ZERO_BD
-    //     pair.participantCount = ZERO_BI
+    pair.participantCount = ZERO_BI
     pair.assimilator0 = assimilator0.id
     pair.assimilator1 = assimilator1.id
 

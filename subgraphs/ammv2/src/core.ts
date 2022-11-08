@@ -32,9 +32,15 @@ import {
     Token,
     Pair,
     PoolParticipant,
+    DFXFactoryV2,
 } from "../generated/schema"
 
 import { ERC20 } from '../generated/templates/Curve/ERC20'
+
+import { updatePairHourData } from "./curve-hour-data";
+import { updatePairDayData } from "./curve-day-data";
+import { updateTokenDayData } from "./token-day-data";
+import { updateDFXDayData } from "./dfx-day-data";
 
 export function handleTrade(event: TradeEvent): void {
     let entity = new Trade(
@@ -56,13 +62,15 @@ export function handleTrade(event: TradeEvent): void {
 
     let amount0 = ZERO_BD
     let amount1 = ZERO_BD
-
+    
+    // if origin is USDC
     if (event.params.origin.toHexString() == token0.id) {
         amount0 = convertTokenToDecimal(event.params.originAmount, token0.decimals)
         amount1 = convertTokenToDecimal(event.params.targetAmount, token1.decimals)
-    } else if (event.params.origin.toHexString() == token0.id) {
-        amount0 = convertTokenToDecimal(event.params.targetAmount, token1.decimals)
-        amount1 = convertTokenToDecimal(event.params.originAmount, token0.decimals)
+    // if origin is NON USDC
+    } else if (event.params.origin.toHexString() == token1.id) {
+        amount0 = convertTokenToDecimal(event.params.targetAmount, token0.decimals)
+        amount1 = convertTokenToDecimal(event.params.originAmount, token1.decimals)
     }
 
     if (token0.id == USDC) {
@@ -73,7 +81,7 @@ export function handleTrade(event: TradeEvent): void {
         }
     } else if (token1.id == USDC) {
         if (amount0.gt(ZERO_BD)) {
-            let exchangeRateUSD = amount1.div(amount1)
+            let exchangeRateUSD = amount1.div(amount0)
             pair.swapRateUSD = exchangeRateUSD
             token0.priceUSD = exchangeRateUSD
         }
@@ -84,6 +92,7 @@ export function handleTrade(event: TradeEvent): void {
         pair.swapRateNative = exchangeRate
     }
 
+    pair.save()
     token0.save()
     token1.save()
 
@@ -105,53 +114,53 @@ export function handleTrade(event: TradeEvent): void {
         poolParticipant.participant = event.transaction.from
         poolParticipant.volumeUSD = ZERO_BD
         poolParticipant.volumeNative = ZERO_BD
-    //     pair.participantCount = pair.participantCount.plus(ONE_BI)
+        poolParticipant.liquidityProvided = ZERO_BD
+        pair.participantCount = pair.participantCount.plus(ONE_BI)
     }
-    // TODO:maybe put this at the top?
-    // WHY IS THIS GIVING ME ZERO
+
     let amount0USD = amount0.times(token0.priceUSD)
+    // poolParticipant.lastTxn = event.transaction.hash.toHex() + "-" + event.logIndex.toString()
     poolParticipant.volumeUSD = poolParticipant.volumeUSD.plus(amount0USD)
     poolParticipant.volumeNative = poolParticipant.volumeNative.plus(amount0)
-    
-
+    poolParticipant.save()
 
       // update day entities
-    //   let pairHourData = updatePairHourData(event)
-    //   let pairDayData = updatePairDayData(event)
-    //   let dfxDayData = updateDFXDayData(event)
-    //   let token0DayData = updateTokenDayData(token0 as Token, event)
-    //   let token1DayData = updateTokenDayData(token1 as Token, event)
-    //   let dfx = DFXFactory.load(FACTORY_ADDRESS_V1)!
+    let pairHourData = updatePairHourData(event)
+    let pairDayData = updatePairDayData(event)
+    let dfxDayData = updateDFXDayData(event)
+    let token0DayData = updateTokenDayData(token0 as Token, event)
+    let token1DayData = updateTokenDayData(token1 as Token, event)
+    let dfx = DFXFactoryV2.load(FACTORY_ADDRESS_V2)!
   
-    //   dfx.totalVolumeUSD = dfx.totalVolumeUSD.plus(amount0)
-    //   dfx.save()
+    dfx.totalVolumeUSD = dfx.totalVolumeUSD.plus(amount0USD)
+    dfx.save()
   
-    //   dfxDayData.dailyVolumeUSD = dfxDayData.dailyVolumeUSD.plus(amount0)
-    //   dfxDayData.totalVolumeUSD = dfx.totalVolumeUSD
-    //   dfxDayData.save()
+    dfxDayData.dailyVolumeUSD = dfxDayData.dailyVolumeUSD.plus(amount0USD)
+    dfxDayData.totalVolumeUSD = dfx.totalVolumeUSD
+    dfxDayData.save()
   
-    //   // update hourly pair data
-    //   pairHourData.volumeToken0 = pairHourData.volumeToken0.plus(amount0)
-    //   pairHourData.volumeToken1 = pairHourData.volumeToken1.plus(amount1)
-    //   pairHourData.volumeUSD = pairHourData.volumeUSD.plus(amount0)
-    //   pairHourData.save()
+    // update hourly pair data
+    pairHourData.volumeToken0 = pairHourData.volumeToken0.plus(amount0)
+    pairHourData.volumeToken1 = pairHourData.volumeToken1.plus(amount1)
+    pairHourData.volumeUSD = pairHourData.volumeUSD.plus(amount0USD)
+    pairHourData.save()
   
-    //   // update daily pair data
-    //   pairDayData.volumeToken0 = pairDayData.volumeToken0.plus(amount0)
-    //   pairDayData.volumeToken1 = pairDayData.volumeToken1.plus(amount1)
-    //   pairDayData.volumeUSD = pairDayData.volumeUSD.plus(amount0)
-    //   pairDayData.save()
+    // update daily pair data
+    pairDayData.volumeToken0 = pairDayData.volumeToken0.plus(amount0)
+    pairDayData.volumeToken1 = pairDayData.volumeToken1.plus(amount1)
+    pairDayData.volumeUSD = pairDayData.volumeUSD.plus(amount0USD)
+    pairDayData.save()
   
-    //   // update daily token data
-    //   token0DayData.dailyVolumeToken = token0DayData.dailyVolumeToken.plus(amount0)
-    //   token0DayData.dailyVolumeUSD = token0DayData.dailyVolumeUSD.plus(amount0)
-    //   token0DayData.save()
+    // update daily token data
+    token0DayData.dailyVolumeToken = token0DayData.dailyVolumeToken.plus(amount0)
+    token0DayData.dailyVolumeUSD = token0DayData.dailyVolumeUSD.plus(amount0USD)
+    token0DayData.save()
   
-    //   token1DayData.dailyVolumeToken = token1DayData.dailyVolumeToken.plus(amount1)
-    //   token1DayData.dailyVolumeUSD = token1DayData.dailyVolumeUSD.plus(amount1.times(token1DayData.priceUSD))
-    //   token1DayData.save()
+    token1DayData.dailyVolumeToken = token1DayData.dailyVolumeToken.plus(amount1)
+    token1DayData.dailyVolumeUSD = token1DayData.dailyVolumeUSD.plus(amount1.times(token1DayData.priceUSD))
+    token1DayData.save()
   
-    //   // update pair yield farming data
+    // update pair yield farming data - (Delayed due because)
     //   let rewardDuration = fetchRewardDuration(event.address.toHexString())
     //   let rewardsForDuration = fetchRewardsForDuration(event.address.toHexString())
     //   let totalStaked = fetchTotalStaked(event.address.toHexString())
@@ -160,18 +169,16 @@ export function handleTrade(event: TradeEvent): void {
     //   pair.rewardsForDuration = rewardsForDuration
     //   pair.totalStaked = totalStaked
   
-      // update pair volume data
+    // update pair volume data
     pair.volumeToken0 = pair.volumeToken0.plus(amount0)
     pair.volumeToken1 = pair.volumeToken1.plus(amount1)
     pair.volumeUSD = pair.volumeUSD.plus(amount0USD)
     pair.txnsCount = pair.txnsCount.plus(ONE_BI)
-    //   pair.save()
   
     //   token0.save()
     //   token1.save()
     pair.save()
     entity.save()
-    poolParticipant.save()
 }
 
 export function handleTransfer(event: TransferEvent): void {
@@ -183,6 +190,16 @@ export function handleTransfer(event: TransferEvent): void {
     if (pair === null) {
         return
     }
+    let poolParticipant = PoolParticipant.load(event.address.toHexString() + "-" + event.transaction.from.toHexString())
+    if (poolParticipant === null) {
+        // TODO:
+        // should fill this in just because they dont trade doesnt mean they dont 
+        return
+    }
+    // TODO: Gauge is not a required field
+    // simple addition of their current token holdings + their staked version but this is not a norm
+    // Update Gauge right now
+
     entity.timestamp = event.block.timestamp;
     entity.pair = pair.id
     entity.from = event.params.from
@@ -191,6 +208,7 @@ export function handleTransfer(event: TransferEvent): void {
     entity.token1Amount = ZERO_BD
     entity.value = event.params.value
 
+    poolParticipant.liquidityProvided
     pair.totalLPToken = fetchTotalLPT(Address.fromString(pair.id))
     
     entity.save()

@@ -102,9 +102,10 @@ templates:
           file: ../../packages/abis/Curve.json
         - name: ERC20
           file: ../../packages/abis/ERC20.json
+        - name: Gauge
+          file: ../../packages/abis/Gauge.json
       eventHandlers:
         - event: Trade(indexed address,indexed address,indexed address,uint256,uint256)
           handler: handleTrade
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransfer
-

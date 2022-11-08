@@ -1,10 +1,11 @@
 type PoolParticipant @entity {
   id: ID!
   pair: Pair!
+  # lastTxn: String!
   participant: Bytes! # address
   volumeNative: BigDecimal!
   volumeUSD: BigDecimal!
-  # liquidityProvided: BigDecimal!
+  liquidityProvided: BigDecimal!
 }
 
 type NewCurve @entity {
@@ -68,7 +69,7 @@ type PairHourData @entity {
   # hourlyTxns: BigInt!
 
   # participant info
-  participantCount: BigInt! 
+  # participantCount: BigInt! 
 }
 
 type PairDayData @entity {
@@ -82,12 +83,12 @@ type PairDayData @entity {
   reserve0: BigDecimal!
   reserve1: BigDecimal!
   reserveUSD: BigDecimal!
-  reserve0Deposit: BigDecimal!
-  reserve1Deposit: BigDecimal!
-  reserve1DepositUSD: BigDecimal!
-  reserve0Withdraw: BigDecimal!
-  reserve1Withdraw: BigDecimal!
-  reserve1WithdrawUSD: BigDecimal!
+  # reserve0Deposit: BigDecimal!
+  # reserve1Deposit: BigDecimal!
+  # reserve1DepositUSD: BigDecimal!
+  # reserve0Withdraw: BigDecimal!
+  # reserve1Withdraw: BigDecimal!
+  # reserve1WithdrawUSD: BigDecimal!
 
   # price stats
   swapRateUSD: BigDecimal!
@@ -99,7 +100,7 @@ type PairDayData @entity {
   # dailyTxns: BigInt!
 
   # participant info
-  participantCount: BigInt! 
+  # participantCount: BigInt!
 }
 
 type Pair @entity {
@@ -148,11 +149,23 @@ type Pair @entity {
   txnsCount: BigInt!
 
   # # participant info
-  # participantCount: BigInt! 
+  participantCount: BigInt! 
   totalLPToken: BigDecimal!
 
   # # Pair hour data
   # hourData: [PairHourData!]! @derivedFrom(field: "pair")
+}
+
+type DFXDayData @entity {
+  id: ID! # timestamp rounded to current day by dividing by 86400
+  date: Int!
+
+  dailyVolumeUSD: BigDecimal!
+
+  totalVolumeUSD: BigDecimal! # Accumulate at each trade, not just calculated off whatever totalVolume is. making it more accurate as it is a live conversion
+  
+  totalLiquidityUSD: BigDecimal!
+  # txCount: BigInt!
 }
 
 type Token @entity {
