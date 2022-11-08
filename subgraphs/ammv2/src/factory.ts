@@ -37,7 +37,7 @@ import {
   fetchProtocolFee,
 } from "./helpers"
 import { FACTORY_ADDRESS_V2, ASSIM_FACTORY_ADDRESS_V2 } from "../../../packages/constants/index"
-import { DFXFactoryV2, NewCurve, Pair, Token, Oracle, Assimilator} from "../generated/schema"
+import { DFXFactoryV2, Pair, Token, Oracle, Assimilator} from "../generated/schema"
 import { Curve, Curve as CurveTemplate} from "../generated/templates"
 
 // CurveFactoryV2
@@ -47,10 +47,10 @@ export function handleNewCurve(event: NewCurveEvent): void {
   // TODO make a new track for bad actors that are coming in
   
   // existing infra is used to USDC as first token
-  let token0Address = fetchToken(event.params.curve, ONE_BI) 
+  let token0Address = fetchToken(event.params.curve, ZERO_BI) 
   let token0 = Token.load(token0Address.toHexString())!
 
-  let token1Address = fetchToken(event.params.curve, ZERO_BI) 
+  let token1Address = fetchToken(event.params.curve, ONE_BI) 
   let token1 = Token.load(token1Address.toHexString())!
 
   let assim0Address = fetchAssimilator(Address.fromString(ASSIM_FACTORY_ADDRESS_V2), token0Address)
@@ -76,8 +76,8 @@ export function handleNewCurve(event: NewCurveEvent): void {
 
     pair.protocolFee = fetchProtocolFee(event.address)
 
-    pair.reserve1 = ZERO_BD
     pair.reserve0 = ZERO_BD
+    pair.reserve1 = ZERO_BD
     pair.reserveUSD = ZERO_BD
     pair.reserveNative = ZERO_BD
 

@@ -7,7 +7,16 @@ import { AssimilatorFactory } from "../generated/CurveFactoryV2/AssimilatorFacto
 import { AssimilatorV2 } from "../generated/CurveFactoryV2/AssimilatorV2";
 import { Token } from "../generated/schema";
 import { CurveFactoryV2 } from "../generated/CurveFactoryV2/CurveFactoryV2";
-import { CADC_GAUGE, CADC_POOL_V2, EUROC_GAUGE, EUROC_POOL_V2, EURS_GAUGE, GYEN_GAUGE, GYEN_POOL_V2, NZDS_GAUGE, NZDS_POOL_V2, TRYB_GAUGE, TRYB_POOL_V2, XIDR_GAUGE, XIDR_POOL_V2, XSGD_GAUGE, XSGD_POOL_V2 } from "../../../packages/constants";
+import { 
+    ZAP_ADDRESS_V2,
+    BLACKHOLE_ADDRESS,
+    CADC_GAUGE, CADC_POOL_V2, 
+    EUROC_GAUGE, EUROC_POOL_V2,
+    GYEN_GAUGE, GYEN_POOL_V2, 
+    NZDS_GAUGE, NZDS_POOL_V2, 
+    TRYB_GAUGE, TRYB_POOL_V2, 
+    XIDR_GAUGE, XIDR_POOL_V2, 
+    XSGD_GAUGE, XSGD_POOL_V2 } from "../../../packages/constants";
 
 export let ZERO_BI = BigInt.fromI32(0)
 export let ONE_BI = BigInt.fromI32(1)
@@ -174,3 +183,49 @@ export function fetchTotalLPT(curveAddress: Address): BigDecimal {
     }
     return totalLPT
 }
+
+export function fetchLPTDeposit(curveAddress: Address, lptAmount: BigInt): BigInt[] {
+    let curveContract = Curve.bind(curveAddress)
+    return curveContract.viewWithdraw(lptAmount)
+}
+
+// TODO: Remove hardcoding after
+export function isGaugeContract(tokenAddress: string): boolean {
+    if (tokenAddress == XSGD_GAUGE) {
+        return true
+    } else if (tokenAddress == CADC_GAUGE) {
+        return true
+    } else if (tokenAddress == NZDS_GAUGE) {
+        return true
+    } else if (tokenAddress == TRYB_GAUGE) {
+        return true
+    } else if (tokenAddress == XIDR_GAUGE){
+        return true
+    } else if (tokenAddress == EUROC_GAUGE){
+        return true
+    } else if (tokenAddress == GYEN_GAUGE){
+        return true
+    } else {
+        return false
+    }
+}
+
+// TODO: Remove hardcoding after
+export function getTransferType(fromAddress: string, toAddress: string): string {
+    if (toAddress == BLACKHOLE_ADDRESS) {
+        return "withdraw"
+    } else if (fromAddress == BLACKHOLE_ADDRESS && toAddress != ZAP_ADDRESS_V2) {
+        return "two-sided-deposit"
+    } else if (fromAddress == BLACKHOLE_ADDRESS && toAddress == ZAP_ADDRESS_V2) {
+        return "single-sided-deposit"
+    } else if (isGaugeContract(toAddress)){
+        return "stake-from-gauge"
+    } else if (isGaugeContract(fromAddress)){
+        return "unstake-from-gauge"
+    } else if (fromAddress == ZAP_ADDRESS_V2) {
+        return "zap-lp-transfer"
+    } else {
+        return "lp-transfer"
+    }
+}
+

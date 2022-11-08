@@ -11,7 +11,9 @@ import {
     fetchBalanceOf,
     convertTokenToDecimal,
     fetchLiquidity,
-    fetchTotalLPT
+    fetchTotalLPT,
+    getTransferType,
+    fetchLPTDeposit
 } from "./helpers";
 
 import { 
@@ -63,11 +65,11 @@ export function handleTrade(event: TradeEvent): void {
     let amount0 = ZERO_BD
     let amount1 = ZERO_BD
     
-    // if origin is USDC
+    // if origin is NON USDC
     if (event.params.origin.toHexString() == token0.id) {
         amount0 = convertTokenToDecimal(event.params.originAmount, token0.decimals)
         amount1 = convertTokenToDecimal(event.params.targetAmount, token1.decimals)
-    // if origin is NON USDC
+    // if origin is USDC
     } else if (event.params.origin.toHexString() == token1.id) {
         amount0 = convertTokenToDecimal(event.params.targetAmount, token0.decimals)
         amount1 = convertTokenToDecimal(event.params.originAmount, token1.decimals)
@@ -118,9 +120,9 @@ export function handleTrade(event: TradeEvent): void {
         pair.participantCount = pair.participantCount.plus(ONE_BI)
     }
 
-    let amount0USD = amount0.times(token0.priceUSD)
+    let amount1USD = amount1.times(token1.priceUSD)
     // poolParticipant.lastTxn = event.transaction.hash.toHex() + "-" + event.logIndex.toString()
-    poolParticipant.volumeUSD = poolParticipant.volumeUSD.plus(amount0USD)
+    poolParticipant.volumeUSD = poolParticipant.volumeUSD.plus(amount1USD)
     poolParticipant.volumeNative = poolParticipant.volumeNative.plus(amount0)
     poolParticipant.save()
 
@@ -132,32 +134,33 @@ export function handleTrade(event: TradeEvent): void {
     let token1DayData = updateTokenDayData(token1 as Token, event)
     let dfx = DFXFactoryV2.load(FACTORY_ADDRESS_V2)!
   
-    dfx.totalVolumeUSD = dfx.totalVolumeUSD.plus(amount0USD)
+    dfx.totalVolumeUSD = dfx.totalVolumeUSD.plus(amount1USD)
     dfx.save()
   
-    dfxDayData.dailyVolumeUSD = dfxDayData.dailyVolumeUSD.plus(amount0USD)
+    dfxDayData.dailyVolumeUSD = dfxDayData.dailyVolumeUSD.plus(amount1USD)
     dfxDayData.totalVolumeUSD = dfx.totalVolumeUSD
     dfxDayData.save()
   
     // update hourly pair data
     pairHourData.volumeToken0 = pairHourData.volumeToken0.plus(amount0)
     pairHourData.volumeToken1 = pairHourData.volumeToken1.plus(amount1)
-    pairHourData.volumeUSD = pairHourData.volumeUSD.plus(amount0USD)
+    pairHourData.volumeUSD = pairHourData.volumeUSD.plus(amount1USD)
     pairHourData.save()
   
     // update daily pair data
     pairDayData.volumeToken0 = pairDayData.volumeToken0.plus(amount0)
     pairDayData.volumeToken1 = pairDayData.volumeToken1.plus(amount1)
-    pairDayData.volumeUSD = pairDayData.volumeUSD.plus(amount0USD)
+    pairDayData.volumeUSD = pairDayData.volumeUSD.plus(amount1USD)
     pairDayData.save()
   
+    // TODO: Double check this data
     // update daily token data
     token0DayData.dailyVolumeToken = token0DayData.dailyVolumeToken.plus(amount0)
-    token0DayData.dailyVolumeUSD = token0DayData.dailyVolumeUSD.plus(amount0USD)
+    token0DayData.dailyVolumeUSD = token0DayData.dailyVolumeUSD.plus(amount1.times(token0DayData.priceUSD))
     token0DayData.save()
   
     token1DayData.dailyVolumeToken = token1DayData.dailyVolumeToken.plus(amount1)
-    token1DayData.dailyVolumeUSD = token1DayData.dailyVolumeUSD.plus(amount1.times(token1DayData.priceUSD))
+    token1DayData.dailyVolumeUSD = token1DayData.dailyVolumeUSD.plus(amount1USD)
     token1DayData.save()
   
     // update pair yield farming data - (Delayed due because)
@@ -172,7 +175,7 @@ export function handleTrade(event: TradeEvent): void {
     // update pair volume data
     pair.volumeToken0 = pair.volumeToken0.plus(amount0)
     pair.volumeToken1 = pair.volumeToken1.plus(amount1)
-    pair.volumeUSD = pair.volumeUSD.plus(amount0USD)
+    pair.volumeUSD = pair.volumeUSD.plus(amount1USD)
     pair.txnsCount = pair.txnsCount.plus(ONE_BI)
   
     //   token0.save()
@@ -190,25 +193,95 @@ export function handleTransfer(event: TransferEvent): void {
     if (pair === null) {
         return
     }
-    let poolParticipant = PoolParticipant.load(event.address.toHexString() + "-" + event.transaction.from.toHexString())
-    if (poolParticipant === null) {
-        // TODO:
-        // should fill this in just because they dont trade doesnt mean they dont 
-        return
-    }
-    // TODO: Gauge is not a required field
-    // simple addition of their current token holdings + their staked version but this is not a norm
-    // Update Gauge right now
-
     entity.timestamp = event.block.timestamp;
     entity.pair = pair.id
     entity.from = event.params.from
     entity.to = event.params.to
     entity.token0Amount = ZERO_BD
     entity.token1Amount = ZERO_BD
-    entity.value = event.params.value
+    entity.tokenLPTAmount = event.params.value
+    entity.type = getTransferType(event.params.from.toHexString(), event.params.to.toHexString())
 
-    poolParticipant.liquidityProvided
+    let prevReserve0 = pair.reserve0
+    let prevReserve1 = pair.reserve1
+
+    let token0 = Token.load(pair.token0)!
+    let token1 = Token.load(pair.token1)!
+
+    pair.reserve0 = fetchBalanceOf(token0, event.address)
+    pair.reserve1 = fetchBalanceOf(token1, event.address)
+
+    let reserve0Diff = pair.reserve0.minus(prevReserve0)
+    let reserve1Diff = pair.reserve1.minus(prevReserve1)
+
+    if (entity.type == "withdraw") {
+        reserve0Diff = reserve0Diff.neg()
+        reserve1Diff = reserve1Diff.neg()
+        // poolParticipant.liquidityProvided = poolParticipant.liquidityProvided.minus(LPTokens)
+        // pair.totalLPToken = pair.totalLPToken.minus(LPTokens)
+        // if (poolParticipant.liquidityProvided <= ZERO_BD) {
+        //     pair.participantCount.minus(ONE_BI)
+        // }
+    } 
+    // else if (entity.type == "two-sided-deposit" || entity.type == "single-sided-deposit") {
+    //     poolParticipant.liquidityProvided = poolParticipant.liquidityProvided.plus(LPTokens)
+    //     pair.totalLPToken = pair.totalLPToken.plus(LPTokens)
+    // } else if (entity.type == "LP-transfer") {
+    //     let poolParticipant2 = PoolParticipant.load(event.address.toHexString() + "-" + entity.to.toHexString())
+    //     if (poolParticipant2 === null) {
+    //         poolParticipant2 = new PoolParticipant(event.address.toHexString() + "-" + entity.to.toHexString()) as PoolParticipant
+    //         poolParticipant2.pair = pair.id
+    //         poolParticipant2.participant = event.transaction.from
+    //         poolParticipant2.volumeUSD = ZERO_BD
+    //         poolParticipant2.liquidityProvided = ZERO_BD
+    //     }
+    //     poolParticipant2.liquidityProvided = poolParticipant2.liquidityProvided.plus(LPTokens)
+    //     poolParticipant.liquidityProvided = poolParticipant.liquidityProvided.minus(LPTokens)
+    // }
+    // poolParticipant.save()
+
+    // let poolParticipant = PoolParticipant.load(event.address.toHexString() + "-" + event.transaction.from.toHexString())
+    // if (poolParticipant === null) {
+    //     // TODO:
+    //     // should fill this in just because they dont trade doesnt mean they dont 
+    //     return
+    // }
+    // TODO: Gauge is not a required field
+    // simple addition of their current token holdings + their staked version but this is not a norm
+    // Update Gauge right now
+
+    entity.token0Amount = reserve0Diff
+    entity.token1Amount = reserve1Diff
+    if (entity.type == "single-sided-deposit") {
+        let rawLPToDepositResult = fetchLPTDeposit(Address.fromString(pair.id), entity.tokenLPTAmount)
+        entity.token0Amount = convertTokenToDecimal(rawLPToDepositResult[0], token0.decimals)
+        entity.token1Amount = convertTokenToDecimal(rawLPToDepositResult[1], token1.decimals)
+    }
+
+    // TODO: Verify this
+    let dfx = DFXFactoryV2.load(FACTORY_ADDRESS_V2)!
+    let prevReserveUSD = pair.reserveUSD
+    pair.reserveUSD = fetchLiquidity(event.address)
+    let reserveUSDDiff = pair.reserveUSD.minus(prevReserveUSD)
+    dfx.totalLiquidityUSD = dfx.totalLiquidityUSD.plus(reserveUSDDiff)
+    pair.save()
+    dfx.save()
+
+
+    let pairDayData = updatePairDayData(event)
+    let reserve1DiffUSD = entity.token1Amount.times(pair.swapRateUSD)
+    if (entity.type == "withdraw") {
+        pairDayData.reserve0Withdraw = pairDayData.reserve0Withdraw.plus(entity.token0Amount)
+        pairDayData.reserve1Withdraw = pairDayData.reserve1Withdraw.plus(entity.token1Amount)
+        pairDayData.reserve1WithdrawUSD = pairDayData.reserve1WithdrawUSD.plus(reserve1DiffUSD)
+    } else if (entity.type == "two-sided-deposit" || entity.type == "single-sided-deposit") {
+        pairDayData.reserve0Deposit = pairDayData.reserve0Deposit.plus(entity.token0Amount)
+        pairDayData.reserve1Deposit = pairDayData.reserve1Deposit.plus(entity.token1Amount)
+        pairDayData.reserve1DepositUSD = pairDayData.reserve1DepositUSD.plus(reserve1DiffUSD)
+    }
+    pairDayData.save()
+
+    // poolParticipant.liquidityProvided
     pair.totalLPToken = fetchTotalLPT(Address.fromString(pair.id))
     
     entity.save()
