@@ -19,6 +19,22 @@
     "assim_factory_address_v2": "0x46Fa2e883cc7DdFfEd39C55300Ee4e6d31a8268c",
     "zap_address_v2": "0xEff6A7d39eeAa696d7421fa47B498B31F3bd0e39",
 
+    "cadc_pool_address_v2": "0xf3d7aa346965656e7c65fb4135531e0c2270af83",
+    "euroc_pool_address_v2": "0x477658494c3541ba272a7120176d77674a0183ba",
+    "xsgd_pool_address_v2": "0x9a6c7ae10eb82a0d7dc3c296ecbc2e2bdc53e80b",
+    "nzds_pool_address_v2": "0x764a5a29f982d3513e76fe07df2034821fbdba72",
+    "tryb_pool_address_v2": "0xcf3c8f51de189c8d5382713b716b133e485b99b7",
+    "xidr_pool_address_v2": "0x46161158b1947d9149e066d6d31af1283b2d377c",
+    "gyen_pool_address_v2": "0x63cb0f59b7e67c7d4cb96214ca456597d85c587d",
+
+    "cadc_gauge_address": "0xf8389313bb9317fd88692adb657684fa5622b157",
+    "euroc_gauge_address": "0x8193dcd2369bf94c6f28a181cff9bca38e34bcd1",
+    "xsgd_gauge_address": "0x2014ce7b64ce6c2c4b9e7289db430823412cc8ea",
+    "nzds_gauge_address": "0xa234498fe6fb0ca18870d895fdea032f47fc8516",
+    "tryb_gauge_address": "0x431808eb31a0c78ff92dab0dde9bd53c32bb951d",
+    "xidr_gauge_address": "0xa45f70ad02445c5c23510e93375021edc591c6d2",
+    "gyen_gauge_address": "0x020e1688ced40fd93f7ce12635700ba02150bfa4",
+
     "factory_address_v1": "0xd3C1bF5582b5f3029b15bE04a49C65d3226dFB0C",
     "zap_address_v1": "0x64d65e3d70ba0f8812a9d1d7b8b5c51dab78cd15",
     "zap_optimized_address_v1": "0x607690f749fadb8fb87fc01f6dbdee277eea5fdf",

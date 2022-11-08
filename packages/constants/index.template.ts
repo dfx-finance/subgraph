@@ -18,6 +18,24 @@ export const FACTORY_ADDRESS_V2 = '{{ factory_address_v2 }}{{^factory_address_v2
 export const ASSIM_FACTORY_ADDRESS_V2 = '{{ assim_factory_address_v2 }}{{^assim_factory_address_v2}}0x0000000000000000000000000000000000000000{{/assim_factory_address_v2}}'
 export const ZAP_ADDRESS_V2 = '{{ zap_address_v2 }}{{^zap_address_v2}}0x0123456789abcdef0123456789abcdef12345678{{/zap_address_v2}}'
 
+export const XSGD_GAUGE = '{{ xsgd_gauge_address }}{{^xsgd_gauge_address}}0x0000000000000000000000000000000000000000{{/xsgd_gauge_address}}'
+export const CADC_GAUGE  = '{{ cadc_gauge_address }}{{^cadc_gauge_address}}0x0000000000000000000000000000000000000000{{/cadc_gauge_address}}'
+export const EURS_GAUGE  = '{{ eurs_gauge_address }}{{^eurs_gauge_address}}0x0000000000000000000000000000000000000000{{/eurs_gauge_address}}'
+export const NZDS_GAUGE  = '{{ nzds_gauge_address }}{{^nzds_gauge_address}}0x0000000000000000000000000000000000000000{{/nzds_gauge_address}}'
+export const TRYB_GAUGE  = '{{ tryb_gauge_address }}{{^tryb_gauge_address}}0x0000000000000000000000000000000000000000{{/tryb_gauge_address}}'
+export const XIDR_GAUGE  = '{{ xidr_gauge_address }}{{^xidr_gauge_address}}0x0000000000000000000000000000000000000000{{/xidr_gauge_address}}'
+export const EUROC_GAUGE  = '{{ euroc_gauge_address }}{{^euroc_gauge_address}}0x0000000000000000000000000000000000000000{{/euroc_gauge_address}}'
+export const GYEN_GAUGE  = '{{ gyen_gauge_address }}{{^gyen_gauge_address}}0x0000000000000000000000000000000000000000{{/gyen_gauge_address}}'
+
+export const XSGD_POOL_V2 = '{{ xsgd_pool_address_v2 }}{{^xsgd_pool_address_v2}}0x0000000000000000000000000000000000000000{{/xsgd_pool_address_v2}}'
+export const CADC_POOL_V2 = '{{ cadc_pool_address_v2 }}{{^cadc_pool_address_v2}}0x0000000000000000000000000000000000000000{{/cadc_pool_address_v2}}'
+export const EURS_POOL_V2 = '{{ eurs_pool_address_v2 }}{{^eurs_pool_address_v2}}0x0000000000000000000000000000000000000000{{/eurs_pool_address_v2}}'
+export const NZDS_POOL_V2 = '{{ nzds_pool_address_v2 }}{{^nzds_pool_address_v2}}0x0000000000000000000000000000000000000000{{/nzds_pool_address_v2}}'
+export const TRYB_POOL_V2 = '{{ tryb_pool_address_v2 }}{{^tryb_pool_address_v2}}0x0000000000000000000000000000000000000000{{/tryb_pool_address_v2}}'
+export const XIDR_POOL_V2 = '{{ xidr_pool_address_v2 }}{{^xidr_pool_address_v2}}0x0000000000000000000000000000000000000000{{/xidr_pool_address_v2}}'
+export const EUROC_POOL_V2 = '{{ euroc_pool_address_v2 }}{{^euroc_pool_address_v2}}0x0000000000000000000000000000000000000000{{/euroc_pool_address_v2}}'
+export const GYEN_POOL_V2 = '{{ gyen_pool_address_v2 }}{{^gyen_pool_address_v2}}0x0000000000000000000000000000000000000000{{/gyen_pool_address_v2}}'
+
 // V1
 export const FACTORY_ADDRESS_V1 = '{{ factory_address_v1 }}{{^factory_address_v1}}0x0000000000000000000000000000000000000000{{/factory_address_v1}}'
 
