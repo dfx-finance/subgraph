@@ -267,7 +267,7 @@ export function handleTransfer(event: TransferEvent): void {
     pair.save()
     dfx.save()
 
-
+    let pairHourData = updatePairHourData(event)
     let pairDayData = updatePairDayData(event)
     let reserve1DiffUSD = entity.token1Amount.times(pair.swapRateUSD)
     if (entity.type == "withdraw") {
@@ -279,6 +279,7 @@ export function handleTransfer(event: TransferEvent): void {
         pairDayData.reserve1Deposit = pairDayData.reserve1Deposit.plus(entity.token1Amount)
         pairDayData.reserve1DepositUSD = pairDayData.reserve1DepositUSD.plus(reserve1DiffUSD)
     }
+    pairHourData.save()
     pairDayData.save()
 
     // poolParticipant.liquidityProvided

@@ -1,9 +1,11 @@
 import { BigInt, ethereum } from '@graphprotocol/graph-ts'
-import { ZERO_BD, ZERO_BI } from './helpers'
+import { 
+    ZERO_BD,
+} from './helpers'
 
 import { 
     PairDayData,
-    Pair
+    Pair,
 } from "../generated/schema"
 
 export function updatePairDayData(event: ethereum.Event): PairDayData {
@@ -42,8 +44,7 @@ export function updatePairDayData(event: ethereum.Event): PairDayData {
         pairDayData.swapRateUSD = pair.swapRateUSD
         // pairDayData.participantCount = pair.participantCount
 
-        let amount1ReserveUSD = pair.reserve1.times(pair.swapRateUSD)
-        pairDayData.reserveUSD = pair.reserve0.plus(amount1ReserveUSD)
+        pairDayData.reserveUSD = pair.reserveUSD
     }
     pairDayData.save()
 
