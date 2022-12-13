@@ -5,7 +5,7 @@ import { Gauge } from "../generated/templates/Curve/Gauge";
 import { Oracle } from "../generated/AssimilatorFactory/Oracle";
 import { AssimilatorFactory } from "../generated/CurveFactoryV2/AssimilatorFactory";
 import { AssimilatorV2 } from "../generated/CurveFactoryV2/AssimilatorV2";
-import { Token } from "../generated/schema";
+import { Pair, Token } from "../generated/schema";
 import { CurveFactoryV2 } from "../generated/CurveFactoryV2/CurveFactoryV2";
 import { 
     ZAP_ADDRESS_V2,
@@ -17,6 +17,10 @@ import {
     TRYB_GAUGE, TRYB_POOL_V2, 
     XIDR_GAUGE, XIDR_POOL_V2, 
     XSGD_GAUGE, XSGD_POOL_V2 } from "../../../packages/constants";
+
+import {
+    PoolParticipant,
+} from "../generated/schema"
 
 export let ZERO_BI = BigInt.fromI32(0)
 export let ONE_BI = BigInt.fromI32(1)
@@ -152,10 +156,6 @@ export function fetchStakingContract(tokenAddress: string): string | null {
     }
 }
 
-// export function fetchPoolParticipantUnstakedLPT(curveAddress: Address, participantAddress: Address): BigDecimal {
-    
-// }
-
 export function fetchPoolParticipantStakedLPT(curveAddress: Address, participantAddress: Address): BigDecimal {
     let stakingAddress = fetchStakingContract(curveAddress.toHexString())
     let lptInGauge = ZERO_BD
@@ -229,3 +229,30 @@ export function getTransferType(fromAddress: string, toAddress: string): string 
     }
 }
 
+// export function handleNewPoolParticipant(
+//         transferType: string,
+//         participantAddresss: Address,
+//         poolAddress: Address,
+//     ) {
+    
+//     let poolParticipant = PoolParticipant.load(poolAddress.toHexString() + "-" + participantAddresss.toHexString())
+//     if (poolParticipant === null) {
+//         poolParticipant = new PoolParticipant(poolAddress.toHexString() + "-" + participantAddresss.toHexString()) as PoolParticipant
+//         poolParticipant.pair = pair.id
+//         poolParticipant.participant = participantAddresss
+//         poolParticipant.liquidityProvided = ZERO_BD
+//         // dedeuce the pair count
+//         if (transferType == "withdraw") {
+//             // NOT always minus one here cause we would have to check first 
+//             // Check balance first
+//             let balance = fetchBalanceOf(poolAddress, participantAddresss)
+//             if (balance <= ZERO_BD) {
+//                 pair.participantCount.minus(ONE_BI)
+//             }
+//         } else if (transferType == "two-sided-deposit" || transferType == "single-sided-deposit") {
+//             // always add one here cause we know its new
+//         } else if (transferType == "lp-transfer") {
+//             // add one only if the amount is not larger already have to check first
+//         }
+//     }
+// }

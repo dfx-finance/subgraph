@@ -109,22 +109,22 @@ export function handleTrade(event: TradeEvent): void {
     pair.reserveNative = fetchLiquidity(event.address)
     pair.reserveUSD = reserve0USD.plus(reserve1USD)
 
-    let poolParticipant = PoolParticipant.load(event.address.toHexString() + "-" + event.transaction.from.toHexString())
-    if (poolParticipant === null) {
-        poolParticipant = new PoolParticipant(event.address.toHexString() + "-" + event.transaction.from.toHexString()) as PoolParticipant
-        poolParticipant.pair = pair.id
-        poolParticipant.participant = event.transaction.from
-        poolParticipant.volumeUSD = ZERO_BD
-        poolParticipant.volumeNative = ZERO_BD
-        poolParticipant.liquidityProvided = ZERO_BD
-        pair.participantCount = pair.participantCount.plus(ONE_BI)
-    }
+    // let poolParticipant = PoolParticipant.load(event.address.toHexString() + "-" + event.transaction.from.toHexString())
+    // if (poolParticipant === null) {
+    //     poolParticipant = new PoolParticipant(event.address.toHexString() + "-" + event.transaction.from.toHexString()) as PoolParticipant
+    //     poolParticipant.pair = pair.id
+    //     poolParticipant.participant = event.transaction.from
+    //     poolParticipant.volumeUSD = ZERO_BD
+    //     poolParticipant.volumeNative = ZERO_BD
+    //     poolParticipant.liquidityProvided = ZERO_BD
+    //     pair.participantCount = pair.participantCount.plus(ONE_BI)
+    // }
 
     let amount1USD = amount1.times(token1.priceUSD)
     // poolParticipant.lastTxn = event.transaction.hash.toHex() + "-" + event.logIndex.toString()
-    poolParticipant.volumeUSD = poolParticipant.volumeUSD.plus(amount1USD)
-    poolParticipant.volumeNative = poolParticipant.volumeNative.plus(amount0)
-    poolParticipant.save()
+    // poolParticipant.volumeUSD = poolParticipant.volumeUSD.plus(amount1USD)
+    // poolParticipant.volumeNative = poolParticipant.volumeNative.plus(amount0)
+    // poolParticipant.save()
 
       // update day entities
     let pairHourData = updatePairHourData(event)
@@ -214,6 +214,14 @@ export function handleTransfer(event: TransferEvent): void {
     let reserve0Diff = pair.reserve0.minus(prevReserve0)
     let reserve1Diff = pair.reserve1.minus(prevReserve1)
 
+    let poolParticipant = PoolParticipant.load(event.address.toHexString() + "-" + event.transaction.from.toHexString())
+    if (poolParticipant === null) {
+        poolParticipant = new PoolParticipant(event.address.toHexString() + "-" + event.transaction.from.toHexString()) as PoolParticipant
+        poolParticipant.pair = pair.id
+        poolParticipant.participant = event.transaction.from
+        poolParticipant.liquidityProvided = ZERO_BD
+    }
+
     if (entity.type == "withdraw") {
         reserve0Diff = reserve0Diff.neg()
         reserve1Diff = reserve1Diff.neg()
@@ -269,16 +277,28 @@ export function handleTransfer(event: TransferEvent): void {
 
     let pairHourData = updatePairHourData(event)
     let pairDayData = updatePairDayData(event)
-    let reserve1DiffUSD = entity.token1Amount.times(pair.swapRateUSD)
+    let reserve0DiffUSD = entity.token0Amount.times(pair.swapRateUSD)
     if (entity.type == "withdraw") {
         pairDayData.reserve0Withdraw = pairDayData.reserve0Withdraw.plus(entity.token0Amount)
+        pairDayData.reserve0WithdrawUSD = pairDayData.reserve0WithdrawUSD.plus(reserve0DiffUSD)
         pairDayData.reserve1Withdraw = pairDayData.reserve1Withdraw.plus(entity.token1Amount)
-        pairDayData.reserve1WithdrawUSD = pairDayData.reserve1WithdrawUSD.plus(reserve1DiffUSD)
+
+        // pool participant
+        // poolParticipant.liquidityProvided = poolParticipant.liquidityProvided.minus(reserve0DiffUSD)
+        pair.participantCount.minus(ONE_BI)
     } else if (entity.type == "two-sided-deposit" || entity.type == "single-sided-deposit") {
         pairDayData.reserve0Deposit = pairDayData.reserve0Deposit.plus(entity.token0Amount)
+        pairDayData.reserve0DepositUSD = pairDayData.reserve0DepositUSD.plus(reserve0DiffUSD)
         pairDayData.reserve1Deposit = pairDayData.reserve1Deposit.plus(entity.token1Amount)
-        pairDayData.reserve1DepositUSD = pairDayData.reserve1DepositUSD.plus(reserve1DiffUSD)
+
+        // pool participant
+        pair.participantCount.plus(ONE_BI)
+    } else if (entity.type == "lp-transfer") {
+        // new participant
     }
+
+    // pool participation starts here
+
     pairHourData.save()
     pairDayData.save()
 

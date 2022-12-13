@@ -58,7 +58,7 @@ type Pair @entity {
   totalLPToken: BigDecimal!
 
   # # Pair hour data
-  # hourData: [PairHourData!]! @derivedFrom(field: "pair")
+  hourData: [PairHourData!]! @derivedFrom(field: "pair")
 }
 
 type Trade @entity {
@@ -99,8 +99,8 @@ type PoolParticipant @entity {
   pair: Pair!
   # lastTxn: String!
   participant: Bytes! # address
-  volumeNative: BigDecimal!
-  volumeUSD: BigDecimal!
+  # volumeNative: BigDecimal!
+  # volumeUSD: BigDecimal!
   liquidityProvided: BigDecimal!
 }
 
@@ -141,11 +141,11 @@ type PairDayData @entity {
   reserve1: BigDecimal!
   reserveUSD: BigDecimal!
   reserve0Deposit: BigDecimal!
+  reserve0DepositUSD: BigDecimal!
   reserve1Deposit: BigDecimal!
-  reserve1DepositUSD: BigDecimal!
   reserve0Withdraw: BigDecimal!
+  reserve0WithdrawUSD: BigDecimal!
   reserve1Withdraw: BigDecimal!
-  reserve1WithdrawUSD: BigDecimal!
 
   # price stats
   swapRateUSD: BigDecimal!
@@ -185,7 +185,7 @@ type Token @entity {
   priceUSD: BigDecimal!
 
   # derived fields
-  # tokenDayData: [TokenDayData!]! @derivedFrom(field: "token")
+  tokenDayData: [TokenDayData!]! @derivedFrom(field: "token")
 }
 
 type TokenDayData @entity {
