@@ -104,6 +104,8 @@ templates:
           file: ../../packages/abis/ERC20.json
         - name: Gauge
           file: ../../packages/abis/Gauge.json
+        - name: Swaps
+          file: ../../packages/abis/Swaps.json
       eventHandlers:
         - event: Trade(indexed address,indexed address,indexed address,uint256,uint256)
           handler: handleTrade

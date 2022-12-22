@@ -1,4 +1,3 @@
-# TODO: Template the subgraph yaml
 specVersion: 0.0.4
 schema:
   file: ./schema.graphql
@@ -40,10 +39,10 @@ dataSources:
           handler: handleProtocolFeeUpdated
         - event: TreasuryUpdated(indexed address)
           handler: handleTreasuryUpdated
-      file: ./src/factory.ts'
-  - kind: {{ network }}
+      file: ./src/factory.ts
+  - kind: ethereum/contract
     name: AssimilatorFactory
-    network: mainnet
+    network: {{ network }}
     source:
       address: '{{ assim_factory_address }}'
       abi: AssimilatorFactory
@@ -105,9 +104,10 @@ templates:
           file: ../../packages/abis/ERC20.json
         - name: Gauge
           file: ../../packages/abis/Gauge.json
+        - name: Swaps
+          file: ../../packages/abis/Swaps.json
       eventHandlers:
         - event: Trade(indexed address,indexed address,indexed address,uint256,uint256)
           handler: handleTrade
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransfer
-

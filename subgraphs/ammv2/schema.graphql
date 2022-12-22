@@ -70,6 +70,7 @@ type Trade @entity {
   target: Bytes! # address
   originAmount: BigInt! # uint256
   targetAmount: BigInt! # uint256
+  # fee: BigInt! # uint256
 }
 
 type Transfer @entity {
