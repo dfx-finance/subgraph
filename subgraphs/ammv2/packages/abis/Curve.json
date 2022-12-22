@@ -293,6 +293,12 @@
         "internalType": "uint256",
         "name": "targetAmount",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "int128",
+        "name": "rawProtocolFee",
+        "type": "int128"
       }
     ],
     "name": "Trade",

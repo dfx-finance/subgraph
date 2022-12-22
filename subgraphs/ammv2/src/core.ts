@@ -59,7 +59,7 @@ export function handleTrade(event: TradeEvent): void {
     entity.pair = ''
     entity.originAmount = event.params.originAmount
     entity.targetAmount = event.params.targetAmount
-    // entity.fee = event.params.rawProtocolFee
+    entity.fee = event.params.rawProtocolFee
 
     let pair = Pair.load(event.address.toHexString())!
     entity.pair = pair.id

@@ -6,9 +6,9 @@ dataSources:
     name: CurveFactoryV2
     network: mainnet
     source:
-      address: '0xDE5bb69892D663f1facBE351363509BcB65573AA'
+      address: '0x72e2c186CeC99A8743E0C0FD2298cc70f116dD8D'
       abi: CurveFactoryV2
-      startBlock: 15747375
+      startBlock: 16228165
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -44,9 +44,9 @@ dataSources:
     name: AssimilatorFactory
     network: mainnet
     source:
-      address: '0x46Fa2e883cc7DdFfEd39C55300Ee4e6d31a8268c'
+      address: '0x961e5492f2fd93ac2e26596a7bc4db331f603bfc'
       abi: AssimilatorFactory
-      startBlock: 15747375
+      startBlock: 16228165
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -104,10 +104,8 @@ templates:
           file: ../../packages/abis/ERC20.json
         - name: Gauge
           file: ../../packages/abis/Gauge.json
-        - name: Swaps
-          file: ../../packages/abis/Swaps.json
       eventHandlers:
-        - event: Trade(indexed address,indexed address,indexed address,uint256,uint256)
+        - event: Trade(indexed address,indexed address,indexed address,uint256,uint256,int128)
           handler: handleTrade
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransfer
