@@ -51,10 +51,6 @@ dataSources:
       eventHandlers:
         - event: VoteForGauge(uint256,address,address,uint256)
           handler: handleVoteForGauge
-        - event: NewGauge(address,int128,uint256)
-          handler: handleNewGauge
-        - event: KilledGauge(address)
-          handler: handleKilledGauge
       file: ./src/gauge-controller.ts
   - kind: ethereum
     name: dfxDistributor
