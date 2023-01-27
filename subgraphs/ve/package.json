@@ -1,13 +1,15 @@
 {
-  "name": "dfx-ve-test",
+  "name": "ve",
   "license": "UNLICENSED",
+  "version": "1.0.0",
+  "author": "DFX",  
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/ dfx-ve-test",
-    "create-local": "graph create --node http://localhost:8020/ dfx-ve-test",
-    "remove-local": "graph remove --node http://localhost:8020/ dfx-ve-test",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 dfx-ve-test",
+    "deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/ ve",
+    "create-local": "graph create --node http://localhost:8020/ ve",
+    "remove-local": "graph remove --node http://localhost:8020/ ve",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 ve",
     "test": "graph test"
   },
   "dependencies": {
