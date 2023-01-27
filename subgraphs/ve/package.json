@@ -11,10 +11,5 @@
     "remove-local": "graph remove --node http://localhost:8020/ ve",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 ve",
     "test": "graph test"
-  },
-  "dependencies": {
-    "@graphprotocol/graph-cli": "0.37.7",
-    "@graphprotocol/graph-ts": "0.29.1"
-  },
-  "devDependencies": { "matchstick-as": "0.5.0" }
+  }
 }
