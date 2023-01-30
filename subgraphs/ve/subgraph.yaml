@@ -45,9 +45,9 @@ dataSources:
         - KilledGauge
       abis:
         - name: gaugeController
-          file: ../../packages/abis/gaugeController.json
+          file: ../../packages/abis/GaugeController.json
         - name: dfxDistributor
-          file: ../../packages/abis/dfxDistributor.json
+          file: ../../packages/abis/DfxDistributor.json
       eventHandlers:
         - event: VoteForGauge(uint256,address,address,uint256)
           handler: handleVoteForGauge
@@ -70,7 +70,7 @@ dataSources:
         - UpdateMiningParameters
       abis:
         - name: dfxDistributor
-          file: ../../packages/abis/dfxDistributor.json
+          file: ../../packages/abis/DfxDistributor.json
       eventHandlers:
         - event: RateUpdated(uint256)
           handler: handleRateUpdated
