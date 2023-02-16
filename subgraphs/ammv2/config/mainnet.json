@@ -1,6 +1,6 @@
 {
     "network": "mainnet",
-    "startBlock": "16228165",
-    "factory_address": "0x72e2c186CeC99A8743E0C0FD2298cc70f116dD8D",
-    "assim_factory_address": "0x961e5492f2fd93ac2e26596a7bc4db331f603bfc"
+    "startBlock": "16607850",
+    "factory_address": "0x9AdEAc3b6d29D9D5e543B8579e803a7ccE72C9cd",
+    "assim_factory_address": "0x65071363538824F18A0261200843F03f7293757a"
 }

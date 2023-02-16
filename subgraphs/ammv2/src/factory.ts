@@ -74,7 +74,8 @@ export function handleNewCurve(event: NewCurveEvent): void {
     pair.epsilon = fetchProtocolEpsilon(event.params.curve)
     pair.lambda = fetchProtocolLambda(event.params.curve)
 
-    pair.protocolFee = fetchProtocolFee(event.address)
+    // pair.protocolFee = fetchProtocolFee(event.address)
+    pair.protocolFee = ZERO_BI
 
     pair.reserve0 = ZERO_BD
     pair.reserve1 = ZERO_BD
