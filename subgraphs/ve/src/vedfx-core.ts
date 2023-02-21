@@ -3,35 +3,35 @@ import {
   Withdraw as WithdrawEvent,
   Supply as SupplyEvent,
 } from "../generated/veDFX/veDFX";
-import { Deposit, Withdraw, Supply } from "../generated/schema";
-import { BigDecimal } from "@graphprotocol/graph-ts";
+import { Lock, Withdraw, Supply } from "../generated/schema";
+import { BigDecimal, BigInt } from "@graphprotocol/graph-ts";
 
-export function handleDeposit(event: DepositEvent): void {
-  let entity = new Deposit(
+function lockType(_type: BigInt) {
+  switch (_type.toU32()) {
+    case 0:
+      return "deposit";
+    case 1:
+      return "lock";
+    case 2:
+      return "increaseAmount";
+    case 3:
+      return "increaseDuration";
+  }
+  return "unknown-type";
+}
+
+export function handleLock(event: DepositEvent): void {
+  let entity = new Lock(
     event.transaction.hash.concatI32(event.logIndex.toI32())
   );
   entity.address = event.params.provider;
   entity.value = event.params.value;
   entity.locktime = event.params.locktime;
-  switch (event.params.type.toU32()) {
-    case 0:
-      entity.type = "deposit";
-      break;
-    case 1:
-      entity.type = "lock";
-      break;
-    case 2:
-      entity.type = "increaseAmount";
-      break;
-    case 3:
-      entity.type = "increaseDuration";
-      break;
-  }
+  entity.type = lockType(event.params.type);
 
   entity.blockNumber = event.block.number;
   entity.blockTimestamp = event.block.timestamp;
   entity.transactionHash = event.transaction.hash;
-
   entity.save();
 }
 
@@ -45,7 +45,6 @@ export function handleWithdraw(event: WithdrawEvent): void {
   entity.blockNumber = event.block.number;
   entity.blockTimestamp = event.block.timestamp;
   entity.transactionHash = event.transaction.hash;
-
   entity.save();
 }
 

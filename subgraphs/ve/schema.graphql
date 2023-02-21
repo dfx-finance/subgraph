@@ -1,4 +1,7 @@
-type Deposit @entity(immutable: true) {
+###
+### veDFX
+###
+type Lock @entity(immutable: true) {
   id: Bytes!
   address: Bytes! # address
   value: BigInt! # uint256
@@ -27,24 +30,49 @@ type Supply @entity(immutable: true) {
   transactionHash: Bytes!
 }
 
+###
+### Gauge Controller
+###
 type Vote @entity(immutable: true) {
   id: Bytes!
   voteFor: Bytes! # address
   weight: BigInt!
   totalWeight: BigInt!
-  gaugeWeights: [GaugeWeight!]! @derivedFrom(field: "vote")
   blockNumber: BigInt!
   blockTimestamp: BigInt!
   transactionHash: Bytes!
 }
 
-type GaugeWeight @entity {
-  id: Bytes!
-  gauge: Bytes! # address
-  weight: BigInt!
-  vote: Vote!
+##
+## Gauge
+##
+type Gauge @entity(immutable: true) {
+  id: ID!
+  address: Bytes!
+
+  # mirrored from the smart contract
+  lpt: Bytes! # addr
+  lptAmount: BigInt!
+  symbol: String!
+  # calculated
+  totalWeight: BigInt!
+
+  hourData: [GaugeHourData!]! @derivedFrom(field: "gauge")
 }
 
+type GaugeHourData @entity(immutable: true) {
+  id: ID!
+  hourStartUnix: Int! # unix timestamp for start of hour
+  gauge: Gauge!
+  lptAmount: BigInt!
+  relativeWeight: BigInt!
+  weight: BigInt!
+  totalWeight: BigInt!
+}
+
+##
+## DFX Distributor
+##
 type Rate @entity(immutable: true) {
   id: Bytes!
   rate: BigInt! # uint256
