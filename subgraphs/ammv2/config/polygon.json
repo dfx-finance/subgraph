@@ -1,6 +1,6 @@
 {
     "network": "matic",
-    "startBlock": "37064325",
-    "factory_address": "0xC7F49e9b4991663cb3d216DE351843DBD12eB7cA",
-    "assim_factory_address": "0x5C690559a6a4D2fD1C7fD18442423e078e6Da105"
+    "startBlock": "39183402",
+    "factory_address": "0x3591040cE5dF8828b3Ed4Ec39D030F832d43fD53",
+    "assim_factory_address": "0x749E13D4c04d98292174E5006c85186b9e9f6628"
 }

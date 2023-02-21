@@ -112,27 +112,27 @@ export function fetchProtocolFee(factoryAddress: Address): BigInt {
 
 export function fetchProtocolAlpha(curveAddress: Address): BigInt {
     let contract = Curve.bind(curveAddress)
-    return contract.curve().value0
+    return contract.viewCurve().value0
 }
 
 export function fetchProtocolBeta(curveAddress: Address): BigInt {
     let contract = Curve.bind(curveAddress)
-    return contract.curve().value1
+    return contract.viewCurve().value1
 }
 
 export function fetchProtocolDelta(curveAddress: Address): BigInt {
     let contract = Curve.bind(curveAddress)
-    return contract.curve().value2
+    return contract.viewCurve().value2
 }
 
 export function fetchProtocolEpsilon(curveAddress: Address): BigInt {
     let contract = Curve.bind(curveAddress)
-    return contract.curve().value3
+    return contract.viewCurve().value3
 }
 
 export function fetchProtocolLambda(curveAddress: Address): BigInt {
     let contract = Curve.bind(curveAddress)
-    return contract.curve().value4
+    return contract.viewCurve().value4
 }
 
 export function fetchStakingContract(tokenAddress: string): string | null {

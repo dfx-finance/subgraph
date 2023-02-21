@@ -11,21 +11,21 @@
     "nzds_address": "0xeafe31cd9e8e01c8f0073a2c974f728fb80e9dce",
     "tryb_address": "0x4fb71290ac171e1d144f7221d882becac7196eb5",
 
-    "factory_address_v2": "0xC7F49e9b4991663cb3d216DE351843DBD12eB7cA",
-    "assim_factory_address_v2": "0x5C690559a6a4D2fD1C7fD18442423e078e6Da105",
-    "zap_address_v2": "0xfcb58A28017530AA40a43719184A026fc82A648f",
+    "factory_address_v2": "0x3591040cE5dF8828b3Ed4Ec39D030F832d43fD53",
+    "assim_factory_address_v2": "0x749E13D4c04d98292174E5006c85186b9e9f6628",
+    "zap_address_v2": "0xA070fB11969A50aACC885B7b5245cBc84de2214c",
 
-    "cadc_pool_address_v2": "0x5730c62e19c357332f91af4c07dba2920cbf689e",
-    "euroc_pool_address_v2": "0x700fb2183e4b37fc76fd732adf447a6ff41c7af5",
-    "xsgd_pool_address_v2": "0xb1a5fe6ee43c2d4a6d0f3668dae60829574e4e81",
-    "nzds_pool_address_v2": "0x800d6b4996526574fdf733b86d1eaca934187ce9",
-    "tryb_pool_address_v2": "0xbde2ca38b651564c76f0a4520c3c3172a892e9eb",
+    "cadc_pool_address_v2": "0x6691fa63aa1d7e422dc5d19c9b04f25909fde966",
+    "eurs_pool_address_v2": "0x2385d7ab31f5a470b1723675846cb074988531da",
+    "xsgd_pool_address_v2": "0xbc408da6a7237682c8672ef7a66aff09a9069b15",
+    "nzds_pool_address_v2": "",
+    "tryb_pool_address_v2": "0xaab708fbd208ac262821e229ded16234277b2b13",
 
+    "cadc_staking_address_v2": "0xba6f70c3dbcf712fa946a0c527c57ef7b654e2d5",
+    "eurs_staking_address_v2": "0xa1fcb23ce4f0aaea0de82b2a34c86fcc17d259fd",
     "xsgd_staking_address_v2": "0x89141b3c8a35f5323853d8c8839488fc0b90aa4d",
-    "cadc_staking_address_v2": "0x416e075c7893ceae8e4531655fb7725b79f86e10",
-    "eurs_staking_address_v2": "0xb748a5509246e0a47d20fb64343dbfad5b26dae7",
-    "nzds_staking_address_v2": "0x6e01699ef5c36dce95d627b2e29e8323a086122c",
-    "tryb_staking_address_v2": "0xfcbb946cbc0434a541433e97e835072f54a438f6",
+    "nzds_staking_address_v2": "",
+    "tryb_staking_address_v2": "0x6e87a3b9e0a9de58b3c5fa81c93461e82ee04e7b",
 
     "zap_address": "0x921a33b6f2cf9bc79fdd1f052c36b12efeec2aa7",
 
