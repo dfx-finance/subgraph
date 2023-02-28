@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-specVersion: 0.0.2
-=======
 specVersion: 0.0.5
->>>>>>> main
 schema:
   file: ./schema.graphql
 dataSources:
@@ -15,11 +11,7 @@ dataSources:
       startBlock: 12459107
     mapping:
       kind: ethereum/events
-<<<<<<< HEAD
-      apiVersion: 0.0.5
-=======
       apiVersion: 0.0.7
->>>>>>> main
       language: wasm/assemblyscript
       entities:
         - NewCurve
@@ -43,11 +35,7 @@ templates:
       abi: Curve
     mapping:
       kind: ethereum/events
-<<<<<<< HEAD
-      apiVersion: 0.0.5
-=======
       apiVersion: 0.0.7
->>>>>>> main
       language: wasm/assemblyscript
       file: ./src/core.ts
       entities:
