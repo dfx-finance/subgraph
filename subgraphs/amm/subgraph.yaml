@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 specVersion: 0.0.2
+=======
+specVersion: 0.0.5
+>>>>>>> main
 schema:
   file: ./schema.graphql
 dataSources:
@@ -6,12 +10,16 @@ dataSources:
     name: Factory
     network: mainnet
     source:
-      address: '0xd3C1bF5582b5f3029b15bE04a49C65d3226dFB0C'
+      address: "0xd3C1bF5582b5f3029b15bE04a49C65d3226dFB0C"
       abi: Factory
       startBlock: 12459107
     mapping:
       kind: ethereum/events
+<<<<<<< HEAD
       apiVersion: 0.0.5
+=======
+      apiVersion: 0.0.7
+>>>>>>> main
       language: wasm/assemblyscript
       entities:
         - NewCurve
@@ -35,7 +43,11 @@ templates:
       abi: Curve
     mapping:
       kind: ethereum/events
+<<<<<<< HEAD
       apiVersion: 0.0.5
+=======
+      apiVersion: 0.0.7
+>>>>>>> main
       language: wasm/assemblyscript
       file: ./src/core.ts
       entities:

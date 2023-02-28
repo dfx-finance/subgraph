@@ -1,0 +1,13 @@
+{
+  "mainnet": {
+    "veDFX": {
+      "address": "0x3ac91a7a2d30fa25ada4616d337a28ea988988be"
+    },
+    "dfxDistributor": {
+      "address": "0xc31cb0Ba6DE9C01c67d8Ccf944320251CE3C99f8"
+    },
+    "gaugeController": {
+      "address": "0x3C56A223fE8F61269E25eF1116f9f185074c6C44"
+    }
+  }
+}
