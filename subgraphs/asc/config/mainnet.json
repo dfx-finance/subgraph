@@ -1,6 +1,0 @@
-{
-    "network": "mainnet",
-    "startBlock": "14393885",
-    "asc_proxy_address": "0xFE32747d0251BA92bcb80b6D16C8257eCF25AB1C",
-    "staking_abi": "../../packages/abis/ASC.json"
-}

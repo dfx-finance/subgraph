@@ -1,0 +1,24 @@
+{
+  "name": "ammv2",
+  "license": "UNLICENSED",
+  "version": "1.0.0",
+  "author": "DFX",
+  "scripts": {
+    "build": "graph build",
+    "codegen": "graph codegen",
+    "deploy-graph": "graph deploy --node https://api.studio.thegraph.com/deploy/ ammv2",
+    "deploy-prod": "goldsky subgraph deploy --overwrite dfx-v2/latest",
+    "deploy-prod-polygon": "goldsky subgraph deploy --overwrite dfx-v2-polygon/latest",
+    "create-local": "graph create --node http://localhost:8020/ ammv2",
+    "remove-local": "graph remove --node http://localhost:8020/ ammv2",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 ammv2",
+    "prepare:mainnet": "mustache config/mainnet.json template.yaml > subgraph.yaml",
+    "prepare:polygon": "mustache config/polygon.json template.yaml > subgraph.yaml",
+    "test": "graph test"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.35.0",
+    "@graphprotocol/graph-ts": "0.28.1"
+  },
+  "devDependencies": { "matchstick-as": "0.5.0" }
+}
