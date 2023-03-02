@@ -11,6 +11,7 @@ export const EUROC = '{{ euroc_address }}{{^euroc_address}}0x0000000000000000000
 export const GYEN = '{{ gyen_address }}{{^gyen_address}}0x0000000000000000000000000000000000000000{{/gyen_address}}'
 
 export const DFX_MULTISIG_ADDRESS = '{{ dfx_multisig_address }}{{^dfx_multisig_address}}0x0000000000000000000000000000000000000000{{/dfx_multisig_address}}'
+export const DFX_DEV_DEPLOY_ADDRESS = '{{ dfx_multisig_address }}{{^dfx_multisig_address}}0x0000000000000000000000000000000000000000{{/dfx_multisig_address}}'
 export const BLACKHOLE_ADDRESS = '{{ blackhole_address }}{{^blackhole_address}}0x0000000000000000000000000000000000000000{{/blackhole_address}}'
 
 // V2

@@ -1,0 +1,20 @@
+{
+    "network": "arbitrum-one",
+
+    "blackhole_address": "0x0000000000000000000000000000000000000000",
+    "dfx_multisig_address": "0x80d27bfb638f4fea1e862f1bd07dea577cb77d38",
+
+    "usdc_address": "0xff970a61a04b1ca14834a43f5de4533ebddb5cc8",
+    "cadc_address": "",
+    "eurs_address": "0x863708032b5c328e11abcbc0df9d79c71fc52a48",
+
+    "factory_address_v2": "0x9544995B5312B26acDf09e66E699c34310b7c856",
+    "assim_factory_address_v2": "0x2635Eac0197638d0534F9Db6AAF439dFfE7Cff4E",
+    "zap_address_v2": "",
+
+    "cadc_pool_address_v2": "",
+    "eurs_pool_address_v2": "0x6f4ce956044412bb9258a805012539d3437e4e99",
+
+    "cadc_staking_address_v2": "",
+    "eurs_staking_address_v2": ""
+}
