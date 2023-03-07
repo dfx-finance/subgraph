@@ -35,6 +35,7 @@ import {
   fetchProtocolEpsilon,
   fetchProtocolLambda,
   fetchProtocolFee,
+  fetchIsDFXApproved,
 } from "./helpers"
 import { FACTORY_ADDRESS_V2, ASSIM_FACTORY_ADDRESS_V2 } from "../../../packages/constants/index"
 import { DFXFactoryV2, Pair, Token, Oracle, Assimilator} from "../generated/schema"
@@ -97,6 +98,8 @@ export function handleNewCurve(event: NewCurveEvent): void {
 
     pair.token0 = token0.id
     pair.token1 = token1.id
+
+    pair.dfxApproved = fetchIsDFXApproved(event.transaction.from)
   }
 
   let factory = DFXFactoryV2.load(FACTORY_ADDRESS_V2)

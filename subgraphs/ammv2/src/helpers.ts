@@ -8,6 +8,7 @@ import { AssimilatorV2 } from "../generated/CurveFactoryV2/AssimilatorV2";
 import { Pair, Token } from "../generated/schema";
 import { CurveFactoryV2 } from "../generated/CurveFactoryV2/CurveFactoryV2";
 import { 
+    DFX_HARRY_DEV_ADDRESS,
     ZAP_ADDRESS_V2,
     BLACKHOLE_ADDRESS,
     CADC_GAUGE, CADC_POOL_V2, 
@@ -154,6 +155,13 @@ export function fetchStakingContract(tokenAddress: string): string | null {
     } else {
         return null
     }
+}
+
+export function fetchIsDFXApproved(curveCreatorAddress: Address): bool {
+    if (curveCreatorAddress.toHexString() == DFX_HARRY_DEV_ADDRESS){
+        return true
+    }
+    return false
 }
 
 export function fetchPoolParticipantStakedLPT(curveAddress: Address, participantAddress: Address): BigDecimal {

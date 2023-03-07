@@ -59,6 +59,9 @@ type Pair @entity {
 
   # # Pair hour data
   hourData: [PairHourData!]! @derivedFrom(field: "pair")
+
+  # dfx official pools
+  dfxApproved: Boolean!
 }
 
 type Trade @entity {
