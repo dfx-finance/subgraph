@@ -3,6 +3,8 @@
 
     "blackhole_address": "0x0000000000000000000000000000000000000000",
     "dfx_multisig_address": "0x80d27bfb638f4fea1e862f1bd07dea577cb77d38",
+    
+    "dfx_harry_dev_address": "0xc02cd35432b72ab6cf8f511c62ff2e89d7baa0fb",
 
     "usdc_address": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
     "xsgd_address": "0x769434dca303597c8fc4997bf3dab233e961eda2",
