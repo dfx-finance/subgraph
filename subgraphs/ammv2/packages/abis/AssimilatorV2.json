@@ -66,7 +66,27 @@
       },
       {
         "internalType": "uint256",
+        "name": "_minBaseAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_maxBaseAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
         "name": "_quoteWeight",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_minQuoteAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_maxQuoteAmount",
         "type": "uint256"
       },
       {
@@ -132,6 +152,32 @@
       }
     ],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "oracle",
+    "outputs": [
+      {
+        "internalType": "contract IOracle",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "oracleDecimals",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -212,6 +258,32 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "token",
+    "outputs": [
+      {
+        "internalType": "contract IERC20",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "tokenDecimals",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "int128",
@@ -225,14 +297,21 @@
       }
     ],
     "name": "transferFee",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "usdc",
     "outputs": [
       {
-        "internalType": "bool",
-        "name": "transferSuccess_",
-        "type": "bool"
+        "internalType": "contract IERC20",
+        "name": "",
+        "type": "address"
       }
     ],
-    "stateMutability": "nonpayable",
+    "stateMutability": "view",
     "type": "function"
   },
   {

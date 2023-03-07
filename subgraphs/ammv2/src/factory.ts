@@ -36,6 +36,7 @@ import {
   fetchProtocolLambda,
   fetchProtocolFee,
   fetchIsDFXApproved,
+  fetchPriceFromAssimilator,
 } from "./helpers"
 import { FACTORY_ADDRESS_V2, ASSIM_FACTORY_ADDRESS_V2 } from "../../../packages/constants/index"
 import { DFXFactoryV2, Pair, Token, Oracle, Assimilator} from "../generated/schema"
@@ -83,7 +84,7 @@ export function handleNewCurve(event: NewCurveEvent): void {
     pair.reserveUSD = ZERO_BD
     pair.reserveNative = ZERO_BD
 
-    pair.swapRateUSD = ZERO_BD
+    pair.swapRateUSD = fetchPriceFromAssimilator(assim0Address)
     pair.swapRateNative = ZERO_BD
     //     pair.rewardDuration = ZERO_BI
     //     pair.rewardsForDuration = ZERO_BD
