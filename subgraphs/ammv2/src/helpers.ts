@@ -136,9 +136,16 @@ export function fetchProtocolLambda(curveAddress: Address): BigInt {
     return contract.viewCurve().value4
 }
 
+export function fetchPriceFromAssimilator(assimilatorAddress: Address): BigDecimal {
+    let contract = Oracle.bind(assimilatorAddress)
+    let rawPrice = contract.latestAnswer()
+    let decimal = fetchOracleDecimals(assimilatorAddress)
+    return convertTokenToDecimal(rawPrice, decimal)
+}
+
 export function fetchStakingContract(tokenAddress: string): string | null {
     // Replaced by dividing the current trades and storing the rates inside hourly pairs / daily.
-    if (tokenAddress == XSGD_POOL_V2) {
+    if (tokenAddress == XSGD_POOL_V2) { 
         return XSGD_GAUGE
     } else if (tokenAddress == CADC_POOL_V2) {
         return CADC_GAUGE
