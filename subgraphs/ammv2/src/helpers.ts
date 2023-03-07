@@ -137,9 +137,9 @@ export function fetchProtocolLambda(curveAddress: Address): BigInt {
 }
 
 export function fetchPriceFromAssimilator(assimilatorAddress: Address): BigDecimal {
-    let contract = Oracle.bind(assimilatorAddress)
-    let rawPrice = contract.latestAnswer()
-    let decimal = fetchOracleDecimals(assimilatorAddress)
+    let contract = AssimilatorV2.bind(assimilatorAddress)
+    let rawPrice = contract.getRate()
+    let decimal = contract.oracleDecimals()
     return convertTokenToDecimal(rawPrice, decimal)
 }
 
@@ -164,7 +164,7 @@ export function fetchStakingContract(tokenAddress: string): string | null {
     }
 }
 
-export function fetchIsDFXApproved(curveCreatorAddress: Address): bool {
+export function fetchIsDFXApproved(curveCreatorAddress: Address): boolean {
     if (curveCreatorAddress.toHexString() == DFX_HARRY_DEV_ADDRESS){
         return true
     }

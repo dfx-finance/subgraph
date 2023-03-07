@@ -111,8 +111,8 @@ export function handleTrade(event: TradeEvent): void {
 
     pair.reserve0 = fetchBalanceOf(token0, event.address)
     pair.reserve1 = fetchBalanceOf(token1, event.address)
-    pair.reserveNative = fetchLiquidity(event.address)
-    pair.reserveUSD = reserve0USD.plus(reserve1USD)
+    // pair.reserveNative = fetchLiquidity(event.address)
+    // pair.reserveUSD = reserve0USD.plus(reserve1USD)
 
     // let poolParticipant = PoolParticipant.load(event.address.toHexString() + "-" + event.transaction.from.toHexString())
     // if (poolParticipant === null) {
@@ -275,8 +275,7 @@ export function handleTransfer(event: TransferEvent): void {
     let dfx = DFXFactoryV2.load(FACTORY_ADDRESS_V2)!
     let prevReserveUSD = pair.reserveUSD
     pair.reserveUSD = fetchLiquidity(event.address)
-    let reserveUSDDiff = pair.reserveUSD.minus(prevReserveUSD)
-    dfx.totalLiquidityUSD = dfx.totalLiquidityUSD.plus(reserveUSDDiff)
+    dfx.totalLiquidityUSD = dfx.totalLiquidityUSD.minus(prevReserveUSD).plus(pair.reserveUSD)
     pair.save()
     dfx.save()
 
