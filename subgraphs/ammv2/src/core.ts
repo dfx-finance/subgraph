@@ -13,7 +13,9 @@ import {
     fetchLiquidity,
     fetchTotalLPT,
     getTransferType,
-    fetchLPTDeposit
+    fetchLPTDeposit,
+    fetchProtocolEpsilon,
+    calculateProtocolFee,
 } from "./helpers";
 
 import { 
@@ -126,6 +128,7 @@ export function handleTrade(event: TradeEvent): void {
     // }
 
     let amount1USD = amount1.times(token1.priceUSD)
+    let feeUSD = calculateProtocolFee(amount1USD, event.address)
     // poolParticipant.lastTxn = event.transaction.hash.toHex() + "-" + event.logIndex.toString()
     // poolParticipant.volumeUSD = poolParticipant.volumeUSD.plus(amount1USD)
     // poolParticipant.volumeNative = poolParticipant.volumeNative.plus(amount0)
@@ -140,9 +143,11 @@ export function handleTrade(event: TradeEvent): void {
     let dfx = DFXFactoryV2.load(FACTORY_ADDRESS_V2)!
   
     dfx.totalVolumeUSD = dfx.totalVolumeUSD.plus(amount1USD)
+    dfx.totalFeeUSD = dfx.totalFeeUSD.plus(feeUSD)
     dfx.save()
   
     dfxDayData.dailyVolumeUSD = dfxDayData.dailyVolumeUSD.plus(amount1USD)
+    dfxDayData.dailyFeeUSD = dfxDayData.dailyFeeUSD.plus(feeUSD)
     dfxDayData.totalVolumeUSD = dfx.totalVolumeUSD
     dfxDayData.save()
   
@@ -156,6 +161,7 @@ export function handleTrade(event: TradeEvent): void {
     pairDayData.volumeToken0 = pairDayData.volumeToken0.plus(amount0)
     pairDayData.volumeToken1 = pairDayData.volumeToken1.plus(amount1)
     pairDayData.volumeUSD = pairDayData.volumeUSD.plus(amount1USD)
+    pairDayData.feeUSD = pairDayData.feeUSD.plus(feeUSD)
     pairDayData.save()
   
     // TODO: Double check this data
@@ -181,6 +187,7 @@ export function handleTrade(event: TradeEvent): void {
     pair.volumeToken0 = pair.volumeToken0.plus(amount0)
     pair.volumeToken1 = pair.volumeToken1.plus(amount1)
     pair.volumeUSD = pair.volumeUSD.plus(amount1USD)
+    pair.feeUSD = pair.feeUSD.plus(feeUSD)
     pair.txnsCount = pair.txnsCount.plus(ONE_BI)
   
     //   token0.save()

@@ -23,7 +23,9 @@ export function updateDFXDayData(event: ethereum.Event): DFXDayData {
         dfxDayData = new DFXDayData(dayID.toString())
         dfxDayData.date = dayStartTimestamp
         dfxDayData.dailyVolumeUSD = ZERO_BD
+        dfxDayData.dailyFeeUSD = ZERO_BD
         dfxDayData.totalVolumeUSD = ZERO_BD
+        dfxDayData.totalFeeUSD = ZERO_BD
         dfxDayData.totalLiquidityUSD = ZERO_BD
     }
 

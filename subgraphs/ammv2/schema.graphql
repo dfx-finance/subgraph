@@ -2,6 +2,7 @@ type DFXFactoryV2 @entity {
   id: ID!
   pairCount: Int!
   totalVolumeUSD: BigDecimal!
+  totalFeeUSD: BigDecimal!
   # TODO: Verify the totalLiquidityUSD
   # Think about how to make this better currently doesnt look accurate
   totalLiquidityUSD: BigDecimal!
@@ -51,6 +52,7 @@ type Pair @entity {
   volumeToken0: BigDecimal!
   volumeToken1: BigDecimal!
   volumeUSD: BigDecimal!
+  feeUSD: BigDecimal!
   txnsCount: BigInt!
 
   # # participant info
@@ -158,6 +160,7 @@ type PairDayData @entity {
   volumeToken0: BigDecimal!
   volumeToken1: BigDecimal!
   volumeUSD: BigDecimal!
+  feeUSD: BigDecimal!
   # dailyTxns: BigInt!
 
   # participant info
@@ -170,8 +173,12 @@ type DFXDayData @entity {
 
   dailyVolumeUSD: BigDecimal!
 
+  dailyFeeUSD: BigDecimal!
+
   totalVolumeUSD: BigDecimal! # Accumulate at each trade, not just calculated off whatever totalVolume is. making it more accurate as it is a live conversion
   
+  totalFeeUSD: BigDecimal!
+
   totalLiquidityUSD: BigDecimal!
   # txCount: BigInt!
 }
