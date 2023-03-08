@@ -136,6 +136,13 @@ export function fetchProtocolLambda(curveAddress: Address): BigInt {
     return contract.viewCurve().value4
 }
 
+export function calculateProtocolFee(tokenAmountUSD: BigDecimal, curveAddress: Address): BigDecimal {
+    let rawFee = fetchProtocolEpsilon(curveAddress)
+    let feeDecimal = convertTokenToDecimal(rawFee, BigInt.fromI32(18))
+    let feeUSD = feeDecimal.times(tokenAmountUSD).div(BigDecimal.fromString('2'))
+    return feeUSD
+}
+
 export function fetchPriceFromAssimilator(assimilatorAddress: Address): BigDecimal {
     let contract = AssimilatorV2.bind(assimilatorAddress)
     let rawPrice = contract.getRate()

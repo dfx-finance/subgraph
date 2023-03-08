@@ -91,6 +91,7 @@ export function handleNewCurve(event: NewCurveEvent): void {
     pair.volumeToken0 = ZERO_BD
     pair.volumeToken1 = ZERO_BD
     pair.volumeUSD = ZERO_BD
+    pair.feeUSD = ZERO_BD
     pair.txnsCount = ZERO_BI
     pair.totalLPToken = ZERO_BD
     pair.participantCount = ZERO_BI
@@ -109,6 +110,7 @@ export function handleNewCurve(event: NewCurveEvent): void {
     factory.pairCount = 0
     factory.totalVolumeUSD = ZERO_BD
     factory.totalLiquidityUSD = ZERO_BD
+    factory.totalFeeUSD = ZERO_BD
   }
   factory.pairCount = factory.pairCount + 1
   

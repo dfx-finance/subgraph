@@ -36,6 +36,7 @@ export function updatePairDayData(event: ethereum.Event): PairDayData {
         pairDayData.volumeToken0 = ZERO_BD
         pairDayData.volumeToken1 = ZERO_BD
         pairDayData.volumeUSD = ZERO_BD
+        pairDayData.feeUSD = ZERO_BD
         // pairDayData.participantCount = ZERO_BI
     }
     if (pair !== null) {
