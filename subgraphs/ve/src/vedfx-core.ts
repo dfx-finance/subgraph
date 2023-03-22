@@ -6,7 +6,7 @@ import {
 import { Lock, Withdraw, Supply } from "../generated/schema";
 import { BigDecimal, BigInt } from "@graphprotocol/graph-ts";
 
-function lockType(_type: BigInt) {
+function lockType(_type: BigInt): string {
   switch (_type.toU32()) {
     case 0:
       return "deposit";

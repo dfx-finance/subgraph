@@ -1,4 +1,4 @@
-import { BigInt } from "@graphprotocol/graph-ts";
+import { Address, BigInt } from "@graphprotocol/graph-ts";
 import {
   gaugeController as GaugeController,
   VoteForGauge as VoteForGaugeEvent,
@@ -24,7 +24,7 @@ import { getGauge } from "./gauge-core";
 function writeVoteEntity(
   _controller: GaugeController,
   event: VoteForGaugeEvent
-) {
+): void {
   let voteEntity = new Vote(
     event.transaction.hash.concatI32(event.address.toI32())
   );
@@ -42,7 +42,7 @@ function writeVoteEntity(
 function writeGaugesHourData(
   gaugeController: GaugeController,
   event: VoteForGaugeEvent
-) {
+): void {
   const timestamp = event.block.timestamp.toI32();
   const hourIndex = timestamp / 3600;
   const hourStartUnix = hourIndex * 3600;
@@ -53,6 +53,7 @@ function writeGaugesHourData(
 
   // load or create Gauge
   const gauge = getGauge(event.params.gauge_addr);
+  const gaugeAddr = Address.fromBytes(gauge.address);
 
   // create default record
   let gaugeHourData = GaugeHourData.load(hourGaugeWeightID);
@@ -67,8 +68,8 @@ function writeGaugesHourData(
   }
 
   // update every vote
-  const weight = gaugeController.get_gauge_weight(gauge.address);
-  const relativeWeight = gaugeController.gauge_relative_weight(gauge.address);
+  const weight = gaugeController.get_gauge_weight(gaugeAddr);
+  const relativeWeight = gaugeController.gauge_relative_weight(gaugeAddr);
   gaugeHourData.weight = gaugeHourData.weight; // TODO: plus(weight) here?
   gaugeHourData.relativeWeight = relativeWeight;
 

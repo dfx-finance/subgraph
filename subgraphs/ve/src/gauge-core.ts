@@ -1,4 +1,4 @@
-import { Bytes } from "@graphprotocol/graph-ts";
+import { Address, Bytes } from "@graphprotocol/graph-ts";
 import { Gauge } from "../generated/schema";
 
 import {
@@ -10,7 +10,8 @@ import { ZERO_BI } from "./helpers";
 
 /* -- Helpers -- */
 export function getGauge(addr: Bytes): Gauge {
-  const gaugeContract = liquidityGaugeV4.bind(addr);
+  const gaugeAddr = Address.fromBytes(addr);
+  const gaugeContract = liquidityGaugeV4.bind(gaugeAddr);
   let gauge = Gauge.load(addr.toString());
   if (gauge === null) {
     gauge = new Gauge(addr.toHexString());
@@ -25,13 +26,13 @@ export function getGauge(addr: Bytes): Gauge {
 }
 
 /* -- Main -- */
-export function handleDeposit(event: DepositEvent) {
+export function handleDeposit(event: DepositEvent): void {
   const gauge = getGauge(event.address);
   gauge.totalWeight = gauge.totalWeight.plus(event.params.value);
   gauge.save();
 }
 
-export function handleWithdraw(event: WithdrawEvent) {
+export function handleWithdraw(event: WithdrawEvent): void {
   const gauge = getGauge(event.address);
   gauge.totalWeight = gauge.totalWeight.minus(event.params.value);
   gauge.save();

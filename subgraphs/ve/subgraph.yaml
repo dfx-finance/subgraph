@@ -67,7 +67,6 @@ dataSources:
         - RateUpdated
         - Recovered
         - RewardDistributed
-        - UpdateMiningParameters
       abis:
         - name: dfxDistributor
           file: ../../packages/abis/DfxDistributor.json
@@ -78,8 +77,6 @@ dataSources:
           handler: handleRecovered
         - event: RewardDistributed(indexed address,uint256)
           handler: handleRewardDistributed
-        - event: UpdateMiningParameters(uint256,uint256,uint256)
-          handler: handleUpdateMiningParameters
       file: ./src/dfx-distributor-core.ts
 templates:
   - kind: ethereum/contract
