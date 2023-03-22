@@ -9,7 +9,8 @@
     "build": "yarn workspaces run build",
     "codegen": "yarn workspaces run codegen",
     "prepare:mainnet": "yarn workspaces run prepare:mainnet",
-    "prepare:polygon": "yarn workspaces run prepare:polygon"
+    "prepare:polygon": "yarn workspaces run prepare:polygon",
+    "prepare:arbitrum": "yarn workspaces run prepare:arbitrum"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.37.7",

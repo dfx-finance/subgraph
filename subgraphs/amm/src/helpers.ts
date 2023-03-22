@@ -2,9 +2,9 @@ import { Address, BigDecimal, BigInt, log } from "@graphprotocol/graph-ts";
 import { ERC20 } from '../generated/Factory/ERC20'
 import { Staking } from '../generated/templates/Curve/Staking'
 import { 
-    XSGD_POOL, CADC_POOL, EURS_POOL, NZDS_POOL, TRYB_POOL, XIDR_POOL, EUROC_POOL, GYEN_POOL,
+    XSGD_POOL_V1, CADC_POOL_V1, EURS_POOL_V1, NZDS_POOL_V1, TRYB_POOL_V1, XIDR_POOL_V1, EUROC_POOL_V1, GYEN_POOL_V1,
     XSGD_STAKING, CADC_STAKING, EURS_STAKING, NZDS_STAKING, TRYB_STAKING, XIDR_STAKING, EUROC_STAKING, GYEN_STAKING,
-    ZAP_ADDRESS, ZAP_OPTIMIZED_ADDRESS, ZAP_LEGACY_ADDRESS,
+    ZAP_ADDRESS_V1, ZAP_OPTIMIZED_ADDRESS_V1, ZAP_LEGACY_ADDRESS_V1,
 } from "../../../packages/constants/index"
 
 export let ZERO_BI = BigInt.fromI32(0)
@@ -83,11 +83,11 @@ export function isStakingContract(tokenAddress: string): boolean {
 }
 
 export function isZapContract(tokenAddress: string): boolean {
-    if (tokenAddress == ZAP_ADDRESS) {
+    if (tokenAddress == ZAP_ADDRESS_V1) {
         return true
-    } else if (tokenAddress == ZAP_OPTIMIZED_ADDRESS) {
+    } else if (tokenAddress == ZAP_OPTIMIZED_ADDRESS_V1) {
         return true
-    } else if (tokenAddress == ZAP_LEGACY_ADDRESS) {
+    } else if (tokenAddress == ZAP_LEGACY_ADDRESS_V1) {
         return true
     } else {
         return false
@@ -96,21 +96,21 @@ export function isZapContract(tokenAddress: string): boolean {
 
 export function fetchStakingContract(tokenAddress: string): string {
     // Replaced by dividing the current trades and storing the rates inside hourly pairs / daily.
-    if (tokenAddress == XSGD_POOL) {
+    if (tokenAddress == XSGD_POOL_V1) {
         return XSGD_STAKING
-    } else if (tokenAddress == CADC_POOL) {
+    } else if (tokenAddress == CADC_POOL_V1) {
         return CADC_STAKING
-    } else if (tokenAddress == EURS_POOL) {
+    } else if (tokenAddress == EURS_POOL_V1) {
         return EURS_STAKING
-    } else if (tokenAddress == NZDS_POOL){
+    } else if (tokenAddress == NZDS_POOL_V1){
         return NZDS_STAKING
-    } else if (tokenAddress == TRYB_POOL){
+    } else if (tokenAddress == TRYB_POOL_V1){
         return TRYB_STAKING
-    } else if (tokenAddress == XIDR_POOL){
+    } else if (tokenAddress == XIDR_POOL_V1){
         return XIDR_STAKING
-    } else if (tokenAddress == EUROC_POOL) {
+    } else if (tokenAddress == EUROC_POOL_V1) {
         return EUROC_STAKING
-    } else if (tokenAddress == GYEN_POOL) {
+    } else if (tokenAddress == GYEN_POOL_V1) {
         return GYEN_STAKING
     } else {
         return ""
