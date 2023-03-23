@@ -7,7 +7,8 @@
     "codegen": "true",
     "build": "true",
     "prepare:mainnet": "mustache ../../config/mainnet.json index.template.ts > index.ts",
-    "prepare:polygon": "mustache ../../config/polygon.json index.template.ts > index.ts"
+    "prepare:polygon": "mustache ../../config/polygon.json index.template.ts > index.ts",
+    "prepare:arbitrum": "mustache ../../config/arbitrum.json index.template.ts > index.ts"
   },
   "keywords": [],
   "author": "",

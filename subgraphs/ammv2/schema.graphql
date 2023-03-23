@@ -1,0 +1,214 @@
+type DFXFactoryV2 @entity {
+  id: ID!
+  pairCount: Int!
+  totalVolumeUSD: BigDecimal!
+  totalFeeUSD: BigDecimal!
+  # TODO: Verify the totalLiquidityUSD
+  # Think about how to make this better currently doesnt look accurate
+  totalLiquidityUSD: BigDecimal!
+}
+
+type Pair @entity {
+  # Contract address
+  id: ID!
+  decimals: BigInt!
+  symbol: String!
+  name: String!
+
+  alpha: BigInt!
+  beta: BigInt!
+  delta: BigInt!
+  epsilon: BigInt!
+  lambda: BigInt!
+
+  protocolFee: BigInt!
+
+  # mirrored from the smart contract
+  token0: Token!
+  token1: Token!
+
+  assimilator0: Assimilator!
+  assimilator1: Assimilator!
+
+  # reserves
+  reserve0: BigDecimal!
+  reserve1: BigDecimal!
+
+  # derived liquidity
+  # TODO: Review this might be 
+  reserveUSD: BigDecimal!
+  reserveNative: BigDecimal!
+
+  # price stats
+  swapRateUSD: BigDecimal!
+  swapRateNative: BigDecimal!
+
+  # # staking
+  # rewardsForDuration: BigDecimal!
+  # rewardDuration: BigInt!
+  # totalStaked: BigDecimal!
+
+  # # lifetime volume stats
+  volumeToken0: BigDecimal!
+  volumeToken1: BigDecimal!
+  volumeUSD: BigDecimal!
+  feeUSD: BigDecimal!
+  txnsCount: BigInt!
+
+  # # participant info
+  participantCount: BigInt! 
+  totalLPToken: BigDecimal!
+
+  # # Pair hour data
+  hourData: [PairHourData!]! @derivedFrom(field: "pair")
+
+  # dfx official pools
+  dfxApproved: Boolean!
+}
+
+type Trade @entity {
+  id: ID!
+  timestamp: BigInt!
+  pair: Pair!
+  trader: Bytes! # address
+  origin: Bytes! # address
+  target: Bytes! # address
+  originAmount: BigInt! # uint256
+  targetAmount: BigInt! # uint256
+  fee: BigInt! # uint256
+}
+
+type Transfer @entity {
+  id: ID!
+  timestamp: BigInt!
+  pair: Pair!
+  from: Bytes! # address
+  to: Bytes! # address
+  token0Amount: BigDecimal!
+  token1Amount: BigDecimal!
+  tokenLPTAmount: BigInt! # uint256
+  type: String!
+}
+
+type Assimilator @entity {
+  id: ID!
+  oracle: Oracle!
+}
+
+type Oracle @entity {
+  id: ID!
+  decimals: BigInt!
+}
+
+type PoolParticipant @entity {
+  id: ID!
+  pair: Pair!
+  # lastTxn: String!
+  participant: Bytes! # address
+  # volumeNative: BigDecimal!
+  # volumeUSD: BigDecimal!
+  liquidityProvided: BigDecimal!
+}
+
+type PairHourData @entity {
+  id: ID!
+  hourStartUnix: Int! # unix timestamp for start of hour
+  pair: Pair!
+  
+  firstTxn: Bytes!
+
+  # reserves
+  reserve0: BigDecimal!
+  reserve1: BigDecimal!
+  reserveUSD: BigDecimal!
+
+  # price stats
+  swapRateUSD: BigDecimal!
+
+  # volume stats
+  volumeToken0: BigDecimal!
+  volumeToken1: BigDecimal!
+  volumeUSD: BigDecimal!
+  # hourlyTxns: BigInt!
+
+  # participant info
+  # participantCount: BigInt! 
+}
+
+type PairDayData @entity {
+  id: ID!
+  date: Int!
+  pair: Pair!
+
+  firstTxn: Bytes!
+
+  # reserves
+  reserve0: BigDecimal!
+  reserve1: BigDecimal!
+  reserveUSD: BigDecimal!
+  reserve0Deposit: BigDecimal!
+  reserve0DepositUSD: BigDecimal!
+  reserve1Deposit: BigDecimal!
+  reserve0Withdraw: BigDecimal!
+  reserve0WithdrawUSD: BigDecimal!
+  reserve1Withdraw: BigDecimal!
+
+  # price stats
+  swapRateUSD: BigDecimal!
+
+  # volume stats
+  volumeToken0: BigDecimal!
+  volumeToken1: BigDecimal!
+  volumeUSD: BigDecimal!
+  feeUSD: BigDecimal!
+  # dailyTxns: BigInt!
+
+  # participant info
+  # participantCount: BigInt!
+}
+
+type DFXDayData @entity {
+  id: ID! # timestamp rounded to current day by dividing by 86400
+  date: Int!
+
+  dailyVolumeUSD: BigDecimal!
+
+  dailyFeeUSD: BigDecimal!
+
+  totalVolumeUSD: BigDecimal! # Accumulate at each trade, not just calculated off whatever totalVolume is. making it more accurate as it is a live conversion
+  
+  totalFeeUSD: BigDecimal!
+
+  totalLiquidityUSD: BigDecimal!
+  # txCount: BigInt!
+}
+
+type Token @entity {
+  # token address
+  id: ID!
+
+  # mirrored from the smart contract
+  decimals: BigInt!
+  symbol: String!
+  name: String!
+
+  # price stats (last recorded USD swap)
+  priceUSD: BigDecimal!
+
+  # derived fields
+  tokenDayData: [TokenDayData!]! @derivedFrom(field: "token")
+}
+
+type TokenDayData @entity {
+  id: ID!
+  date: Int!
+  token: Token
+
+  # volume stats
+  dailyVolumeToken: BigDecimal!
+  dailyVolumeUSD: BigDecimal!
+
+  # price stats
+  priceUSD: BigDecimal!
+}
+
