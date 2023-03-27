@@ -2,32 +2,33 @@ specVersion: 0.0.5
 schema:
   file: ./schema.graphql
 dataSources:
-  - kind: ethereum
-    name: veDFX
-    network: mainnet
-    source:
-      address: "0x3ac91a7a2d30fa25ada4616d337a28ea988988be"
-      abi: veDFX
-      startBlock: 14724071
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.7
-      language: wasm/assemblyscript
-      entities:
-        - Deposit
-        - Withdraw
-        - Supply
-      abis:
-        - name: veDFX
-          file: ../../packages/abis/veDFX.json
-      eventHandlers:
-        - event: Deposit(indexed address,uint256,indexed uint256,int128,uint256)
-          handler: handleLock
-        - event: Withdraw(indexed address,uint256,uint256)
-          handler: handleWithdraw
-        - event: Supply(uint256,uint256)
-          handler: handleSupply
-      file: ./src/vedfx-core.ts
+  # - kind: ethereum
+  #   name: veDFX
+  #   network: mainnet
+  #   source:
+  #     address: "0x3ac91a7a2d30fa25ada4616d337a28ea988988be"
+  #     abi: veDFX
+  #     startBlock: 14724071
+  #   mapping:
+  #     kind: ethereum/events
+  #     apiVersion: 0.0.7
+  #     language: wasm/assemblyscript
+  #     entities:
+  #       - Deposit
+  #     #   - Withdraw
+  #     #   - Supply
+  #     abis:
+  #       - name: veDFX
+  #         file: ../../packages/abis/veDFX.json
+  #     # eventHandlers: []
+  #     eventHandlers:
+  #       - event: Deposit(indexed address,uint256,indexed uint256,int128,uint256)
+  #         handler: handleLock
+  #     #   - event: Withdraw(indexed address,uint256,uint256)
+  #     #     handler: handleWithdraw
+  #     #   - event: Supply(uint256,uint256)
+  #     #     handler: handleSupply
+  #     file: ./src/vedfx-core.ts
   - kind: ethereum
     name: GaugeController
     network: mainnet
@@ -40,17 +41,19 @@ dataSources:
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - VoteForGauge
         - NewGauge
-        - KilledGauge
       abis:
         - name: gaugeController
           file: ../../packages/abis/GaugeController.json
         - name: dfxDistributor
           file: ../../packages/abis/DfxDistributor.json
+        - name: erc20
+          file: ../../packages/abis/ERC20.json
+        - name: liquidityGaugeV4
+          file: ../../packages/abis/LiquidityGaugeV4.json
       eventHandlers:
-        - event: VoteForGauge(uint256,address,address,uint256)
-          handler: handleVoteForGauge
+        - event: NewGauge(address,int128,uint256)
+          handler: handleNewGauge
       file: ./src/gauge-controller-core.ts
   - kind: ethereum
     name: DfxDistributor
@@ -64,23 +67,17 @@ dataSources:
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - RateUpdated
-        - Recovered
-        - RewardDistributed
+        - GaugeToggled
       abis:
         - name: dfxDistributor
           file: ../../packages/abis/DfxDistributor.json
       eventHandlers:
-        - event: RateUpdated(uint256)
-          handler: handleRateUpdated
-        - event: Recovered(indexed address,indexed address,uint256)
-          handler: handleRecovered
-        - event: RewardDistributed(indexed address,uint256)
-          handler: handleRewardDistributed
+        - event: GaugeToggled(indexed address,bool)
+          handler: handleGaugeToggled
       file: ./src/dfx-distributor-core.ts
 templates:
-  - kind: ethereum/contract
-    name: Gauge
+  - name: Gauge
+    kind: ethereum/contract
     network: mainnet
     source:
       abi: liquidityGaugeV4
@@ -88,15 +85,18 @@ templates:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
+      file: ./src/gauge-core.ts
       abis:
         - name: liquidityGaugeV4
           file: ../../packages/abis/LiquidityGaugeV4.json
       entities:
         - Deposit
         - Withdraw
+        - Transfer
       eventHandlers:
         - event: Deposit(indexed address,uint256)
           handler: handleDeposit
         - event: Withdraw(indexed address,uint256)
           handler: handleWithdraw
-      file: ./src/gauge-core.ts
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer

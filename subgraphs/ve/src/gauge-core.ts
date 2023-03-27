@@ -1,39 +1,57 @@
-import { Address, Bytes } from "@graphprotocol/graph-ts";
+import { Address, BigInt } from "@graphprotocol/graph-ts";
+import { DFX_DISTRIBUTOR_PROXY } from "../../../packages/constants";
 import { Gauge } from "../generated/schema";
 
 import {
-  liquidityGaugeV4,
   Deposit as DepositEvent,
   Withdraw as WithdrawEvent,
+  Transfer as TransferEvent,
 } from "../generated/templates/Gauge/liquidityGaugeV4";
-import { ZERO_BI } from "./helpers";
+import { valueAsBigDecimal } from "./helpers";
 
-/* -- Helpers -- */
-export function getGauge(addr: Bytes): Gauge {
-  const gaugeAddr = Address.fromBytes(addr);
-  const gaugeContract = liquidityGaugeV4.bind(gaugeAddr);
-  let gauge = Gauge.load(addr.toString());
-  if (gauge === null) {
-    gauge = new Gauge(addr.toHexString());
-    gauge.address = addr;
-    gauge.lpt = gaugeContract.staking_token();
-    gauge.lptAmount = gaugeContract.totalSupply();
-    gauge.symbol = gaugeContract.symbol();
-    gauge.totalWeight = ZERO_BI;
-  }
-  gauge.save();
-  return gauge;
-}
-
-/* -- Main -- */
+// /* -- Main -- */
 export function handleDeposit(event: DepositEvent): void {
-  const gauge = getGauge(event.address);
-  gauge.totalWeight = gauge.totalWeight.plus(event.params.value);
-  gauge.save();
+  const gauge = Gauge.load(event.address.toHexString());
+  if (gauge) {
+    const lptDecimals = BigInt.fromString("18");
+    const amount = valueAsBigDecimal(event.params.value, lptDecimals);
+    gauge.totalSupply = gauge.totalSupply.plus(amount);
+    gauge.blockNumber = event.block.number;
+    gauge.save();
+  }
 }
 
 export function handleWithdraw(event: WithdrawEvent): void {
-  const gauge = getGauge(event.address);
-  gauge.totalWeight = gauge.totalWeight.minus(event.params.value);
-  gauge.save();
+  const gauge = Gauge.load(event.address.toHexString());
+  if (gauge) {
+    const lptDecimals = BigInt.fromString("18");
+    const amount = valueAsBigDecimal(event.params.value, lptDecimals);
+    gauge.totalSupply = gauge.totalSupply.minus(amount);
+    gauge.blockNumber = event.block.number;
+    gauge.save();
+  }
+}
+
+export function handleTransfer(event: TransferEvent): void {
+  const gaugeAddr = event.address.toHexString();
+  const gauge = Gauge.load(gaugeAddr);
+  if (gauge) {
+    // parse event
+    const dfxDecimals = BigInt.fromString("18");
+    const amount = valueAsBigDecimal(event.params._value, dfxDecimals);
+    const _fromAddr = event.params._from;
+    const _dfxDistributorAddr = Address.fromString(DFX_DISTRIBUTOR_PROXY);
+    const _gaugeAddr = Address.fromString(gaugeAddr);
+
+    // add inbound transfers
+    if (_fromAddr === _dfxDistributorAddr) {
+      gauge.dfxBalance = gauge.dfxBalance.plus(amount);
+    }
+    // subtract outbout transfers
+    else if (_fromAddr === _gaugeAddr) {
+      gauge.dfxBalance = gauge.dfxBalance.minus(amount);
+    }
+
+    gauge.save();
+  }
 }

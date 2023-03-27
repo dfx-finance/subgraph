@@ -1,101 +1,61 @@
-###
-### veDFX
-###
-type Lock @entity(immutable: true) {
-  id: Bytes!
-  address: Bytes! # address
-  value: BigInt! # uint256
-  locktime: BigInt! # uint256
-  type: String! # string
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
+##
+## AMM data
+##
+type Token @entity(immutable: true) {
+  # token address
+  id: ID!
+
+  # mirrored from smart contract
+  decimals: BigInt!
+  symbol: String!
+  name: String!
 }
 
-type Withdraw @entity(immutable: true) {
-  id: Bytes!
-  address: Bytes! # address
-  value: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
+type Pair @entity(immutable: true) {
+  # Contract address
+  id: ID!
+  decimals: BigInt!
+  symbol: String!
+  name: String!
 
-type Supply @entity(immutable: true) {
-  id: Bytes!
-  prevSupply: BigDecimal!
-  supply: BigDecimal!
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
+  protocolFee: BigInt!
 
-###
-### Gauge Controller
-###
-type Vote @entity(immutable: true) {
-  id: Bytes!
-  voteFor: Bytes! # address
-  weight: BigInt!
-  totalWeight: BigInt!
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
+  # mirrored from the smart contract
+  token0: Token!
+  token1: Token!
+
+  # reserves
+  reserve0: BigDecimal!
+  reserve1: BigDecimal
 }
 
 ##
 ## Gauge
 ##
-type Gauge @entity(immutable: true) {
+type Gauge @entity {
+  # Contract address
   id: ID!
-  address: Bytes!
+  decimals: Int!
+  symbol: String!
 
   # mirrored from the smart contract
-  lpt: Bytes! # addr
+  lpt: Bytes! # curve addr
   lptAmount: BigInt!
-  symbol: String!
+  totalSupply: BigDecimal!
+  workingSupply: BigInt!
+  dfxBalance: BigDecimal!
+  rewardCount: BigInt!
+
   # calculated
   totalWeight: BigInt!
+  active: Boolean!
 
-  hourData: [GaugeHourData!]! @derivedFrom(field: "gauge")
+  blockNumber: BigInt!
 }
 
-type GaugeHourData @entity(immutable: true) {
+type GaugeReward @entity(immutable: true) {
   id: ID!
-  hourStartUnix: Int! # unix timestamp for start of hour
-  gauge: Gauge!
-  lptAmount: BigInt!
-  relativeWeight: BigInt!
-  weight: BigInt!
-  totalWeight: BigInt!
-}
-
-##
-## DFX Distributor
-##
-type Rate @entity(immutable: true) {
-  id: Bytes!
-  rate: BigInt! # uint256
-  blockNumber: BigInt!
+  token: Token!
+  availableRewards: BigDecimal!
   blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type Recovered @entity(immutable: true) {
-  id: Bytes!
-  tokenAddress: Bytes! # address
-  to: Bytes! # address
-  amount: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type RewardDistributed @entity(immutable: true) {
-  id: Bytes!
-  gaugeAddr: Bytes! # address
-  rewardTally: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
 }
