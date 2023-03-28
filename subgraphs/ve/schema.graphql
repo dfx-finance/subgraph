@@ -26,7 +26,21 @@ type Pair @entity(immutable: true) {
 
   # reserves
   reserve0: BigDecimal!
-  reserve1: BigDecimal
+  reserve1: BigDecimal!
+}
+
+##
+## veDFX Token
+##
+type VeDFX @entity {
+  # token address
+  id: ID!
+  decimals: Int!
+  symbol: String!
+
+  supply: BigDecimal!
+  dfxBalance: BigDecimal!
+  blockNum: BigInt!
 }
 
 ##
@@ -40,9 +54,8 @@ type Gauge @entity {
 
   # mirrored from the smart contract
   lpt: Bytes! # curve addr
-  lptAmount: BigInt!
-  totalSupply: BigDecimal!
-  workingSupply: BigInt!
+  lptAmount: BigDecimal! # totalSupply
+  workingSupply: BigDecimal!
   dfxBalance: BigDecimal!
   rewardCount: BigInt!
 
@@ -50,7 +63,7 @@ type Gauge @entity {
   totalWeight: BigInt!
   active: Boolean!
 
-  blockNumber: BigInt!
+  blockNum: BigInt!
 }
 
 type GaugeReward @entity(immutable: true) {

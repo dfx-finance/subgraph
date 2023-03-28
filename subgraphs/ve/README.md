@@ -2,6 +2,12 @@
 
 ## Events Watched
 
+### veDFX
+
+Events:
+
+- Supply
+
 ### GaugeController
 
 Events:
@@ -20,7 +26,6 @@ Events:
 
 - Deposit: updates amount of lpt deposited within gauge
 - Withdrawal: updates amount of lpt deposited within gauge
-- Transfer: updates amount distributed from gauge to user addresses
 
 ## Example Queries
 
