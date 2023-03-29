@@ -1,9 +1,9 @@
-import { Supply as SupplyEvent, veDFX } from "../generated/veDFX/veDFX";
+import { Address, BigInt } from "@graphprotocol/graph-ts";
 import { VeDFX as veDFXEntity } from "../generated/schema";
-import { Address, BigDecimal, BigInt } from "@graphprotocol/graph-ts";
+import { Supply as SupplyEvent, veDFX } from "../generated/veDFX/veDFX";
+import { ERC20 } from "../generated/veDFX/ERC20";
 import { DFX, VEDFX_ADDRESS } from "../../../packages/constants";
 import { valueAsBigDecimal } from "./helpers";
-import { ERC20 } from "../generated/templates/Gauge/ERC20";
 
 // Create or return veDFX entity to update
 function _getVeDfxToken(): veDFXEntity {

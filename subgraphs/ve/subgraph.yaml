@@ -15,16 +15,12 @@ dataSources:
       language: wasm/assemblyscript
       entities:
         - Deposit
-      #   - Withdraw
-      #   - Supply
       abis:
         - name: veDFX
           file: ../../packages/abis/veDFX.json
+        - name: ERC20
+          file: ../../packages/abis/ERC20.json
       eventHandlers:
-        # - event: Deposit(indexed address,uint256,indexed uint256,int128,uint256)
-        #   handler: handleLock
-        # - event: Withdraw(indexed address,uint256,uint256)
-        #   handler: handleWithdraw
         - event: Supply(uint256,uint256)
           handler: handleSupply
       file: ./src/vedfx.ts
@@ -44,10 +40,10 @@ dataSources:
       abis:
         - name: GaugeController
           file: ../../packages/abis/GaugeController.json
-        - name: DfxDistributor
-          file: ../../packages/abis/DfxDistributor.json
-        - name: ERC20
-          file: ../../packages/abis/ERC20.json
+        # - name: DfxDistributor
+        #   file: ../../packages/abis/DfxDistributor.json
+        # - name: ERC20
+        #   file: ../../packages/abis/ERC20.json
         - name: LiquidityGaugeV4
           file: ../../packages/abis/LiquidityGaugeV4.json
       eventHandlers:
@@ -92,6 +88,8 @@ dataSources:
           file: ../../packages/abis/CurveFactoryV2.json
         - name: Curve
           file: ../../packages/abis/Curve.json
+        - name: ERC20
+          file: ../../packages/abis/ERC20.json
       eventHandlers:
         - event: NewCurve(indexed address,indexed bytes32,indexed address)
           handler: handleNewCurve
@@ -109,6 +107,8 @@ templates:
       abis:
         - name: Curve
           file: ../../packages/abis/Curve.json
+        - name: ERC20
+          file: ../../packages/abis/ERC20.json
       entities:
         - Trade
         - Transfer

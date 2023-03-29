@@ -1,9 +1,10 @@
 import { Address, BigInt } from "@graphprotocol/graph-ts";
 import { NewCurve as NewCurveEvent } from "../generated/CurveFactoryV2/CurveFactoryV2";
 import { Curve } from "../generated/CurveFactoryV2/Curve";
-import { Pair, Token } from "../generated/schema";
+import { Pair } from "../generated/schema";
 import { Curve as CurveTemplate } from "../generated/templates";
 import { ONE_BI, ZERO_BD, ZERO_BI } from "./helpers";
+import { getToken } from "./curve";
 
 class CurveInfo {
   constructor(
@@ -20,7 +21,7 @@ function _fetchCurveInfo(curveAddress: Address): CurveInfo {
   return new CurveInfo(decimals, name, symbol);
 }
 
-function _fetchToken(curveAddress: Address, derivative: BigInt): Address {
+function _fetchTokenAddr(curveAddress: Address, derivative: BigInt): Address {
   let curve = Curve.bind(curveAddress);
   return curve.derivatives(derivative);
 }
@@ -30,10 +31,10 @@ export function handleNewCurve(event: NewCurveEvent): void {
   let pair = Pair.load(event.params.curve.toHexString());
   if (pair === null) {
     const curveInfo = _fetchCurveInfo(event.params.curve);
-    const token0Address = _fetchToken(event.params.curve, ZERO_BI);
-    const token0 = Token.load(token0Address.toHexString())!;
-    const token1Address = _fetchToken(event.params.curve, ONE_BI);
-    const token1 = Token.load(token1Address.toHexString())!;
+    const token0Address = _fetchTokenAddr(event.params.curve, ZERO_BI);
+    const token0 = getToken(token0Address.toHexString());
+    const token1Address = _fetchTokenAddr(event.params.curve, ONE_BI);
+    const token1 = getToken(token1Address.toHexString());
 
     pair = new Pair(event.params.curve.toHexString());
     pair.decimals = curveInfo.decimals;
