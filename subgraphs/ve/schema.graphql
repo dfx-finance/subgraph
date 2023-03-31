@@ -30,7 +30,7 @@ type Pair @entity {
 ##
 ## veDFX Token
 ##
-type VeDFX @entity {
+type veDFX @entity {
   # token address
   id: ID!
   decimals: Int!
@@ -38,6 +38,17 @@ type VeDFX @entity {
 
   supply: BigDecimal!
   dfxBalance: BigDecimal!
+  blockNum: BigInt!
+}
+
+##
+##
+##
+type GaugeController @entity {
+  # gauge controller address
+  id: ID!
+
+  totalWeight: BigDecimal!
   blockNum: BigInt!
 }
 
@@ -54,11 +65,11 @@ type Gauge @entity {
   lpt: Bytes! # curve addr
   lptAmount: BigDecimal! # totalSupply
   workingSupply: BigDecimal!
+  totalSupply: BigDecimal!
   dfxBalance: BigDecimal!
   rewardCount: BigInt!
 
   # calculated
-  totalWeight: BigInt!
   active: Boolean!
 
   blockNum: BigInt!

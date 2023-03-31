@@ -1,11 +1,10 @@
 import { NewGauge as NewGaugeEvent } from "../generated/GaugeController/GaugeController";
-import { LiquidityGaugeV4 } from "../generated/GaugeController/LiquidityGaugeV4";
+import { LiquidityGaugeV4 as GaugeContract } from "../generated/GaugeController/LiquidityGaugeV4";
 import { Gauge } from "../generated/schema";
 import { Gauge as GaugeTemplate } from "../generated/templates";
-import { ZERO_BD, ZERO_BI } from "./helpers";
+import { ZERO_BD } from "./helpers";
 
 /* -- Helpers -- */
-
 // function writeGaugesHourData(
 //   gaugeController: GaugeController,
 //   event: VoteForGaugeEvent
@@ -49,11 +48,10 @@ import { ZERO_BD, ZERO_BI } from "./helpers";
 
 /* -- Main -- */
 /* Event Handlers */
-
 // Handle creating entity with default empty state when new gauges are deployed
 export function handleNewGauge(event: NewGaugeEvent): void {
   const gaugeAddr = event.params.addr;
-  const gaugeContract = LiquidityGaugeV4.bind(gaugeAddr);
+  const gaugeContract = GaugeContract.bind(gaugeAddr);
   let gauge = new Gauge(gaugeAddr.toHexString());
 
   gauge.active = true;
@@ -67,8 +65,8 @@ export function handleNewGauge(event: NewGaugeEvent): void {
   // amounts to updated via events
   gauge.lptAmount = ZERO_BD;
   gauge.workingSupply = ZERO_BD;
+  gauge.totalSupply = ZERO_BD;
   gauge.dfxBalance = ZERO_BD;
-  gauge.totalWeight = ZERO_BI;
 
   gauge.blockNum = event.block.number;
   gauge.save();

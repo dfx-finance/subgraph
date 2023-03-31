@@ -40,10 +40,6 @@ dataSources:
       abis:
         - name: GaugeController
           file: ../../packages/abis/GaugeController.json
-        # - name: DfxDistributor
-        #   file: ../../packages/abis/DfxDistributor.json
-        # - name: ERC20
-        #   file: ../../packages/abis/ERC20.json
         - name: LiquidityGaugeV4
           file: ../../packages/abis/LiquidityGaugeV4.json
       eventHandlers:
@@ -128,10 +124,14 @@ templates:
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       abis:
+        - name: Curve
+          file: ../../packages/abis/Curve.json
         - name: LiquidityGaugeV4
           file: ../../packages/abis/LiquidityGaugeV4.json
         - name: ERC20
           file: ../../packages/abis/ERC20.json
+        - name: GaugeController
+          file: ../../packages/abis/GaugeController.json
       entities:
         - Deposit
         - Withdraw

@@ -42,6 +42,8 @@ export const XIDR_POOL_V2 = "0xb7db2f8d25c51a26799be6765720c3c6d84cd2f2";
 export const EUROC_POOL_V2 = "0x8cd86fbc94bebfd910caae7ae4ce374886132c48";
 export const GYEN_POOL_V2 = "0x9afd65013770525e43a84e49c87b3015c2c32517";
 
+export const DFX_GAUGE_CONTROLLER =
+  "0x3c56a223fe8f61269e25ef1116f9f185074c6c44";
 export const DFX_DISTRIBUTOR_PROXY =
   "0x86e8c4e7549fbca7eba1aefbdbc23993f721e5ca";
 

@@ -1,7 +1,10 @@
 import { Address, BigInt } from "@graphprotocol/graph-ts";
-import { VeDFX as veDFXEntity } from "../generated/schema";
-import { Supply as SupplyEvent, veDFX } from "../generated/veDFX/veDFX";
-import { ERC20 } from "../generated/veDFX/ERC20";
+import { veDFX as veDFXEntity } from "../generated/schema";
+import {
+  veDFX as VeDFXContract,
+  Supply as SupplyEvent,
+} from "../generated/veDFX/veDFX";
+import { ERC20 as ERC20Contract } from "../generated/veDFX/ERC20";
 import { DFX, VEDFX_ADDRESS } from "../../../packages/constants";
 import { valueAsBigDecimal } from "./helpers";
 
@@ -9,7 +12,7 @@ import { valueAsBigDecimal } from "./helpers";
 function _getVeDfxToken(): veDFXEntity {
   let token = veDFXEntity.load(VEDFX_ADDRESS);
   if (token === null) {
-    const veDFXContract = veDFX.bind(Address.fromString(VEDFX_ADDRESS));
+    const veDFXContract = VeDFXContract.bind(Address.fromString(VEDFX_ADDRESS));
 
     token = new veDFXEntity(VEDFX_ADDRESS);
     token.decimals = veDFXContract.decimals().toI32();
@@ -21,8 +24,8 @@ function _getVeDfxToken(): veDFXEntity {
 /* -- MAIN -- */
 /* Event Handlers */
 export function handleSupply(event: SupplyEvent): void {
-  const veDFXContract = veDFX.bind(Address.fromString(VEDFX_ADDRESS));
-  const DFXContract = ERC20.bind(Address.fromString(DFX));
+  const veDFXContract = VeDFXContract.bind(Address.fromString(VEDFX_ADDRESS));
+  const DFXContract = ERC20Contract.bind(Address.fromString(DFX));
 
   const token = _getVeDfxToken();
   const decimals = BigInt.fromI32(token.decimals);
