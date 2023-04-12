@@ -1,6 +1,6 @@
 import { Address, BigDecimal, BigInt } from "@graphprotocol/graph-ts";
 import { DFX_DISTRIBUTOR_PROXY } from "../../../packages/constants/index";
-import { ERC20 } from "../generated/CurveFactoryV2/ERC20";
+import { Curve } from "../generated/templates/Curve/Curve";
 
 export let ZERO_BI = BigInt.fromI32(0);
 export let ONE_BI = BigInt.fromI32(1);
@@ -27,41 +27,20 @@ export function exponentToBigDecimal(decimals: BigInt): BigDecimal {
   return bd;
 }
 
-export function valueAsBigDecimal(value: BigInt, decimals: BigInt): BigDecimal {
-  return value.toBigDecimal().div(exponentToBigDecimal(decimals));
-}
-
-export function fetchTokenDecimals(tokenAddress: Address): BigInt {
-  let contract = ERC20.bind(tokenAddress);
-
-  // try types uint8 for decimals
-  let decimalValue = 0;
-
-  let decimalResult = contract.try_decimals();
-
-  if (!decimalResult.reverted) {
-    decimalValue = decimalResult.value;
+export function valueToBigDecimal(value: BigInt, decimals: i32): BigDecimal {
+  if (decimals == 0) {
+    return value.toBigDecimal();
   }
-
-  return BigInt.fromI32(decimalValue as i32);
+  const _decimals = BigInt.fromI32(decimals);
+  return value.toBigDecimal().div(exponentToBigDecimal(_decimals));
 }
 
-export function fetchTokenSymbol(tokenAddress: Address): string {
-  let contract = ERC20.bind(tokenAddress);
-  return contract.symbol();
-}
-
-export function fetchTokenName(tokenAddress: Address): string {
-  let contract = ERC20.bind(tokenAddress);
-  return contract.name();
-}
-
-export function convertTokenToDecimal(
-  tokenAmount: BigInt,
-  exchangeDecimals: BigInt
-): BigDecimal {
-  if (exchangeDecimals == BigInt.fromI32(0)) {
-    return tokenAmount.toBigDecimal();
+export function fetchPairLiquidity(curveAddress: Address): BigDecimal {
+  let curveContract = Curve.bind(curveAddress);
+  let reserveResult = curveContract.try_liquidity();
+  let reserveTotal = ZERO_BD;
+  if (!reserveResult.reverted) {
+    reserveTotal = valueToBigDecimal(reserveResult.value.value0, 18);
   }
-  return tokenAmount.toBigDecimal().div(exponentToBigDecimal(exchangeDecimals));
+  return reserveTotal;
 }

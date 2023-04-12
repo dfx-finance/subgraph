@@ -132,6 +132,8 @@ templates:
           file: ../../packages/abis/ERC20.json
         - name: GaugeController
           file: ../../packages/abis/GaugeController.json
+        - name: BalancerVault
+          file: ../../packages/abis/BalancerVault.json
       entities:
         - Deposit
         - Withdraw

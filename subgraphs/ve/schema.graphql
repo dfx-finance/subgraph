@@ -1,22 +1,26 @@
 ##
 ## AMM data
 ##
-type Token @entity(immutable: true) {
+type Token @entity {
   # token address
   id: ID!
 
   # mirrored from smart contract
-  decimals: BigInt!
+  decimals: Int!
   symbol: String!
   name: String!
+
+  # calculated from trades
+  priceUSD: BigDecimal!
 }
 
 type Pair @entity {
   # Contract address
   id: ID!
-  decimals: BigInt!
+  decimals: Int!
   symbol: String!
   name: String!
+  supply: BigDecimal!
 
   # mirrored from the smart contract
   token0: Token!
@@ -25,6 +29,10 @@ type Pair @entity {
   # reserves
   reserve0: BigDecimal!
   reserve1: BigDecimal!
+  reserveUSD: BigDecimal!
+
+  # calculated from trades
+  swapRateUSD: BigDecimal!
 }
 
 ##
@@ -42,7 +50,7 @@ type veDFX @entity {
 }
 
 ##
-##
+## GaugeController
 ##
 type GaugeController @entity {
   # gauge controller address
@@ -70,6 +78,8 @@ type Gauge @entity {
   rewardCount: BigInt!
 
   # calculated
+  minApr: BigDecimal!
+  maxApr: BigDecimal!
   active: Boolean!
 
   blockNum: BigInt!

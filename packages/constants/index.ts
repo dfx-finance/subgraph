@@ -47,6 +47,8 @@ export const DFX_GAUGE_CONTROLLER =
 export const DFX_DISTRIBUTOR_PROXY =
   "0x86e8c4e7549fbca7eba1aefbdbc23993f721e5ca";
 
+export const BALANCER_VAULT = "0xba12222222228d8ba445958a75a0704d566bf2c8";
+
 // V1
 export const FACTORY_ADDRESS_V1 = "0xd3C1bF5582b5f3029b15bE04a49C65d3226dFB0C";
 

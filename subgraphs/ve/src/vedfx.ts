@@ -6,7 +6,7 @@ import {
 } from "../generated/veDFX/veDFX";
 import { ERC20 as ERC20Contract } from "../generated/veDFX/ERC20";
 import { DFX, VEDFX_ADDRESS } from "../../../packages/constants";
-import { valueAsBigDecimal } from "./helpers";
+import { valueToBigDecimal } from "./helpers";
 
 // Create or return veDFX entity to update
 function _getVeDfxToken(): veDFXEntity {
@@ -28,12 +28,11 @@ export function handleSupply(event: SupplyEvent): void {
   const DFXContract = ERC20Contract.bind(Address.fromString(DFX));
 
   const token = _getVeDfxToken();
-  const decimals = BigInt.fromI32(token.decimals);
 
-  token.supply = valueAsBigDecimal(veDFXContract.supply(), decimals);
-  token.dfxBalance = valueAsBigDecimal(
+  token.supply = valueToBigDecimal(veDFXContract.supply(), token.decimals);
+  token.dfxBalance = valueToBigDecimal(
     DFXContract.balanceOf(Address.fromString(VEDFX_ADDRESS)),
-    BigInt.fromI32(18)
+    18
   );
   token.blockNum = event.block.number;
   token.save();

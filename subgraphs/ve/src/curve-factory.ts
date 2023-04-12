@@ -1,51 +1,53 @@
-import { Address, BigInt } from "@graphprotocol/graph-ts";
+import { Address, BigDecimal, BigInt } from "@graphprotocol/graph-ts";
 import { NewCurve as NewCurveEvent } from "../generated/CurveFactoryV2/CurveFactoryV2";
 import { Curve } from "../generated/CurveFactoryV2/Curve";
 import { Pair } from "../generated/schema";
 import { Curve as CurveTemplate } from "../generated/templates";
-import { ONE_BI, ZERO_BD, ZERO_BI } from "./helpers";
-import { getToken } from "./curve";
+import { ONE_BI, ZERO_BD, ZERO_BI, valueToBigDecimal } from "./helpers";
 
 class CurveInfo {
   constructor(
-    public decimals: BigInt,
+    public decimals: i32,
     public name: string,
-    public symbol: string
+    public symbol: string,
+    public totalSupply: BigDecimal,
+    public token0: Address,
+    public token1: Address
   ) {}
 }
-function _fetchCurveInfo(curveAddress: Address): CurveInfo {
+export function fetchCurveInfo(curveAddress: Address): CurveInfo {
   const curveContract = Curve.bind(curveAddress);
-  const decimals = BigInt.fromI32(curveContract.decimals());
+  const decimals = curveContract.decimals();
   const name = curveContract.name();
   const symbol = curveContract.symbol();
-  return new CurveInfo(decimals, name, symbol);
-}
+  const totalSupply = valueToBigDecimal(curveContract.totalSupply(), 18);
 
-function _fetchTokenAddr(curveAddress: Address, derivative: BigInt): Address {
-  let curve = Curve.bind(curveAddress);
-  return curve.derivatives(derivative);
+  const token0 = curveContract.derivatives(ZERO_BI);
+  const token1 = curveContract.derivatives(ONE_BI);
+
+  return new CurveInfo(decimals, name, symbol, totalSupply, token0, token1);
 }
 
 /* -- Main -- */
 export function handleNewCurve(event: NewCurveEvent): void {
   let pair = Pair.load(event.params.curve.toHexString());
   if (pair === null) {
-    const curveInfo = _fetchCurveInfo(event.params.curve);
-    const token0Address = _fetchTokenAddr(event.params.curve, ZERO_BI);
-    const token0 = getToken(token0Address.toHexString());
-    const token1Address = _fetchTokenAddr(event.params.curve, ONE_BI);
-    const token1 = getToken(token1Address.toHexString());
+    const curveInfo = fetchCurveInfo(event.params.curve);
 
     pair = new Pair(event.params.curve.toHexString());
     pair.decimals = curveInfo.decimals;
     pair.name = curveInfo.name;
     pair.symbol = curveInfo.symbol;
+    pair.supply = curveInfo.totalSupply;
 
-    pair.token0 = token0.id;
-    pair.token1 = token1.id;
+    pair.token0 = curveInfo.token0.toHexString();
+    pair.token1 = curveInfo.token1.toHexString();
 
     pair.reserve0 = ZERO_BD;
     pair.reserve1 = ZERO_BD;
+    pair.reserveUSD = ZERO_BD;
+
+    pair.swapRateUSD = ZERO_BD;
   }
 
   pair.save();
