@@ -78,8 +78,6 @@ type Gauge @entity {
   rewardCount: BigInt!
 
   # calculated
-  minApr: BigDecimal!
-  maxApr: BigDecimal!
   active: Boolean!
 
   blockNum: BigInt!

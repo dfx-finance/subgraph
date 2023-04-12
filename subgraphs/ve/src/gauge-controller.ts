@@ -67,8 +67,6 @@ export function handleNewGauge(event: NewGaugeEvent): void {
   gauge.workingSupply = ZERO_BD;
   gauge.totalSupply = ZERO_BD;
   gauge.dfxBalance = ZERO_BD;
-  gauge.minApr = ZERO_BD;
-  gauge.maxApr = ZERO_BD;
 
   gauge.blockNum = event.block.number;
   gauge.save();

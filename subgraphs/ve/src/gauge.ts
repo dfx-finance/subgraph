@@ -25,6 +25,7 @@ export function getGaugeController(): GaugeController {
 }
 
 /* -- Helpers -- */
+// Update the total rewards available (unclaimed and undistributed) in gauge
 function _updateRewardsBalance(gauge: Gauge): void {
   const gaugeAddr = Address.fromString(gauge.id);
 
@@ -44,6 +45,7 @@ function _updateRewardsBalance(gauge: Gauge): void {
   gauge.dfxBalance = rewardAmount;
 }
 
+// Update the weighted amount of veDFX provided to gauge
 function _updateWorkingSupply(gauge: Gauge): void {
   const gaugeAddr = Address.fromString(gauge.id);
   const gaugeContract = GaugeContract.bind(gaugeAddr);
@@ -54,6 +56,7 @@ function _updateWorkingSupply(gauge: Gauge): void {
   gauge.workingSupply = valueToBigDecimal(workingSupply, dfxDecimals);
 }
 
+// Update the total amount of veDFX provided to gauge
 function _updateTotalSupply(gauge: Gauge): void {
   const gaugeAddr = Address.fromString(gauge.id);
   const gaugeContract = GaugeContract.bind(gaugeAddr);
@@ -64,6 +67,7 @@ function _updateTotalSupply(gauge: Gauge): void {
   gauge.totalSupply = valueToBigDecimal(totalSupply, dfxDecimals);
 }
 
+// Update the total voting weight available to all gauges
 function _updateTotalWeight(blockNum: BigInt): void {
   const gaugeControllerContract = GaugeControllerContract.bind(
     Address.fromString(DFX_GAUGE_CONTROLLER)
@@ -77,6 +81,11 @@ function _updateTotalWeight(blockNum: BigInt): void {
   gaugeController.save();
 }
 
+// DISABLED: Can be re-enabled after APR built into frontend independently to avoid confusion. This
+// would remain useful for analytics afterwards.
+//
+// Using weekly rate for DFX reward distribution gauge, price of DFX in USDC (1:1 USD/USDC assumed),
+// and USD value of lpt deposited in gauge, calculate the minimum and maximum APR
 function _updateMinMaxApr(gauge: Gauge): void {
   const gaugeAddr = Address.fromString(gauge.id);
   const gaugeContract = GaugeContract.bind(gaugeAddr);
@@ -89,13 +98,14 @@ function _updateMinMaxApr(gauge: Gauge): void {
   const tokenlessProduction = BigInt.fromI32(40).toBigDecimal();
 
   // get gauge contract amounts
-  const workingSupply = gaugeContract.working_supply().toBigDecimal();
-  const availableRewards = valueToBigDecimal(
-    rewardContract.balanceOf(gaugeAddr),
+  const workingSupply = valueToBigDecimal(gaugeContract.working_supply(), 18);
+  const rewardsRate = gaugeContract.reward_data(Address.fromString(DFX)).rate;
+  const weeklyRewards = valueToBigDecimal(
+    rewardsRate.times(BigInt.fromI32(604800)),
     rewardDecimals
   );
 
-  // get prices
+  // get DFX/USDC price from Balancer
   const dfxPrice = getDfxPrice();
 
   if (
@@ -106,22 +116,23 @@ function _updateMinMaxApr(gauge: Gauge): void {
     const lptPrice = pair.reserveUSD.div(pair.supply);
     let gaugeLptValue = workingSupply.times(lptPrice);
 
-    const maxYearlyRewards = availableRewards.times(epochsPerYear);
+    const maxYearlyRewards = weeklyRewards.times(epochsPerYear);
     const minYearlyRewards = maxYearlyRewards.times(
       tokenlessProduction.div(BigInt.fromI32(100).toBigDecimal())
     );
     const minApr = minYearlyRewards.times(dfxPrice).div(gaugeLptValue);
     const maxApr = maxYearlyRewards.times(dfxPrice).div(gaugeLptValue);
-    gauge.minApr = minApr;
-    gauge.maxApr = maxApr;
+    // gauge.minApr = minApr;
+    // gauge.maxApr = maxApr;
   }
 }
 
+// Bundles all update routines into one method
 function _mirrorAttributes(gauge: Gauge): void {
   _updateRewardsBalance(gauge);
   _updateWorkingSupply(gauge);
   _updateTotalSupply(gauge);
-  _updateMinMaxApr(gauge);
+  // _updateMinMaxApr(gauge);
 }
 
 /* -- Main -- */

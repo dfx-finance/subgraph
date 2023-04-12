@@ -45,8 +45,6 @@ Return all active gauges and their current values
     totalSupply
     dfxBalance
     rewardCount
-    minApr
-    maxApr
     active
     blockNum
   }
@@ -67,8 +65,6 @@ Return EUROC/USDC gauge and curve (pair):
     totalSupply
     dfxBalance
     rewardCount
-    minApr
-    maxApr
     active
     blockNum
   }
@@ -83,3 +79,9 @@ Return EUROC/USDC gauge and curve (pair):
 ## Dev notes
 
 The subgraph is considerably slower to index after adding the APR calculation. The APR calculation relies on knowing the USD value of available rewards requiring an external read call to Balancer pools.
+
+_Command for deploying on Goldsky:_
+
+```bash
+$ goldsky subgraph deploy dfx-ve/X.X.X --from-url https://api.studio.thegraph.com/query/41366/dfx-ve-test/vX.X.X
+```
