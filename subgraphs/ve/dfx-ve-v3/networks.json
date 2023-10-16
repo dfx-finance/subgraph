@@ -1,0 +1,8 @@
+{
+  "mainnet": {
+    "veDFX": {
+      "address": "0x3ac91a7a2d30fa25ada4616d337a28ea988988be",
+      "startBlock": 14724071
+    }
+  }
+}

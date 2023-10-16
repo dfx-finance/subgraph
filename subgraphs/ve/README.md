@@ -113,9 +113,19 @@ Return EUROC/USDC gauge and curve (pair):
 
 The subgraph is considerably slower to index after adding the APR calculation. The APR calculation relies on knowing the USD value of available rewards requiring an external read call to Balancer pools.
 
+### Test subgraph on TheGraph
+
+Subgraph Studio: https://thegraph.com/studio/subgraph/dfx-ve-v3/
+
+```bash
+$
+```
+
+### Prod subgraph on Goldsky
+
 _Command for deploying on Goldsky:_
 
 ```bash
 $ goldsky subgraph deploy dfx-ve/X.X.X --from-url https://api.studio.thegraph.com/query/41366/dfx-ve-test/vX.X.X
-goldsky subgraph deploy dfx-ve/0.0.5 --from-url https://api.studio.thegraph.com/query/41366/dfx-ve-test/v0.0.122
+$ goldsky subgraph deploy dfx-ve/0.0.5 --from-url https://api.studio.thegraph.com/query/41366/dfx-ve-test/v0.0.122
 ```
