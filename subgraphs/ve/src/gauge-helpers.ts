@@ -3,7 +3,8 @@ import { BigDecimal, Bytes } from "@graphprotocol/graph-ts";
 import { BALANCER_VAULT, DFX, USDC } from "../../../packages/constants/index";
 import { BalancerVault as BalancerVaultContract } from "../generated/templates/Gauge/BalancerVault";
 import { ERC20 as ERC20Contract } from "../generated/templates/Gauge/ERC20";
-import { ONE_BD, valueToBigDecimal } from "./helpers";
+import { ONE_BD, ZERO_BD, valueToBigDecimal } from "./helpers";
+import { GaugeReward } from "../generated/schema";
 
 // Use Balancer pool to calculate its spot price at the current block
 // https://token-engineering-balancer.gitbook.io/balancer-simulations/additional-code-and-instructions/balancer-the-python-edition/balancer_math.py

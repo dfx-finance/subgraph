@@ -217,6 +217,37 @@
     graphql-import-node "^0.0.5"
     js-yaml "^4.1.0"
 
+"@graphprotocol/graph-cli@0.35.0", "@graphprotocol/graph-cli@^0.35.0":
+  version "0.35.0"
+  resolved "https://registry.yarnpkg.com/@graphprotocol/graph-cli/-/graph-cli-0.35.0.tgz#2f3c688f47ce763c2e8c6d8b86817fb21b3a367d"
+  integrity sha512-50tjeLZg3425fwueH8ORTZbPRSn4uICL0NK9XsJVriDPKCNnhyAIgJgOWaYyPAFgxR8LuyXYkoxIxZ5nduKbiw==
+  dependencies:
+    assemblyscript "0.19.10"
+    binary-install-raw "0.0.13"
+    chalk "3.0.0"
+    chokidar "3.5.1"
+    debug "4.3.1"
+    docker-compose "0.23.4"
+    dockerode "2.5.8"
+    fs-extra "9.0.0"
+    glob "7.1.6"
+    gluegun "https://github.com/edgeandnode/gluegun#v4.3.1-pin-colors-dep"
+    graphql "15.5.0"
+    immutable "3.8.2"
+    ipfs-http-client "34.0.0"
+    jayson "3.6.6"
+    js-yaml "3.13.1"
+    node-fetch "2.6.0"
+    pkginfo "0.4.1"
+    prettier "1.19.1"
+    request "2.88.2"
+    semver "7.3.5"
+    sync-request "6.1.0"
+    tmp-promise "3.0.2"
+    web3-eth-abi "1.7.0"
+    which "2.0.2"
+    yaml "1.9.2"
+
 "@graphprotocol/graph-cli@0.37.7":
   version "0.37.7"
   resolved "https://registry.yarnpkg.com/@graphprotocol/graph-cli/-/graph-cli-0.37.7.tgz#81a64fa552684213b78a024ff064f1888509cda3"
@@ -248,36 +279,12 @@
     which "2.0.2"
     yaml "1.9.2"
 
-"@graphprotocol/graph-cli@^0.35.0":
-  version "0.35.0"
-  resolved "https://registry.yarnpkg.com/@graphprotocol/graph-cli/-/graph-cli-0.35.0.tgz#2f3c688f47ce763c2e8c6d8b86817fb21b3a367d"
-  integrity sha512-50tjeLZg3425fwueH8ORTZbPRSn4uICL0NK9XsJVriDPKCNnhyAIgJgOWaYyPAFgxR8LuyXYkoxIxZ5nduKbiw==
+"@graphprotocol/graph-ts@0.28.1", "@graphprotocol/graph-ts@^0.28.1":
+  version "0.28.1"
+  resolved "https://registry.yarnpkg.com/@graphprotocol/graph-ts/-/graph-ts-0.28.1.tgz#271affc77deb5a4a7c3f95d4b3b1daaa9818e51c"
+  integrity sha512-1wMLQ0cu84/6Ml3zcz9ya1zFzrDAzCj0dIGZ7Rz9upnRSXg5jjqU4DefO/OYrl2K2/OPso9hSAr6I4aue2pL1Q==
   dependencies:
     assemblyscript "0.19.10"
-    binary-install-raw "0.0.13"
-    chalk "3.0.0"
-    chokidar "3.5.1"
-    debug "4.3.1"
-    docker-compose "0.23.4"
-    dockerode "2.5.8"
-    fs-extra "9.0.0"
-    glob "7.1.6"
-    gluegun "https://github.com/edgeandnode/gluegun#v4.3.1-pin-colors-dep"
-    graphql "15.5.0"
-    immutable "3.8.2"
-    ipfs-http-client "34.0.0"
-    jayson "3.6.6"
-    js-yaml "3.13.1"
-    node-fetch "2.6.0"
-    pkginfo "0.4.1"
-    prettier "1.19.1"
-    request "2.88.2"
-    semver "7.3.5"
-    sync-request "6.1.0"
-    tmp-promise "3.0.2"
-    web3-eth-abi "1.7.0"
-    which "2.0.2"
-    yaml "1.9.2"
 
 "@graphprotocol/graph-ts@0.29.1":
   version "0.29.1"
@@ -286,10 +293,10 @@
   dependencies:
     assemblyscript "0.19.10"
 
-"@graphprotocol/graph-ts@0.28.1", "@graphprotocol/graph-ts@^0.28.1":
-  version "0.28.1"
-  resolved "https://registry.yarnpkg.com/@graphprotocol/graph-ts/-/graph-ts-0.28.1.tgz#271affc77deb5a4a7c3f95d4b3b1daaa9818e51c"
-  integrity sha512-1wMLQ0cu84/6Ml3zcz9ya1zFzrDAzCj0dIGZ7Rz9upnRSXg5jjqU4DefO/OYrl2K2/OPso9hSAr6I4aue2pL1Q==
+"@graphprotocol/graph-ts@^0.27.0":
+  version "0.27.0"
+  resolved "https://registry.yarnpkg.com/@graphprotocol/graph-ts/-/graph-ts-0.27.0.tgz#948fe1716f6082964a01a63a19bcbf9ac44e06ff"
+  integrity sha512-r1SPDIZVQiGMxcY8rhFSM0y7d/xAbQf5vHMWUf59js1KgoyWpM6P3tczZqmQd7JTmeyNsDGIPzd9FeaxllsU4w==
   dependencies:
     assemblyscript "0.19.10"
 
@@ -531,7 +538,7 @@ assemblyscript@0.19.10:
     binaryen "101.0.0-nightly.20210723"
     long "^4.0.0"
 
-assemblyscript@0.19.23:
+assemblyscript@0.19.23, assemblyscript@^0.19.20:
   version "0.19.23"
   resolved "https://registry.yarnpkg.com/assemblyscript/-/assemblyscript-0.19.23.tgz#16ece69f7f302161e2e736a0f6a474e6db72134c"
   integrity sha512-fwOQNZVTMga5KRsfY80g7cpOl4PsFQczMwHzdtgoqLXaYhkhavufKb0sB0l3T1DUxpAufA0KNhlbpuuhZUwxMA==

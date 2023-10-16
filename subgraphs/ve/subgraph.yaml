@@ -42,9 +42,13 @@ dataSources:
           file: ../../packages/abis/GaugeController.json
         - name: LiquidityGaugeV4
           file: ../../packages/abis/LiquidityGaugeV4.json
+        - name: ERC20
+          file: ../../packages/abis/ERC20.json
       eventHandlers:
         - event: NewGauge(address,int128,uint256)
           handler: handleNewGauge
+        - event: VoteForGauge(uint256,address,address,uint256)
+          handler: handleVoteForGauge
       file: ./src/gauge-controller.ts
   - kind: ethereum
     name: DfxDistributor
@@ -62,9 +66,15 @@ dataSources:
       abis:
         - name: DfxDistributor
           file: ../../packages/abis/DfxDistributor.json
+        - name: GaugeController
+          file: ../../packages/abis/GaugeController.json
       eventHandlers:
         - event: GaugeToggled(indexed address,bool)
           handler: handleGaugeToggled
+        - event: RewardDistributed(indexed address,uint256)
+          handler: handleRewardDistributed
+        - event: UpdateMiningParameters(uint256,uint256,uint256)
+          handler: handleUpdateMiningParameters
       file: ./src/dfx-distributor.ts
   - kind: ethereum
     name: CurveFactoryV2

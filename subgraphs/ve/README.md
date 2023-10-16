@@ -65,6 +65,7 @@ Return EUROC/USDC gauge and curve (pair):
     totalSupply
     dfxBalance
     rewardCount
+    rewardsAvailable
     active
     blockNum
   }
@@ -72,6 +73,38 @@ Return EUROC/USDC gauge and curve (pair):
     id
     supply
     reserveUSD
+  }
+}
+```
+
+```
+{
+  dfxDistributors(first: 1) {
+    id
+    epoch
+    rate
+    startEpochTime
+    startEpochSupply
+  }
+	gaugeControllers(first: 1) {
+    id
+    timeTotal
+    totalWeight
+    blockNum
+
+    gauges(where: {active: true}) {
+      id
+      symbol
+      active
+
+      weight
+      proportionalWeight
+      weightDelta
+      startProportionalWeight
+
+      lpt
+      lptAmount
+    }
   }
 }
 ```
@@ -84,4 +117,5 @@ _Command for deploying on Goldsky:_
 
 ```bash
 $ goldsky subgraph deploy dfx-ve/X.X.X --from-url https://api.studio.thegraph.com/query/41366/dfx-ve-test/vX.X.X
+goldsky subgraph deploy dfx-ve/0.0.5 --from-url https://api.studio.thegraph.com/query/41366/dfx-ve-test/v0.0.122
 ```

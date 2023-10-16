@@ -2,10 +2,13 @@ import { Address, BigDecimal, BigInt } from "@graphprotocol/graph-ts";
 import { DFX_DISTRIBUTOR_PROXY } from "../../../packages/constants/index";
 import { Curve } from "../generated/templates/Curve/Curve";
 
-export let ZERO_BI = BigInt.fromI32(0);
-export let ONE_BI = BigInt.fromI32(1);
-export let ZERO_BD = BigDecimal.fromString("0");
-export let ONE_BD = BigDecimal.fromString("1");
+export const ZERO_BI = BigInt.fromI32(0);
+export const ONE_BI = BigInt.fromI32(1);
+export const ZERO_BD = BigDecimal.fromString("0");
+export const ONE_BD = BigDecimal.fromString("1");
+export const WEEK_BI = BigInt.fromI32(60 * 60 * 24 * 7); // in sec
+
+export const DFX_DECIMALS = 18;
 
 class ConfigAddresses {
   DFX_DISTRIBUTOR: Address;
