@@ -8,6 +8,9 @@
     },
     "gaugeController": {
       "address": "0x3C56A223fE8F61269E25eF1116f9f185074c6C44"
+    },
+    "liquidityGaugeV4": {
+      "address": "0x71c0ddbf6da72a67c29529d6f67f97c00c4751d5"
     }
   }
 }

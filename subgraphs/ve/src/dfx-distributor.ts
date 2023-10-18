@@ -1,64 +1,80 @@
+import { Address } from "@graphprotocol/graph-ts";
+import { DFX_GAUGE_CONTROLLER } from "../../../packages/constants";
 import {
-  RateUpdated as RateUpdatedEvent,
-  Recovered as RecoveredEvent,
+  DfxDistributor as DfxDistributorContract,
+  GaugeToggled as GaugeToggledEvent,
   RewardDistributed as RewardDistributedEvent,
   UpdateMiningParameters as UpdateMiningParametersEvent,
 } from "../generated/dfxDistributor/dfxDistributor";
-import { Rate, Recovered, RewardDistributed } from "../generated/schema";
+import { DfxDistributor, Gauge } from "../generated/schema";
+import { getActiveGauges, getGaugeController } from "./gauge-controller";
+import { DFX_DECIMALS, ZERO_BD, ZERO_BI, valueToBigDecimal } from "./helpers";
 
-export function handleRateUpdated(event: RateUpdatedEvent): void {
-  let entity = new Rate(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  );
-  entity.rate = event.params._newRate;
-
-  entity.blockNumber = event.block.number;
-  entity.blockTimestamp = event.block.timestamp;
-  entity.transactionHash = event.transaction.hash;
-
-  entity.save();
+/* -- Helpers -- */
+export function getDfxDistributor(distributorAddr: Address): DfxDistributor {
+  let dfxDistributor = DfxDistributor.load(distributorAddr.toHexString());
+  if (dfxDistributor === null) {
+    dfxDistributor = new DfxDistributor(distributorAddr.toHexString());
+    dfxDistributor.epoch = 0;
+    dfxDistributor.rate = ZERO_BI;
+    dfxDistributor.startEpochSupply = ZERO_BD;
+    dfxDistributor.startEpochTime = 0;
+  }
+  return dfxDistributor;
 }
 
-export function handleRecovered(event: RecoveredEvent): void {
-  let entity = new Recovered(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
+function _updateDfxDistributorAttributes(distributorAddr: Address): void {
+  const dfxDistributorContract = DfxDistributorContract.bind(distributorAddr);
+  const dfxDistributor = getDfxDistributor(distributorAddr);
+
+  dfxDistributor.epoch = dfxDistributorContract.miningEpoch().toI32();
+  dfxDistributor.rate = dfxDistributorContract.rate();
+  dfxDistributor.startEpochSupply = valueToBigDecimal(
+    dfxDistributorContract.startEpochSupply(),
+    DFX_DECIMALS
   );
-  entity.tokenAddress = event.params.tokenAddress;
-  entity.to = event.params.to;
-  entity.amount = event.params.amount;
+  dfxDistributor.startEpochTime = dfxDistributorContract
+    .startEpochTime()
+    .toU32();
+  dfxDistributor.save();
+}
 
-  entity.blockNumber = event.block.number;
-  entity.blockTimestamp = event.block.timestamp;
-  entity.transactionHash = event.transaction.hash;
+/* -- Main -- */
+/* Event Handlers */
+// Watch GaugeToggled event to mark whether a gauge is "active" or "inactive"
+export function handleGaugeToggled(event: GaugeToggledEvent): void {
+  const addr = event.params.gaugeAddr;
+  const isActive = !event.params.newStatus;
 
-  entity.save();
+  const gauge = Gauge.load(addr.toHexString());
+  if (gauge) {
+    gauge.active = isActive;
+    gauge.save();
+  }
 }
 
 export function handleRewardDistributed(event: RewardDistributedEvent): void {
-  let entity = new RewardDistributed(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  );
-  entity.gaugeAddr = event.params.gaugeAddr;
-  entity.rewardTally = event.params.rewardTally;
+  // -- DFX Distributor
+  _updateDfxDistributorAttributes(event.address);
 
-  entity.blockNumber = event.block.number;
-  entity.blockTimestamp = event.block.timestamp;
-  entity.transactionHash = event.transaction.hash;
+  // -- Gauges
+  // Set the current weights as the starting weight on each gauge and reset the newly
+  // added weight counter
+  const gaugeController = getGaugeController();
+  const gaugeAddrs = getActiveGauges(Address.fromString(DFX_GAUGE_CONTROLLER));
 
-  entity.save();
+  for (let i = 0; i < gaugeAddrs.length; i++) {
+    const gauge = Gauge.load(gaugeAddrs[i].toHexString());
+    if (gauge) {
+      gauge.startProportionalWeight = gauge.proportionalWeight;
+      gauge.weightDelta = ZERO_BD;
+      gauge.save();
+    }
+  }
 }
 
 export function handleUpdateMiningParameters(
   event: UpdateMiningParametersEvent
 ): void {
-  let entity = new Rate(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  );
-  entity.rate = event.params.rate;
-
-  entity.blockNumber = event.block.number;
-  entity.blockTimestamp = event.block.timestamp;
-  entity.transactionHash = event.transaction.hash;
-
-  entity.save();
+  _updateDfxDistributorAttributes(event.address);
 }

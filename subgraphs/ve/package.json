@@ -2,7 +2,7 @@
   "name": "ve",
   "license": "UNLICENSED",
   "version": "1.0.0",
-  "author": "DFX",  
+  "author": "DFX",
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
@@ -11,5 +11,8 @@
     "remove-local": "graph remove --node http://localhost:8020/ ve",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 ve",
     "test": "graph test"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-ts": "0.29.1"
   }
 }
