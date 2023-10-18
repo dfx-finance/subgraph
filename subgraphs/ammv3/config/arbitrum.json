@@ -1,0 +1,9 @@
+{
+  "network": "arbitrum-one",
+  "curveFactoryAddr": "0x9f1413d756fba0bcc7fe550f31aead482c3431f6",
+  "configAddr": "0xd616a109c21cc6ca082ac7402ce4c6b2a0b159ce",
+  "zapAddr": "0x14c9132e9ec460aa642d29d2614bd9c2e0d0c17f",
+  "routerAddr": "0xc857662318c46a0c981ff345aa05af11286be0e2",
+  "assimFactoryAddr": "0x273e1beedc3d104252f3cde8490eb3699e8e8c02",
+  "startBlock": "132815452"
+}
