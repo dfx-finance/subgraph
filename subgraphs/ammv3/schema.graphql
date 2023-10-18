@@ -1,0 +1,187 @@
+type DFXFactoryV2 @entity {
+  id: ID!
+  pairCount: Int!
+  totalVolumeUSD: BigDecimal!
+  totalFeeUSD: BigDecimal!
+  totalLiquidityUSD: BigDecimal!
+}
+
+type Pair @entity {
+  id: ID!
+  decimals: BigInt!
+  symbol: String!
+  name: String!
+  # curve settings
+  alpha: BigInt!
+  beta: BigInt!
+  delta: BigInt!
+  epsilon: BigInt!
+  lambda: BigInt!
+
+  protocolFee: BigInt!
+
+  token0: Token!
+  token1: Token!
+
+  assimilatorFrom0To1: Assimilator! 
+  assimilatorFrom1To0: Assimilator!
+
+  reserve0: BigDecimal!
+  reserve0USD: BigDecimal!
+  reserve1: BigDecimal!
+  reserve1USD: BigDecimal!
+
+  reserveUSD: BigDecimal!
+  reserveNative: BigDecimal!
+
+  # swap rate
+  swapRateFrom0To1: BigDecimal!
+  swapRateFrom0To1USD: BigDecimal!
+  swapRateFrom1To0: BigDecimal!
+  swapRateFrom1To0USD: BigDecimal!
+
+  # USD Volume
+  volumeToken0: BigDecimal!
+  volumeToken1: BigDecimal!
+  volumeToken0USD: BigDecimal!
+  volumeToken1USD: BigDecimal!
+  totalFeeUSD: BigDecimal!
+  txnsCount: BigInt!
+
+  # total user count
+  participantCount: BigInt!
+  totalLPToken: BigDecimal! 
+
+  hourData: [PairHourData!]! @derivedFrom(field: "pair")
+
+  dfxApproved: Boolean!
+}
+
+type Trade @entity {
+  id: ID!
+  timestamp: BigInt!
+  pair: Pair!
+  trader: Bytes!
+  origin: Bytes!
+  target: Bytes!
+  originAmount: BigInt!
+  targetAmount: BigInt!
+  fee: BigInt!
+}
+
+type Transfer @entity {
+ id: ID!
+ timestamp: BigInt!
+ pair: Pair!
+ from: Bytes!
+ to: Bytes!
+ token0Amount: BigDecimal!
+ token1Amount: BigDecimal!
+ tokenLPTAmount: BigInt!
+ type: String! 
+}
+
+type Token @entity {
+  id: ID!
+  decimals: BigInt!
+  symbol: String!
+  name: String!
+  oracle: Oracle!
+  priceUSD: BigDecimal!
+
+  tokenDayData: [TokenDayData!]! @derivedFrom(field: "token")
+}
+
+type TokenDayData @entity {
+  id: ID!
+  date: Int!
+  token: Token!
+  dailyVolumeToken: BigDecimal!
+  dailyVolumeUSD: BigDecimal!
+  priceUSD: BigDecimal!
+}
+
+type Oracle @entity {
+  id: ID!
+  token: Bytes!
+  decimals: BigInt!
+}
+
+type Assimilator @entity {
+  id: ID!
+  token: Bytes!
+  oracle: Oracle!
+  pairToken: Bytes!
+}
+
+type PairHourData @entity {
+  id: ID!
+  hourStartUnix: Int!
+  pair: Pair!
+  firstTxn: Bytes!
+  reserve0: BigDecimal!
+  reserve0USD: BigDecimal!
+  reserve1: BigDecimal!
+  reserve1USD: BigDecimal!
+
+  # swap rate
+  swapRateFrom0To1USD: BigDecimal!
+  swapRateFrom1To0USD: BigDecimal!
+
+  volumeToken0: BigDecimal! 
+  volumeToken1: BigDecimal!
+  volumeToken0USD: BigDecimal!
+  volumeToken1USD: BigDecimal!
+  volumeUSD: BigDecimal!
+
+}
+
+type PairDayData @entity {
+  id: ID!
+  date: Int!
+  pair: Pair!
+
+  firstTxn: Bytes!
+
+  # reserves
+  reserve0: BigDecimal!
+  reserve1: BigDecimal!
+  reserveUSD: BigDecimal!
+  reserve0Deposit: BigDecimal!
+  reserve0DepositUSD: BigDecimal!
+  reserve1Deposit: BigDecimal!
+  reserve1DepositUSD: BigDecimal!
+  reserve0Withdraw: BigDecimal!
+  reserve0WithdrawUSD: BigDecimal!
+  reserve1Withdraw: BigDecimal!
+  reserve1WithdrawUSD: BigDecimal!
+
+  # swap rate
+  swapRateFrom0To1USD: BigDecimal!
+  swapRateFrom1To0USD: BigDecimal!
+
+  # volume stats
+  volumeToken0: BigDecimal!
+  volumeToken1: BigDecimal!
+  volumeUSD: BigDecimal!
+  feeUSD: BigDecimal!
+}
+
+type PoolParticipant @entity {
+  id: ID!
+  pair: Pair!
+  participant: Bytes!
+  lpTokenBalance: BigDecimal!
+  liquidityProvided: BigDecimal!
+}
+
+type DFXDayData @entity {
+  id: ID!
+  date: Int!
+
+  dailyVolumeUSD: BigDecimal!
+  dailyFeeUSD: BigDecimal!
+  totalVolumeUSD: BigDecimal!
+  totalFeeUSD: BigDecimal!
+  totalLiquidityUSD: BigDecimal!
+}
