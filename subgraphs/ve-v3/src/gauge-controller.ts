@@ -111,67 +111,57 @@ export function _updateGaugeControllerAttributes(blockNum: BigInt): void {
 //   gaugeHourData.save();
 // }
 
-// /* -- Main -- */
-// /* Event Handlers */
-// // Handle creating entity with default empty state when new gauges are deployed
-// export function handleNewGauge(event: NewGaugeEvent): void {
-//   _updateGaugeControllerAttributes(event.block.number);
-
-//   // create Gauge
-//   const gaugeControllerContract = GaugeControllerContract.bind(event.address);
-//   const gaugeController = getGaugeController();
-//   const gaugeAddr = event.params.addr;
-//   const gaugeContract = GaugeContract.bind(gaugeAddr);
-
-//   let gauge = new Gauge(gaugeAddr.toHexString());
-
-//   gauge.gaugeController = event.address.toHexString();
-//   gauge.active = true;
-
-//   // mirror from GaugeController contract
-//   gauge.weight = valueToBigDecimal(
-//     gaugeControllerContract.get_gauge_weight(gaugeAddr),
-//     DFX_DECIMALS
-//   );
-//   gauge.proportionalWeight = gaugeController.totalWeight.gt(ZERO_BD)
-//     ? gauge.weight.div(gaugeController.totalWeight)
-//     : ZERO_BD;
-
-//   // mirror from GaugeContract
-//   gauge.decimals = gaugeContract.decimals().toI32();
-//   gauge.symbol = gaugeContract.symbol();
-//   gauge.lpt = gaugeContract.staking_token();
-//   gauge.rewardCount = gaugeContract.reward_count().toI32();
-
-//   // amounts to updated via events
-//   gauge.lptAmount = ZERO_BD;
-//   gauge.workingSupply = ZERO_BD;
-//   gauge.totalSupply = ZERO_BD;
-//   gauge.dfxBalance = ZERO_BD;
-
-//   // amounts calculated from previous values
-//   gauge.startProportionalWeight = ZERO_BD;
-//   gauge.weightDelta = ZERO_BD;
-
-//   gauge.blockNum = event.block.number;
-//   gauge.save();
-
-//   // create entity for each reward available on gauge
-//   for (let i: i32 = 0; i < gauge.rewardCount; i++) {
-//     const rewardAddr = gaugeContract.reward_tokens(BigInt.fromI32(i));
-//     // get or create token for reward
-//     const token = getToken(rewardAddr.toHexString());
-//     // create reward entity
-//     let gaugeReward = new GaugeReward(gauge.id + "-" + i.toString());
-//     gaugeReward.gauge = gauge.id;
-//     gaugeReward.token = token.id;
-//     gaugeReward.amount = ZERO_BD;
-//     gaugeReward.save();
-//   }
-
-//   // start indexing the gauge
-//   GaugeTemplate.create(gaugeAddr);
-// }
+/* -- Main -- */
+/* Event Handlers */
+// Handle creating entity with default empty state when new gauges are deployed
+export function handleNewGauge(event: NewGaugeEvent): void {
+  //   _updateGaugeControllerAttributes(event.block.number);
+  //   // create Gauge
+  //   const gaugeControllerContract = GaugeControllerContract.bind(event.address);
+  //   const gaugeController = getGaugeController();
+  //   const gaugeAddr = event.params.addr;
+  //   const gaugeContract = GaugeContract.bind(gaugeAddr);
+  //   let gauge = new Gauge(gaugeAddr.toHexString());
+  //   gauge.gaugeController = event.address.toHexString();
+  //   gauge.active = true;
+  //   // mirror from GaugeController contract
+  //   gauge.weight = valueToBigDecimal(
+  //     gaugeControllerContract.get_gauge_weight(gaugeAddr),
+  //     DFX_DECIMALS
+  //   );
+  //   gauge.proportionalWeight = gaugeController.totalWeight.gt(ZERO_BD)
+  //     ? gauge.weight.div(gaugeController.totalWeight)
+  //     : ZERO_BD;
+  //   // mirror from GaugeContract
+  //   gauge.decimals = gaugeContract.decimals().toI32();
+  //   gauge.symbol = gaugeContract.symbol();
+  //   gauge.lpt = gaugeContract.staking_token();
+  //   gauge.rewardCount = gaugeContract.reward_count().toI32();
+  //   // amounts to updated via events
+  //   gauge.lptAmount = ZERO_BD;
+  //   gauge.workingSupply = ZERO_BD;
+  //   gauge.totalSupply = ZERO_BD;
+  //   gauge.dfxBalance = ZERO_BD;
+  //   // amounts calculated from previous values
+  //   gauge.startProportionalWeight = ZERO_BD;
+  //   gauge.weightDelta = ZERO_BD;
+  //   gauge.blockNum = event.block.number;
+  //   gauge.save();
+  //   // create entity for each reward available on gauge
+  //   for (let i: i32 = 0; i < gauge.rewardCount; i++) {
+  //     const rewardAddr = gaugeContract.reward_tokens(BigInt.fromI32(i));
+  //     // get or create token for reward
+  //     const token = getToken(rewardAddr.toHexString());
+  //     // create reward entity
+  //     let gaugeReward = new GaugeReward(gauge.id + "-" + i.toString());
+  //     gaugeReward.gauge = gauge.id;
+  //     gaugeReward.token = token.id;
+  //     gaugeReward.amount = ZERO_BD;
+  //     gaugeReward.save();
+  //   }
+  //   // start indexing the gauge
+  //   GaugeTemplate.create(gaugeAddr);
+}
 
 // // On every vote, update all gauges weights, relative weights, time weights, and time totals
 // export function handleVoteForGauge(event: VoteForGaugeEvent): void {
