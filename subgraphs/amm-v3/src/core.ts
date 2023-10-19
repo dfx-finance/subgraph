@@ -69,12 +69,13 @@ export function handleTrade(event: TradeEvent): void {
   let amount0 = ZERO_BD;
   let amount1 = ZERO_BD;
 
-  // if origin is NON USDC
+  // if origin is NON-USDC
   if (event.params.origin.toHexString() == token0.id) {
     amount0 = convertTokenToDecimal(event.params.originAmount, token0.decimals);
     amount1 = convertTokenToDecimal(event.params.targetAmount, token1.decimals);
-    // if origin is USDC
-  } else if (event.params.origin.toHexString() == token1.id) {
+  }
+  // else if origin is USDC
+  else if (event.params.origin.toHexString() == token1.id) {
     amount0 = convertTokenToDecimal(event.params.targetAmount, token0.decimals);
     amount1 = convertTokenToDecimal(event.params.originAmount, token1.decimals);
   }
@@ -120,8 +121,8 @@ export function handleTrade(event: TradeEvent): void {
     pair.participantCount = pair.participantCount.plus(ONE_BI);
   }
   poolParticipant.save();
+
   // calculate swap rate
-  /** */
   let amount1USD = amount1.times(token1.priceUSD);
   let amount0USD = amount0.times(token0.priceUSD);
   if (amount0USD.gt(ZERO_BD)) {
@@ -139,6 +140,7 @@ export function handleTrade(event: TradeEvent): void {
     pair.swapRateFrom1To0USD = ZERO_BD;
   }
   let feeUSD = calculateProtocolFee(amount1USD, event.address);
+
   // update day entities
   let pairHourData = updatePairHourData(event);
   let pairDayData = updatePairDayData(event);

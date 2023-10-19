@@ -40,8 +40,8 @@ import {
 } from "./constants";
 
 export function handleNewCurve(event: NewCurveEvent): void {
-  // // create a new Curve template to listen to events
-  // CurveTemplate.create(event.params.curve);
+  // create a new Curve template to listen to events
+  CurveTemplate.create(event.params.curve);
 
   // Dont need to save this to clutter
   // Might be good to keep track of bad actors

@@ -91,51 +91,51 @@ dataSources:
         - event: NewCurve(indexed address,indexed bytes32,indexed address)
           handler: handleNewCurve
       file: ./src/factory.ts
-# templates:
-#   - kind: ethereum/contract
-#     name: Curve
-#     network: {{ network }}
-#     source:
-#       abi: Curve
-#     mapping:
-#       kind: ethereum/events
-#       apiVersion: 0.0.6
-#       language: wasm/assemblyscript
-#       file: ./src/core.ts
-#       entities:
-#         - DFXFactoryV3
-#         - Pair
-#         - Trade
-#         - Transfer
-#         - Token
-#         - TokenDayData
-#         - Oracle
-#         - Assimilator
-#         - PairHourData
-#         - PairDayData
-#         - PoolParticipant
-#         - DFXDayData
-#       abis:
-#         - name: AssimilatorFactory
-#           file: ./abis/AssimilatorFactory.json
-#         - name: CurveFactoryV3
-#           file: ./abis/CurveFactoryV3.json
-#         - name: ERC20
-#           file: ./abis/ERC20.json
-#         - name: AssimilatorV3
-#           file: ./abis/AssimilatorV3.json
-#         - name: Curve
-#           file: ./abis/Curve.json
-#         - name: Curves
-#           file: ./abis/Curves.json
-#         - name: Oracle
-#           file: ./abis/Oracle.json
-#         - name: Router
-#           file: ./abis/Router.json
-#         - name: Zap
-#           file: ./abis/Zap.json
-#       eventHandlers:
-#         - event: Trade(indexed address,indexed address,indexed address,uint256,uint256,int128)
-#           handler: handleTrade
-#         - event: Transfer(indexed address,indexed address,uint256)
-#           handler: handleTransfer
+templates:
+  - kind: ethereum/contract
+    name: Curve
+    network: {{ network }}
+    source:
+      abi: Curve
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/core.ts
+      entities:
+        - DFXFactoryV3
+        - Pair
+        - Trade
+        - Transfer
+        - Token
+        - TokenDayData
+        - Oracle
+        - Assimilator
+        - PairHourData
+        - PairDayData
+        - PoolParticipant
+        - DFXDayData
+      abis:
+        - name: AssimilatorFactory
+          file: ./abis/AssimilatorFactory.json
+        - name: CurveFactoryV3
+          file: ./abis/CurveFactoryV3.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: AssimilatorV3
+          file: ./abis/AssimilatorV3.json
+        - name: Curve
+          file: ./abis/Curve.json
+        - name: Curves
+          file: ./abis/Curves.json
+        - name: Oracle
+          file: ./abis/Oracle.json
+        - name: Router
+          file: ./abis/Router.json
+        - name: Zap
+          file: ./abis/Zap.json
+      eventHandlers:
+        - event: Trade(indexed address,indexed address,indexed address,uint256,uint256,int128)
+          handler: handleTrade
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
