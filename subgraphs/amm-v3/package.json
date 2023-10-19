@@ -1,9 +1,8 @@
 {
-  "name": "dfx_v2.5_subgraph",
-  "version": "1.0.0",
-  "main": "index.js",
-  "repository": "git@github.com",
+  "name": "ammv3",
   "license": "MIT",
+  "version": "1.0.0",
+  "author": "DFX",
   "scripts": {
     "test": "yarn test",
     "codegen": "yarn graph codegen",

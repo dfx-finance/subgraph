@@ -1,30 +1,15 @@
-import {
-  Address,
-  BigDecimal,
-  BigInt,
-  Bytes,
-  log,
-} from "@graphprotocol/graph-ts";
+import { Address, BigDecimal, BigInt } from "@graphprotocol/graph-ts";
 import { ERC20 } from "../generated/CurveFactoryV2/ERC20";
 import { Curve } from "../generated/CurveFactoryV2/Curve";
-// import { Gauge } from "../generated/templates/Curve/Gauge";
 import { Oracle } from "../generated/AssimilatorFactory/Oracle";
 import { AssimilatorFactory } from "../generated/CurveFactoryV2/AssimilatorFactory";
 import { AssimilatorV2 } from "../generated/CurveFactoryV2/AssimilatorV2";
 import { Pair, Token } from "../generated/schema";
-import { CurveFactoryV2 } from "../generated/CurveFactoryV2/CurveFactoryV2";
 import { Config } from "../generated/CurveFactoryV2/Config";
 import {
   DFX_TC_ADDRESS,
   ZAP_ADDRESS_V25,
   BLACKHOLE_ADDRESS,
-  // CADC_GAUGE, CADC_POOL_V2,
-  // EUROC_GAUGE, EUROC_POOL_V2,
-  // GYEN_GAUGE, GYEN_POOL_V2,
-  // NZDS_GAUGE, NZDS_POOL_V2,
-  // TRYB_GAUGE, TRYB_POOL_V2,
-  // XIDR_GAUGE, XIDR_POOL_V2,
-  // XSGD_GAUGE, XSGD_POOL_V2
 } from "./constants";
 
 import { PoolParticipant } from "../generated/schema";
