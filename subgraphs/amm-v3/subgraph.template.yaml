@@ -4,11 +4,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: AssimilatorFactory
-    network: matic
+    network: {{ network }}
     source:
-      address: "0x1134daeAA652E11360631E3CC93e688204D9354b"
+      address: "{{ assimFactoryAddr }}"
       abi: AssimilatorFactory
-      startBlock: 48399643
+      startBlock: {{ startBlock }}
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -20,12 +20,12 @@ dataSources:
       abis:
         - name: AssimilatorFactory
           file: ./abis/AssimilatorFactory.json
-        - name: CurveFactoryV2
-          file: ./abis/CurveFactoryV2.json
+        - name: CurveFactoryV3
+          file: ./abis/CurveFactoryV3.json
         - name: ERC20
           file: ./abis/ERC20.json
-        - name: AssimilatorV2
-          file: ./abis/AssimilatorV2.json
+        - name: AssimilatorV3
+          file: ./abis/AssimilatorV3.json
         - name: Curve
           file: ./abis/Curve.json
         - name: Curves
@@ -43,18 +43,18 @@ dataSources:
           handler: handleNewAssimilator
       file: ./src/factory.ts
   - kind: ethereum/contract
-    name: CurveFactoryV2
-    network: matic
+    name: CurveFactoryV3
+    network: {{ network }}
     source:
-      address: "0xDe9c71503648C03F529305e03D259f2eBa9c8fDe"
-      abi: CurveFactoryV2
-      startBlock: 48399643
+      address: "{{ curveFactoryAddr }}"
+      abi: CurveFactoryV3
+      startBlock: {{ startBlock }}
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
-        - DFXFactoryV2
+        - DFXFactoryV3
         - Pair
         - Trade
         - Transfer
@@ -69,18 +69,18 @@ dataSources:
       abis:
         - name: AssimilatorFactory
           file: ./abis/AssimilatorFactory.json
-        - name: AssimilatorV2
-          file: ./abis/AssimilatorV2.json
-        - name: ERC20
-          file: ./abis/ERC20.json
+        - name: AssimilatorV3
+          file: ./abis/AssimilatorV3.json
         - name: Config
           file: ./abis/Config.json
-        - name: CurveFactoryV2
-          file: ./abis/CurveFactoryV2.json
+        - name: CurveFactoryV3
+          file: ./abis/CurveFactoryV3.json
         - name: Curve
           file: ./abis/Curve.json
         - name: Curves
           file: ./abis/Curves.json
+        - name: ERC20
+          file: ./abis/ERC20.json
         - name: Oracle
           file: ./abis/Oracle.json
         - name: Router
@@ -94,7 +94,7 @@ dataSources:
 templates:
   - kind: ethereum/contract
     name: Curve
-    network: matic
+    network: {{ network }}
     source:
       abi: Curve
     mapping:
@@ -103,7 +103,7 @@ templates:
       language: wasm/assemblyscript
       file: ./src/core.ts
       entities:
-        - DFXFactoryV2
+        - DFXFactoryV3
         - Pair
         - Trade
         - Transfer
@@ -118,12 +118,12 @@ templates:
       abis:
         - name: AssimilatorFactory
           file: ./abis/AssimilatorFactory.json
-        - name: CurveFactoryV2
-          file: ./abis/CurveFactoryV2.json
+        - name: CurveFactoryV3
+          file: ./abis/CurveFactoryV3.json
         - name: ERC20
           file: ./abis/ERC20.json
-        - name: AssimilatorV2
-          file: ./abis/AssimilatorV2.json
+        - name: AssimilatorV3
+          file: ./abis/AssimilatorV3.json
         - name: Curve
           file: ./abis/Curve.json
         - name: Curves

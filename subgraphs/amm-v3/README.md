@@ -26,6 +26,14 @@ $ graph codegen && graph build
 
 ## Deploy
 
+(Dev) Subgraph Studio:
+
 ```bash
 $ graph deploy --studio dfx-amm3
+```
+
+(Prod) Goldsky
+
+```bash
+$ goldsky subgraph deploy amm-v3/<version> --path .
 ```

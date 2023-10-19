@@ -1,31 +1,12 @@
-import {
-  Address,
-  BigDecimal,
-  BigInt,
-  Bytes,
-  log,
-} from "@graphprotocol/graph-ts";
-import { ERC20 } from "../generated/CurveFactoryV2/ERC20";
-import { Curve } from "../generated/CurveFactoryV2/Curve";
-// import { Gauge } from "../generated/templates/Curve/Gauge";
+import { Address, BigDecimal, BigInt } from "@graphprotocol/graph-ts";
+import { ERC20 } from "../generated/CurveFactoryV3/ERC20";
+import { Curve } from "../generated/CurveFactoryV3/Curve";
 import { Oracle } from "../generated/AssimilatorFactory/Oracle";
-import { AssimilatorFactory } from "../generated/CurveFactoryV2/AssimilatorFactory";
-import { AssimilatorV2 } from "../generated/CurveFactoryV2/AssimilatorV2";
+import { AssimilatorFactory } from "../generated/CurveFactoryV3/AssimilatorFactory";
+import { AssimilatorV3 } from "../generated/CurveFactoryV3/AssimilatorV3";
 import { Pair, Token } from "../generated/schema";
-import { CurveFactoryV2 } from "../generated/CurveFactoryV2/CurveFactoryV2";
-import { Config } from "../generated/CurveFactoryV2/Config";
-import {
-  DFX_TC_ADDRESS,
-  ZAP_ADDRESS_V25,
-  BLACKHOLE_ADDRESS,
-  // CADC_GAUGE, CADC_POOL_V2,
-  // EUROC_GAUGE, EUROC_POOL_V2,
-  // GYEN_GAUGE, GYEN_POOL_V2,
-  // NZDS_GAUGE, NZDS_POOL_V2,
-  // TRYB_GAUGE, TRYB_POOL_V2,
-  // XIDR_GAUGE, XIDR_POOL_V2,
-  // XSGD_GAUGE, XSGD_POOL_V2
-} from "./constants";
+import { Config } from "../generated/CurveFactoryV3/Config";
+import { DFX_TC_ADDRESS, ZAP_ADDRESS_V3, BLACKHOLE_ADDRESS } from "./constants";
 
 import { PoolParticipant } from "../generated/schema";
 
@@ -201,7 +182,7 @@ export function calculateProtocolFee(
 export function fetchPriceFromAssimilator(
   assimilatorAddress: Address
 ): BigDecimal {
-  let contract = AssimilatorV2.bind(assimilatorAddress);
+  let contract = AssimilatorV3.bind(assimilatorAddress);
   let rawPrice = BigInt.fromI32(0);
   let decimal = BigInt.fromI32(0);
   let rawPriceResult = contract.try_getRate();
@@ -225,19 +206,19 @@ export function fetchTokenPriceInUSD(oracleAddr: Address): BigDecimal {
 
 // export function fetchStakingContract(tokenAddress: string): string | null {
 //     // Replaced by dividing the current trades and storing the rates inside hourly pairs / daily.
-//     if (tokenAddress == XSGD_POOL_V2) {
+//     if (tokenAddress == XSGD_POOL_V3) {
 //         return XSGD_GAUGE
-//     } else if (tokenAddress == CADC_POOL_V2) {
+//     } else if (tokenAddress == CADC_POOL_V3) {
 //         return CADC_GAUGE
-//     } else if (tokenAddress == NZDS_POOL_V2){
+//     } else if (tokenAddress == NZDS_POOL_V3){
 //         return NZDS_GAUGE
-//     } else if (tokenAddress == TRYB_POOL_V2){
+//     } else if (tokenAddress == TRYB_POOL_V3){
 //         return TRYB_GAUGE
-//     } else if (tokenAddress == XIDR_POOL_V2){
+//     } else if (tokenAddress == XIDR_POOL_V3){
 //         return XIDR_GAUGE
-//     } else if (tokenAddress == EUROC_POOL_V2) {
+//     } else if (tokenAddress == EUROC_POOL_V3) {
 //         return EUROC_GAUGE
-//     } else if (tokenAddress == GYEN_POOL_V2) {
+//     } else if (tokenAddress == GYEN_POOL_V3) {
 //         return GYEN_GAUGE
 //     } else {
 //         return null
@@ -318,9 +299,9 @@ export function getTransferType(
 ): string {
   if (toAddress == BLACKHOLE_ADDRESS) {
     return "withdraw";
-  } else if (fromAddress == BLACKHOLE_ADDRESS && toAddress != ZAP_ADDRESS_V25) {
+  } else if (fromAddress == BLACKHOLE_ADDRESS && toAddress != ZAP_ADDRESS_V3) {
     return "two-sided-deposit";
-  } else if (fromAddress == BLACKHOLE_ADDRESS && toAddress == ZAP_ADDRESS_V25) {
+  } else if (fromAddress == BLACKHOLE_ADDRESS && toAddress == ZAP_ADDRESS_V3) {
     return "single-sided-deposit";
   }
   // else if (isGaugeContract(toAddress)){
@@ -328,7 +309,7 @@ export function getTransferType(
   // } else if (isGaugeContract(fromAddress)){
   //     return "unstake-from-gauge"
   // }
-  else if (fromAddress == ZAP_ADDRESS_V25) {
+  else if (fromAddress == ZAP_ADDRESS_V3) {
     return "zap-lp-transfer";
   } else {
     return "lp-transfer";

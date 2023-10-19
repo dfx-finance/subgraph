@@ -1,9 +1,0 @@
-{
-  "network": "matic",
-  "curveFactoryAddr": "0xDe9c71503648C03F529305e03D259f2eBa9c8fDe",
-  "configAddr": "0x74982d2fd25cA0e0DeE702e40AfFd93Bae04D3a6",
-  "zapAddr": "0x2420D5B50C268c20F6eDb34Df93ceD68F57cF493",
-  "routerAddr": "0xE325dC2C5968105b63c2Db75333126a66fDf7345",
-  "assimFactoryAddr": "0x1134daeAA652E11360631E3CC93e688204D9354b",
-  "startBlock": "48399643"
-}

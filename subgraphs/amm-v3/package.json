@@ -1,9 +1,8 @@
 {
-  "name": "dfx_v2.5_subgraph",
-  "version": "1.0.0",
-  "main": "index.js",
-  "repository": "git@github.com",
+  "name": "ammv3",
   "license": "MIT",
+  "version": "1.0.0",
+  "author": "DFX",
   "scripts": {
     "test": "yarn test",
     "codegen": "yarn graph codegen",
@@ -12,9 +11,9 @@
     "prepare:mainnet": "mustache config/mainnet.json subgraph.template.yaml > subgraph.yaml",
     "prepare:polygon": "mustache config/polygon.json subgraph.template.yaml > subgraph.yaml",
     "prepare:arbi": "mustache config/arbitrum.json subgraph.template.yaml > subgraph.yaml",
-    "deploy:mainnet": "yarn graph deploy tommy4241/graph-name --debug --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/ --access-token xxx",
-    "deploy:polygon": "yarn graph deploy --studio dfx_v3_matic  --deploy-key 22f1189635200beed67c2c69c36541be",
-    "deploy:arbi": "yarn graph deploy --studio dfx_v25_arbi  --deploy-key xxx"
+    "deploy:mainnet": "yarn graph deploy --studio dfx-amm-v3",
+    "deploy:polygon": "yarn graph deploy --studio dfx-amm-v3-polygon",
+    "deploy:arbi": "yarn graph deploy --studio dfx-amm-v3-arbitrum"
   },
   "devDependencies": {
     "@graphprotocol/graph-cli": "^0.58.0",

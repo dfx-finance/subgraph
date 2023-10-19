@@ -2,11 +2,7 @@
   "abi": [
     {
       "inputs": [
-        {
-          "internalType": "address",
-          "name": "_config",
-          "type": "address"
-        }
+        { "internalType": "address", "name": "_config", "type": "address" }
       ],
       "stateMutability": "nonpayable",
       "type": "constructor"
@@ -99,13 +95,7 @@
       "type": "event"
     },
     {
-      "inputs": [
-        {
-          "internalType": "bytes32",
-          "name": "",
-          "type": "bytes32"
-        }
-      ],
+      "inputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
       "name": "assimilators",
       "outputs": [
         {
@@ -120,41 +110,21 @@
     {
       "inputs": [],
       "name": "config",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
+      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "curveFactory",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
+      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [
-        {
-          "internalType": "address",
-          "name": "_token",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "_quote",
-          "type": "address"
-        }
+        { "internalType": "address", "name": "_token", "type": "address" },
+        { "internalType": "address", "name": "_quote", "type": "address" }
       ],
       "name": "getAssimilator",
       "outputs": [
@@ -169,21 +139,13 @@
     },
     {
       "inputs": [
-        {
-          "internalType": "address",
-          "name": "_quote",
-          "type": "address"
-        },
+        { "internalType": "address", "name": "_quote", "type": "address" },
         {
           "internalType": "contract IOracle",
           "name": "_oracle",
           "type": "address"
         },
-        {
-          "internalType": "address",
-          "name": "_token",
-          "type": "address"
-        },
+        { "internalType": "address", "name": "_token", "type": "address" },
         {
           "internalType": "uint256",
           "name": "_tokenDecimals",
@@ -204,28 +166,14 @@
     {
       "inputs": [],
       "name": "owner",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
+      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [
-        {
-          "internalType": "address",
-          "name": "_token",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "_quote",
-          "type": "address"
-        }
+        { "internalType": "address", "name": "_token", "type": "address" },
+        { "internalType": "address", "name": "_quote", "type": "address" }
       ],
       "name": "revokeAssimilator",
       "outputs": [],

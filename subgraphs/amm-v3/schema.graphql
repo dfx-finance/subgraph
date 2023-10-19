@@ -1,4 +1,4 @@
-type DFXFactoryV2 @entity {
+type DFXFactoryV3 @entity {
   id: ID!
   pairCount: Int!
   totalVolumeUSD: BigDecimal!
@@ -23,7 +23,7 @@ type Pair @entity {
   token0: Token!
   token1: Token!
 
-  assimilatorFrom0To1: Assimilator! 
+  assimilatorFrom0To1: Assimilator!
   assimilatorFrom1To0: Assimilator!
 
   reserve0: BigDecimal!
@@ -50,7 +50,7 @@ type Pair @entity {
 
   # total user count
   participantCount: BigInt!
-  totalLPToken: BigDecimal! 
+  totalLPToken: BigDecimal!
 
   hourData: [PairHourData!]! @derivedFrom(field: "pair")
 
@@ -70,15 +70,15 @@ type Trade @entity {
 }
 
 type Transfer @entity {
- id: ID!
- timestamp: BigInt!
- pair: Pair!
- from: Bytes!
- to: Bytes!
- token0Amount: BigDecimal!
- token1Amount: BigDecimal!
- tokenLPTAmount: BigInt!
- type: String! 
+  id: ID!
+  timestamp: BigInt!
+  pair: Pair!
+  from: Bytes!
+  to: Bytes!
+  token0Amount: BigDecimal!
+  token1Amount: BigDecimal!
+  tokenLPTAmount: BigInt!
+  type: String!
 }
 
 type Token @entity {
@@ -128,12 +128,11 @@ type PairHourData @entity {
   swapRateFrom0To1USD: BigDecimal!
   swapRateFrom1To0USD: BigDecimal!
 
-  volumeToken0: BigDecimal! 
+  volumeToken0: BigDecimal!
   volumeToken1: BigDecimal!
   volumeToken0USD: BigDecimal!
   volumeToken1USD: BigDecimal!
   volumeUSD: BigDecimal!
-
 }
 
 type PairDayData @entity {
