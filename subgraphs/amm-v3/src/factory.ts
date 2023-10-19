@@ -1,5 +1,5 @@
 import { Address } from "@graphprotocol/graph-ts";
-import { NewCurve as NewCurveEvent } from "../generated/CurveFactoryV2/CurveFactoryV2";
+import { NewCurve as NewCurveEvent } from "../generated/CurveFactoryV3/CurveFactoryV3";
 import {
   NewAssimilator as NewAssimilatorEvent,
   AssimilatorRevoked,
@@ -9,7 +9,7 @@ import {
   Assimilator,
   Oracle,
   Token,
-  DFXFactoryV2,
+  DFXFactoryV3,
   Pair,
 } from "../generated/schema";
 import { Curve as CurveTemplate } from "../generated/templates";
@@ -34,15 +34,18 @@ import {
   fetchPriceFromAssimilator,
   fetchTokenPriceInUSD,
 } from "./helpers";
-import { FACTORY_ADDRESS_V25, ASSIM_FACTORY_ADDRESS_V25 } from "./constants";
+import {
+  CURVE_FACTORY_ADDRESS_V3,
+  ASSIM_FACTORY_ADDRESS_V3,
+} from "./constants";
 
 export function handleNewCurve(event: NewCurveEvent): void {
   // create a new Curve template to listen to events
   CurveTemplate.create(event.params.curve);
-  // Dont need to save this to clutter
-  // Might be good to keep track of back actors
-  // TODO make a new track for bad actors that are coming in
 
+  // Dont need to save this to clutter
+  // Might be good to keep track of bad actors
+  // TODO make a new track for bad actors that are coming in
   let token0Address = fetchToken(event.params.curve, ZERO_BI);
   let token0 = Token.load(token0Address.toHexString())!;
 
@@ -50,12 +53,12 @@ export function handleNewCurve(event: NewCurveEvent): void {
   let token1 = Token.load(token1Address.toHexString())!;
 
   let assim0Address = fetchAssimilator(
-    Address.fromString(ASSIM_FACTORY_ADDRESS_V25),
+    Address.fromString(ASSIM_FACTORY_ADDRESS_V3),
     token0Address,
     token1Address
   );
   let assim1Address = fetchAssimilator(
-    Address.fromString(ASSIM_FACTORY_ADDRESS_V25),
+    Address.fromString(ASSIM_FACTORY_ADDRESS_V3),
     token1Address,
     token0Address
   );
@@ -113,9 +116,9 @@ export function handleNewCurve(event: NewCurveEvent): void {
     pair.dfxApproved = fetchIsDFXApproved(event.transaction.from);
   }
 
-  let factory = DFXFactoryV2.load(FACTORY_ADDRESS_V25);
+  let factory = DFXFactoryV3.load(CURVE_FACTORY_ADDRESS_V3);
   if (factory === null) {
-    factory = new DFXFactoryV2(FACTORY_ADDRESS_V25);
+    factory = new DFXFactoryV3(CURVE_FACTORY_ADDRESS_V3);
     factory.pairCount = 0;
     factory.totalVolumeUSD = ZERO_BD;
     factory.totalLiquidityUSD = ZERO_BD;

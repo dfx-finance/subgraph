@@ -4,11 +4,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: AssimilatorFactory
-    network: {{ network }}
+    network: matic
     source:
-      address: "{{ assimFactoryAddr }}"
+      address: "0x5127A512A8e9961cF7a10A86A1267e7eF4a75653"
       abi: AssimilatorFactory
-      startBlock: {{ startBlock }}
+      startBlock: 48792347
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -44,11 +44,11 @@ dataSources:
       file: ./src/factory.ts
   - kind: ethereum/contract
     name: CurveFactoryV3
-    network: {{ network }}
+    network: matic
     source:
-      address: "{{ curveFactoryAddr }}"
+      address: "0x1dD11E6607D8C7aAab3d61ae1d8Da7B82aCa1ae9"
       abi: CurveFactoryV3
-      startBlock: {{ startBlock }}
+      startBlock: 48792347
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -69,16 +69,18 @@ dataSources:
       abis:
         - name: AssimilatorFactory
           file: ./abis/AssimilatorFactory.json
-        - name: CurveFactoryV3
-          file: ./abis/CurveFactoryV3.json
-        - name: ERC20
-          file: ./abis/ERC20.json
         - name: AssimilatorV3
           file: ./abis/AssimilatorV3.json
+        - name: Config
+          file: ./abis/Config.json
+        - name: CurveFactoryV3
+          file: ./abis/CurveFactoryV3.json
         - name: Curve
           file: ./abis/Curve.json
         - name: Curves
           file: ./abis/Curves.json
+        - name: ERC20
+          file: ./abis/ERC20.json
         - name: Oracle
           file: ./abis/Oracle.json
         - name: Router
@@ -92,7 +94,7 @@ dataSources:
 # templates:
 #   - kind: ethereum/contract
 #     name: Curve
-#     network: {{ network }}
+#     network: matic
 #     source:
 #       abi: Curve
 #     mapping:
