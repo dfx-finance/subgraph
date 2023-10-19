@@ -1,3 +1,6 @@
+export const DFX_TC_ADDRESS = "0x6E714c42438EC860bD3a50cbe104d2dab50193b3";
+export const BLACKHOLE_ADDRESS = "0x0000000000000000000000000000000000000000";
+
 /**
  * network dependent constants
  */
@@ -13,15 +16,28 @@
 // export const GYEN = '0xc08512927d12348f6620a698105e1baac6ecd911'
 
 /**
+ * Mainnet set up
+ */
+// export const ASSIM_FACTORY_ADDRESS_V3 = "";
+// export const CURVE_FACTORY_ADDRESS_V3 = "";
+// export const DFX_MULTISIG_ADDRESS = "";
+// export const ZAP_ADDRESS_V3 = "";
+
+/**
  * Polygon set up
  */
-export const DFX_TC_ADDRESS = "0x6E714c42438EC860bD3a50cbe104d2dab50193b3";
-export const BLACKHOLE_ADDRESS = "0x0000000000000000000000000000000000000000";
-
-export const CURVE_FACTORY_ADDRESS_V3 =
-  "0xDe9c71503648C03F529305e03D259f2eBa9c8fDe";
 export const ASSIM_FACTORY_ADDRESS_V3 =
-  "0x1134daeAA652E11360631E3CC93e688204D9354b";
-export const ZAP_ADDRESS_V3 = "0x2420D5B50C268c20F6eDb34Df93ceD68F57cF493";
+  "0x5127A512A8e9961cF7a10A86A1267e7eF4a75653";
+export const CURVE_FACTORY_ADDRESS_V3 =
+  "0x1dD11E6607D8C7aAab3d61ae1d8Da7B82aCa1ae9";
 export const DFX_MULTISIG_ADDRESS =
   "0x80D27bfb638F4Fea1e862f1bd07DEa577CB77D38";
+export const ZAP_ADDRESS_V3 = "0x71D1635420de031626c13782620F6c5c1DE8Ca71";
+
+/**
+ * Arbitrum
+ */
+// export const ASSIM_FACTORY_ADDRESS_V3 = "";
+// export const CURVE_FACTORY_ADDRESS_V3 = "";
+// export const DFX_MULTISIG_ADDRESS = "";
+// export const ZAP_ADDRESS_V3 = "";
