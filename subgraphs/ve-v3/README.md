@@ -1,31 +1,39 @@
 # ve
 
+## Dev notes
+
+The subgraph is considerably slower to index after adding the APR calculation. The APR calculation relies on knowing the USD value of available rewards requiring an external read call to Balancer pools.
+
+### Test subgraph on TheGraph
+
+Subgraph Studio: https://thegraph.com/studio/subgraph/dfx-ve-v3/
+
+Run codegen:
+
+```bash
+$ graph codegen && graph build
+```
+
+### Prod subgraph on Goldsky
+
+_Command for deploying on Goldsky:_
+
+```bash
+$ goldsky subgraph deploy dfx-ve/X.X.X --from-url https://api.studio.thegraph.com/query/41366/dfx-ve-test/vX.X.X
+$ goldsky subgraph deploy dfx-ve/0.0.5 --from-url https://api.studio.thegraph.com/query/41366/dfx-ve-test/v0.0.122
+```
+
 ## Events Watched
 
-### veDFX
-
-Events:
-
-- Supply
-
-### GaugeController
-
-Events:
-
-- NewGauge: creates new gauge entity to track in subgraph
-
-### DfxDistributor
-
-Events:
-
-- GaugeToggled: updates addr and boolean rewards state for a given gauge registered with GaugeController
-
-### LiquidityGaugeV4:
-
-Events:
-
-- Deposit: updates amount of lpt deposited within gauge
-- Withdrawal: updates amount of lpt deposited within gauge
+- veDFX
+  - Supply
+- GaugeController
+  - NewGauge: creates new gauge entity to track in subgraph
+- DfxDistributor
+  - GaugeToggled: updates addr and boolean rewards state for a given gauge registered with GaugeController
+- LiquidityGaugeV4
+  - Deposit: updates amount of lpt deposited within gauge
+  - Withdrawal: updates amount of lpt deposited within gauge
 
 ## Example Queries
 
@@ -107,17 +115,4 @@ Return EUROC/USDC gauge and curve (pair):
     }
   }
 }
-```
-
-## Dev notes
-
-The subgraph is considerably slower to index after adding the APR calculation. The APR calculation relies on knowing the USD value of available rewards requiring an external read call to Balancer pools.
-
-### Prod subgraph on Goldsky
-
-_Command for deploying on Goldsky:_
-
-```bash
-$ goldsky subgraph deploy dfx-ve/X.X.X --from-url https://api.studio.thegraph.com/query/41366/dfx-ve-test/vX.X.X
-$ goldsky subgraph deploy dfx-ve/0.0.5 --from-url https://api.studio.thegraph.com/query/41366/dfx-ve-test/v0.0.122
 ```

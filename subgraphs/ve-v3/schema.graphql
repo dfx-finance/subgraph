@@ -1,0 +1,117 @@
+##
+## AMM data
+##
+type Token @entity {
+  # token address
+  id: ID!
+
+  # mirrored from smart contract
+  decimals: Int!
+  symbol: String!
+  name: String!
+
+  # calculated from trades
+  priceUSD: BigDecimal!
+}
+
+type Pair @entity {
+  # Contract address
+  id: ID!
+  decimals: Int!
+  symbol: String!
+  name: String!
+  supply: BigDecimal!
+
+  # mirrored from the smart contract
+  token0: Token!
+  token1: Token!
+
+  # reserves
+  reserve0: BigDecimal!
+  reserve1: BigDecimal!
+  reserveUSD: BigDecimal!
+
+  # calculated from trades
+  swapRateUSD: BigDecimal!
+}
+
+##
+## veDFX Token
+##
+type veDFX @entity {
+  # token address
+  id: ID!
+  decimals: Int!
+  symbol: String!
+
+  supply: BigDecimal!
+  dfxBalance: BigDecimal!
+  blockNum: BigInt!
+}
+
+##
+## GaugeController
+##
+type GaugeController @entity {
+  # gauge controller address
+  id: ID!
+  totalWeight: BigDecimal!
+  timeTotal: BigInt!
+
+  gauges: [Gauge!]! @derivedFrom(field: "gaugeController")
+  blockNum: BigInt!
+}
+
+##
+## DfxDistributor
+##
+type DfxDistributor @entity {
+  # dfx distributor address
+  id: ID!
+  epoch: Int!
+  rate: BigInt!
+  startEpochSupply: BigDecimal!
+  startEpochTime: Int!
+}
+
+##
+## Gauge
+##
+type Gauge @entity {
+  gaugeController: GaugeController!
+
+  # Contract address
+  id: ID!
+  decimals: Int!
+  symbol: String!
+
+  # mirrored from GaugeControllerContract
+  weight: BigDecimal!
+  weightDelta: BigDecimal!
+  proportionalWeight: BigDecimal!
+  startProportionalWeight: BigDecimal!
+
+  # mirrored from GaugeContract
+  lpt: Bytes! # curve addr
+  lptAmount: BigDecimal! # totalSupply
+  workingSupply: BigDecimal!
+  totalSupply: BigDecimal!
+  dfxBalance: BigDecimal!
+  rewardCount: Int!
+
+  # calculated
+  active: Boolean!
+
+  rewardsAvailable: [GaugeReward!]! @derivedFrom(field: "gauge")
+  blockNum: BigInt!
+}
+
+type GaugeReward @entity {
+  # gauge contract address + "-" + reward index
+  id: ID!
+  gauge: Gauge!
+  token: Token!
+
+  # mirrored from smart contract
+  amount: BigDecimal!
+}

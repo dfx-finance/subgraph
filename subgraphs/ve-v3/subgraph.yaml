@@ -1,0 +1,155 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: veDFX
+    network: mainnet
+    source:
+      address: "0x3ac91a7a2d30fa25ada4616d337a28ea988988be"
+      abi: veDFX
+      startBlock: 14724071
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Deposit
+      abis:
+        - name: veDFX
+          file: ./abis/veDFX.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+      eventHandlers:
+        - event: Supply(uint256,uint256)
+          handler: handleSupply
+      file: ./src/ve-dfx.ts
+  - kind: ethereum
+    name: GaugeController
+    network: mainnet
+    source:
+      address: "0x539A33296459ED0DeAFF9febCfD37a05B73Fa8cF"
+      abi: GaugeController
+      startBlock: 18315842
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - NewGauge
+        - KilledGauge
+      abis:
+        - name: GaugeController
+          file: ./abis/GaugeController.json
+      eventHandlers:
+        - event: NewGauge(address,int128,uint256)
+          handler: handleNewGauge
+        # - event: KilledGauge(address)
+        #   handler: handleKilledGauge
+      file: ./src/gauge-controller.ts
+  #   # - kind: ethereum
+  #   #   name: DfxDistributor
+  #   #   network: mainnet
+  #   #   source:
+  #   #     address: "0x86E8C4e7549fBCa7eba1AefBdBc23993F721e5CA"
+  #   #     abi: DfxDistributor
+  #   #     startBlock: 15742805
+  #   #   mapping:
+  #   #     kind: ethereum/events
+  #   #     apiVersion: 0.0.7
+  #   #     language: wasm/assemblyscript
+  #   #     entities:
+  #   #       - GaugeToggled
+  #   #     abis:
+  #   #       - name: DfxDistributor
+  #   #         file: ./abis/DfxDistributor.json
+  #   #       - name: GaugeController
+  #   #         file: ./abis/GaugeController.json
+  #   #     eventHandlers:
+  #   #       - event: GaugeToggled(indexed address,bool)
+  #   #         handler: handleGaugeToggled
+  #   #       - event: RewardDistributed(indexed address,uint256)
+  #   #         handler: handleRewardDistributed
+  #   #       - event: UpdateMiningParameters(uint256,uint256,uint256)
+  #   #         handler: handleUpdateMiningParameters
+  #   #     file: ./src/dfx-distributor.ts
+  # - kind: ethereum
+  #   name: CurveFactoryV3
+  #   network: mainnet
+  #   source:
+  #     address: "0x1dD11E6607D8C7aAab3d61ae1d8Da7B82aCa1ae9"
+  #     abi: CurveFactoryV3
+  #     startBlock:
+  #   mapping:
+  #     kind: ethereum/events
+  #     apiVersion: 0.0.7
+  #     language: wasm/assemblyscript
+  #     entities:
+  #       - NewCurve
+  #     abis:
+  #       - name: CurveFactoryV3
+  #         file: ./abis/CurveFactoryV3.json
+  #       - name: CurveV3
+  #         file: ./abis/CurveV3.json
+  #       - name: ERC20
+  #         file: ./abis/ERC20.json
+  #     eventHandlers:
+  #       - event: NewCurve(indexed address,indexed bytes32,indexed address)
+  #         handler: handleNewCurve
+  #     file: ./src/curve-factory.ts
+# templates:
+#   - name: Curve
+#     kind: ethereum/contract
+#     network: mainnet
+#     source:
+#       abi: CurveV3
+#     mapping:
+#       kind: ethereum/events
+#       apiVersion: 0.0.7
+#       language: wasm/assemblyscript
+#       abis:
+#         - name: CurveV3
+#           file: ./abis/CurveV3.json
+#         - name: ERC20
+#           file: ./abis/ERC20.json
+#       entities:
+#         - Trade
+#         - Transfer
+#       eventHandlers:
+#         - event: Trade(indexed address,indexed address,indexed address,uint256,uint256,int128)
+#           handler: handleTrade
+#         - event: Transfer(indexed address,indexed address,uint256)
+#           handler: handleTransfer
+#       file: ./src/curve.ts
+# #   - name: Gauge
+# #     kind: ethereum/contract
+# #     network: mainnet
+# #     source:
+# #       abi: LiquidityGaugeV4
+# #     mapping:
+# #       kind: ethereum/events
+# #       apiVersion: 0.0.7
+# #       language: wasm/assemblyscript
+# #       abis:
+# #         - name: Curve
+# #           file: ./abis/Curve.json
+# #         - name: LiquidityGaugeV4
+# #           file: ./abis/LiquidityGaugeV4.json
+# #         - name: ERC20
+# #           file: ./abis/ERC20.json
+# #         - name: GaugeController
+# #           file: ./abis/GaugeController.json
+# #         - name: BalancerVault
+# #           file: ./abis/BalancerVault.json
+# #       entities:
+# #         - Deposit
+# #         - Withdraw
+# #       eventHandlers:
+# #         - event: Deposit(indexed address,uint256)
+# #           handler: handleDeposit
+# #         - event: Withdraw(indexed address,uint256)
+# #           handler: handleWithdraw
+# #       callHandlers:
+# #         - function: claim_rewards()
+# #           handler: handleClaimRewards
+# #       file: ./src/gauge.ts
