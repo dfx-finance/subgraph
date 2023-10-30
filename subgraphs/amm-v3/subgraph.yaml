@@ -1,0 +1,141 @@
+specVersion: 0.0.4
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: AssimilatorFactory
+    network: matic
+    source:
+      address: "0x5127A512A8e9961cF7a10A86A1267e7eF4a75653"
+      abi: AssimilatorFactory
+      startBlock: 48792347
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Assimilator
+        - Oracle
+        - Token
+      abis:
+        - name: AssimilatorFactory
+          file: ./abis/AssimilatorFactory.json
+        - name: CurveFactoryV3
+          file: ./abis/CurveFactoryV3.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: AssimilatorV3
+          file: ./abis/AssimilatorV3.json
+        - name: Curve
+          file: ./abis/Curve.json
+        - name: Curves
+          file: ./abis/Curves.json
+        - name: Oracle
+          file: ./abis/Oracle.json
+        - name: Router
+          file: ./abis/Router.json
+        - name: Zap
+          file: ./abis/Zap.json
+      eventHandlers:
+        - event: AssimilatorRevoked(indexed address,indexed bytes32,indexed address)
+          handler: handleAssimilatorRevoked
+        - event: NewAssimilator(indexed address,indexed bytes32,indexed address,address,address,address)
+          handler: handleNewAssimilator
+      file: ./src/factory.ts
+  - kind: ethereum/contract
+    name: CurveFactoryV3
+    network: matic
+    source:
+      address: "0x1dD11E6607D8C7aAab3d61ae1d8Da7B82aCa1ae9"
+      abi: CurveFactoryV3
+      startBlock: 48792347
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - DFXFactoryV3
+        - Pair
+        - Trade
+        - Transfer
+        - Token
+        - TokenDayData
+        - Oracle
+        - Assimilator
+        - PairHourData
+        - PairDayData
+        - PoolParticipant
+        - DFXDayData
+      abis:
+        - name: AssimilatorFactory
+          file: ./abis/AssimilatorFactory.json
+        - name: AssimilatorV3
+          file: ./abis/AssimilatorV3.json
+        - name: Config
+          file: ./abis/Config.json
+        - name: CurveFactoryV3
+          file: ./abis/CurveFactoryV3.json
+        - name: Curve
+          file: ./abis/Curve.json
+        - name: Curves
+          file: ./abis/Curves.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: Oracle
+          file: ./abis/Oracle.json
+        - name: Router
+          file: ./abis/Router.json
+        - name: Zap
+          file: ./abis/Zap.json
+      eventHandlers:
+        - event: NewCurve(indexed address,indexed bytes32,indexed address)
+          handler: handleNewCurve
+      file: ./src/factory.ts
+templates:
+  - kind: ethereum/contract
+    name: Curve
+    network: matic
+    source:
+      abi: Curve
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/core.ts
+      entities:
+        - DFXFactoryV3
+        - Pair
+        - Trade
+        - Transfer
+        - Token
+        - TokenDayData
+        - Oracle
+        - Assimilator
+        - PairHourData
+        - PairDayData
+        - PoolParticipant
+        - DFXDayData
+      abis:
+        - name: AssimilatorFactory
+          file: ./abis/AssimilatorFactory.json
+        - name: CurveFactoryV3
+          file: ./abis/CurveFactoryV3.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: AssimilatorV3
+          file: ./abis/AssimilatorV3.json
+        - name: Curve
+          file: ./abis/Curve.json
+        - name: Curves
+          file: ./abis/Curves.json
+        - name: Oracle
+          file: ./abis/Oracle.json
+        - name: Router
+          file: ./abis/Router.json
+        - name: Zap
+          file: ./abis/Zap.json
+      eventHandlers:
+        - event: Trade(indexed address,indexed address,indexed address,uint256,uint256,int128)
+          handler: handleTrade
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
