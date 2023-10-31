@@ -5,7 +5,7 @@ import {
   GaugeToggled as GaugeToggledEvent,
   RewardDistributed as RewardDistributedEvent,
   UpdateMiningParameters as UpdateMiningParametersEvent,
-} from "../generated/dfxDistributor/dfxDistributor";
+} from "../generated/DfxDistributor/dfxDistributor";
 import { DfxDistributor, Gauge } from "../generated/schema";
 import { getActiveGauges, getGaugeController } from "./gauge-controller";
 import { DFX_DECIMALS, ZERO_BD, ZERO_BI, valueToBigDecimal } from "./helpers";
