@@ -7,18 +7,18 @@ Currently there are *6* USD based stablecoin pairs on mainnet and *5* on polygon
 
 ### Mainnet
 
-* Singapore - [USDC/XSGD](https://etherscan.io/address/0x2baB29a12a9527a179Da88F422cDaaA223A90bD5)
-* Europe - [USDC/EURS](https://etherscan.io/address/0x1a4Ffe0DCbDB4d551cfcA61A5626aFD190731347)
 * Canada - [USDC/CADC](https://etherscan.io/address/0xa6c0cbcaebd93ad3c6c94412ec06aaa37870216d)
-* New Zealand - [USDC/NZDS](https://etherscan.io/address/0xe9669516e09f5710023566458f329cce6437aaac)
-* Turkey - [USDC/TRYB](https://etherscan.io/address/0xc574a613a3900e4314da13eb2287f13689a5b64d)
+* Europe - [USDC/EURS](https://etherscan.io/address/0x1a4Ffe0DCbDB4d551cfcA61A5626aFD190731347)
 * Indonesia - [USDC/XIDR](https://etherscan.io/address/0xdd39379ab7c93b9baae29e6ec03795d0bc99a889)
-### Polygon
+* New Zealand - [USDC/NZDS](https://etherscan.io/address/0xe9669516e09f5710023566458f329cce6437aaac)
+* Singapore - [USDC/XSGD](https://etherscan.io/address/0x2baB29a12a9527a179Da88F422cDaaA223A90bD5)
+* Turkey - [USDC/TRYB](https://etherscan.io/address/0xc574a613a3900e4314da13eb2287f13689a5b64d)
 
-* Singapore - [USDC/XSGD](https://etherscan.io/address/0x288Ab1b113C666Abb097BB2bA51B8f3759D7729e)
-* Europe - [USDC/EURS](https://etherscan.io/address/0xB72d390E07F40D37D42dfCc43E954Ae7c738Ad44)
+### Polygon
 * Canada - [USDC/CADC](https://etherscan.io/address/0x8e3e9cB46E593Ec0CaF4a1Dcd6DF3A79a87b1fd7)
+* Europe - [USDC/EURS](https://etherscan.io/address/0xB72d390E07F40D37D42dfCc43E954Ae7c738Ad44)
 * New Zealand - [USDC/NZDS](https://etherscan.io/address/0x6e01699eF5C36DCe95D627B2E29E8323a086122c)
+* Singapore - [USDC/XSGD](https://etherscan.io/address/0x288Ab1b113C666Abb097BB2bA51B8f3759D7729e)
 * Turkey - [USDC/TRYB](https://etherscan.io/address/0xfCBb946CbC0434a541433E97e835072f54a438F6)
 
 ## Setup

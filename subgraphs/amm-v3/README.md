@@ -15,7 +15,7 @@ Each network contains a `./config` with its addresses and constant values.
 1. Generate a `subgraph.yaml` with network values populated by config file.
 
 ```bash
-$ yarn prepare:<network>`
+$ yarn prepare:<network>
 ```
 
 2. Build subgraph
