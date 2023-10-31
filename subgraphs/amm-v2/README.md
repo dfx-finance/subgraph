@@ -40,5 +40,5 @@ Currently there are _6_ USD based stablecoin pairs on mainnet and _5_ on polygon
 4. Paste your Deploy Key when prompted
 5. Deploy to your instance `yarn deploy-test:mainnet`
 6. Set version to 'v0.0.1' and increment as you update the schema and source code.
-7. Go back to `https://thegraph.com/studio/dfx-ammv2-test` and you can start querying in the `Playground` even before the subgraph has synced to 100%
+7. Go back to `https://thegraph.com/studio/dfx-amm-v2` and you can start querying in the `Playground` even before the subgraph has synced to 100%
 8. Run this query to get the latest trades ordered from newest to oldest

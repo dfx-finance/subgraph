@@ -6,22 +6,21 @@ Full documentation on how to use GraphQL queries in The Graph playground can be 
 
 ## Deploy on TheGraph's Subgraph Studio
 
-The Subgraph Studio is the free public subgraph service provided by the graph. It can be seen as the centralized production environment.
-
-1. `yarn prepare:mainnet`
-2. `yarn codegen`
-3. `yarn deploy-prod:mainnet`
+1. Login CLI tools to Subgraph Studio (`graph auth --studio <key>`)
+2. Enter subgraph: `cd subgraphs/<subgraph-name>`
+3. Build subgrah: `graph codegen && graph build`
+4. Deploy: `graph deploy --studio <subgraph-studio-name>`
 
 ## Production Deploys
 
 See the README in each subgraph's respective package:
 
-- [AMMv1](/sugraphs/amm-v1/README.md)
-- [AMMv2](/sugraphs/amm-v2/README.md)
-- [AMMv3](/sugraphs/amm-v3/README.md)
-- [ASC](/sugraphs/asc/README.md) (dfxStables)
-- [VEv2](/sugraphs/ve-v2/README.md)
-- [VEv3](/sugraphs/v3-v2/README.md)
+- [AMMv1](/subgraphs/amm-v1/README.md)
+- [AMMv2](/subgraphs/amm-v2/README.md)
+- [AMMv3](/subgraphs/amm-v3/README.md)
+- [ASC](/subgraphs/asc/README.md) (dfxStables)
+- [VEv2](/subgraphs/ve-v2/README.md)
+- [VEv3](/subgraphs/v3-v2/README.md)
 
 ## Debugging
 
