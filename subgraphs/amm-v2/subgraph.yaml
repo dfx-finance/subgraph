@@ -79,33 +79,33 @@ dataSources:
         - event: OwnershipTransferred(indexed address,indexed address)
           handler: handleAssimOwnershipTransferred
       file: ./src/factory.ts
-# templates:
-#   - kind: ethereum/contract
-#     name: Curve
-#     network: matic
-#     source:
-#       abi: Curve
-#     mapping:
-#       kind: ethereum/events
-#       apiVersion: 0.0.6
-#       language: wasm/assemblyscript
-#       file: ./src/core.ts
-#       entities:
-#         - Approval
-#         - AssetIncluded
-#         - AssimilatorIncluded
-#         - PartitionRedeemed
-#         - Trade
-#         - Transfer
-#       abis:
-#         - name: Curve
-#           file: ../../packages/abis/Curve.json
-#         - name: ERC20
-#           file: ../../packages/abis/ERC20.json
-#         - name: Gauge
-#           file: ../../packages/abis/Gauge.json
-#       eventHandlers:
-#         - event: Trade(indexed address,indexed address,indexed address,uint256,uint256,int128)
-#           handler: handleTrade
-#         - event: Transfer(indexed address,indexed address,uint256)
-#           handler: handleTransfer
+templates:
+  - kind: ethereum/contract
+    name: Curve
+    network: matic
+    source:
+      abi: Curve
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/core.ts
+      entities:
+        - Approval
+        - AssetIncluded
+        - AssimilatorIncluded
+        - PartitionRedeemed
+        - Trade
+        - Transfer
+      abis:
+        - name: Curve
+          file: ../../packages/abis/Curve.json
+        - name: ERC20
+          file: ../../packages/abis/ERC20.json
+        - name: Gauge
+          file: ../../packages/abis/Gauge.json
+      eventHandlers:
+        - event: Trade(indexed address,indexed address,indexed address,uint256,uint256,int128)
+          handler: handleTrade
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
