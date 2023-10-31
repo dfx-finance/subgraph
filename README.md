@@ -8,7 +8,7 @@ Full documentation on how to use GraphQL queries in The Graph playground can be 
 
 1. Login CLI tools to Subgraph Studio (`graph auth --studio <key>`)
 2. Enter subgraph: `cd subgraphs/<subgraph-name>`
-3. Build subgrah: `graph codegen && graph build`
+3. Build subgraph: `graph codegen && graph build`
 4. Deploy: `graph deploy --studio <subgraph-studio-name>`
 
 ## Production Deploys
