@@ -1,9 +1,11 @@
 {
   "name": "ve-v3",
   "license": "UNLICENSED",
+  "version": "1.0.0",
+  "author": "DFX",
   "scripts": {
-    "codegen": "graph codegen",
     "build": "graph build",
+    "codegen": "graph codegen",
     "deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/ dfx-ve-v3",
     "create-local": "graph create --node http://localhost:8020/ dfx-ve-v3",
     "remove-local": "graph remove --node http://localhost:8020/ dfx-ve-v3",
