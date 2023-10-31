@@ -1,0 +1,15 @@
+{
+  gauges(where: { active: true }) {
+    id
+    decimals
+    symbol
+    lpt
+    lptAmount
+    workingSupply
+    totalSupply
+    dfxBalance
+    rewardCount
+    active
+    blockNum
+  }
+}

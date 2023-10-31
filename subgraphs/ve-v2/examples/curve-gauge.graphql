@@ -1,0 +1,21 @@
+{
+  gauge(id: "0x1e07d4dad0614a811a12bdcd66016f48c6942a60") {
+    id
+    decimals
+    symbol
+    lpt
+    lptAmount
+    workingSupply
+    totalSupply
+    dfxBalance
+    rewardCount
+    rewardsAvailable
+    active
+    blockNum
+  }
+  pair(id: "0x8cd86fbc94bebfd910caae7ae4ce374886132c48") {
+    id
+    supply
+    reserveUSD
+  }
+}

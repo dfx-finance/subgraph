@@ -1,26 +1,20 @@
 # ve
 
-## Dev notes
+### Test Deploy (TheGraph Subgraph Studio)
 
-The subgraph is considerably slower to index after adding the APR calculation. The APR calculation relies on knowing the USD value of available rewards requiring an external read call to Balancer pools.
-
-### Test subgraph on TheGraph
-
-Subgraph Studio: https://thegraph.com/studio/subgraph/dfx-ve-v3/
+Test URI: https://thegraph.com/studio/subgraph/dfx-ve-v3/
 
 Run codegen:
 
 ```bash
 $ graph codegen && graph build
+$ TBA: graph deploy command
 ```
 
-### Prod subgraph on Goldsky
-
-_Command for deploying on Goldsky:_
+### Prod Deploy (Goldsky)
 
 ```bash
 $ goldsky subgraph deploy dfx-ve/X.X.X --from-url https://api.studio.thegraph.com/query/41366/dfx-ve-test/vX.X.X
-$ goldsky subgraph deploy dfx-ve/0.0.5 --from-url https://api.studio.thegraph.com/query/41366/dfx-ve-test/v0.0.122
 ```
 
 ## Events Watched
@@ -37,82 +31,10 @@ $ goldsky subgraph deploy dfx-ve/0.0.5 --from-url https://api.studio.thegraph.co
 
 ## Example Queries
 
-#### Gauges
+- [Active Gauges](/examples/active-gauges.graphql): All active gauges and their current values
+- [Curve and Gauge](/examples/curve-gauge.graphql): EURC/USDC gauge and curve (pair)
+- [GaugeController and Distributor](/examples/gaugecontroller-distributor.graphql): Gauge controller and DFX distributor data
 
-Return all active gauges and their current values
+### Dev notes
 
-```
-{
-  gauges(where: {active: true}) {
-    id
-    decimals
-    symbol
-    lpt
-    lptAmount
-    workingSupply
-    totalSupply
-    dfxBalance
-    rewardCount
-    active
-    blockNum
-  }
-}
-```
-
-Return EUROC/USDC gauge and curve (pair):
-
-```
-{
-  gauge(id: "0x1e07d4dad0614a811a12bdcd66016f48c6942a60") {
-    id
-    decimals
-    symbol
-    lpt
-    lptAmount
-    workingSupply
-    totalSupply
-    dfxBalance
-    rewardCount
-    rewardsAvailable
-    active
-    blockNum
-  }
-  pair(id: "0x8cd86fbc94bebfd910caae7ae4ce374886132c48") {
-    id
-    supply
-    reserveUSD
-  }
-}
-```
-
-```
-{
-  dfxDistributors(first: 1) {
-    id
-    epoch
-    rate
-    startEpochTime
-    startEpochSupply
-  }
-	gaugeControllers(first: 1) {
-    id
-    timeTotal
-    totalWeight
-    blockNum
-
-    gauges(where: {active: true}) {
-      id
-      symbol
-      active
-
-      weight
-      proportionalWeight
-      weightDelta
-      startProportionalWeight
-
-      lpt
-      lptAmount
-    }
-  }
-}
-```
+The subgraph is considerably slower to index after adding the APR calculation. The APR calculation relies on knowing the USD value of available rewards requiring an external read call to Balancer pools.
