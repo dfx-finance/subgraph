@@ -1,6 +1,6 @@
 {
-    "network": "arbitrum-one",
-    "startBlock": "65831856",
-    "factory_address": "0x9544995B5312B26acDf09e66E699c34310b7c856",
-    "assim_factory_address": "0x2635Eac0197638d0534F9Db6AAF439dFfE7Cff4E"
+  "network": "arbitrum-one",
+  "startBlock": "65831856",
+  "factoryAddress": "0x9544995B5312B26acDf09e66E699c34310b7c856",
+  "assimFactoryAddress": "0x2635Eac0197638d0534F9Db6AAF439dFfE7Cff4E"
 }

@@ -243,7 +243,7 @@ export function handleTransfer(event: TransferEvent): void {
     poolParticipant.liquidityProvided = ZERO_BD;
   }
 
-  if (entity.type == "withdraw") {
+  if (entity.type == "withdraw") {  
     reserve0Diff = reserve0Diff.neg();
     reserve1Diff = reserve1Diff.neg();
     // poolParticipant.liquidityProvided = poolParticipant.liquidityProvided.minus(LPTokens)
@@ -344,7 +344,6 @@ export function handleTransfer(event: TransferEvent): void {
   }
 
   // pool participation starts here
-
   pairHourData.save();
   pairDayData.save();
 

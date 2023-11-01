@@ -47,71 +47,77 @@ import {
   Oracle,
   Assimilator,
 } from "../generated/schema";
-// import { Curve, Curve as CurveTemplate } from "../generated/templates";
+import { Curve, Curve as CurveTemplate } from "../generated/templates";
 
 // CurveFactoryV2
 export function handleNewCurve(event: NewCurveEvent): void {
-  // // Dont need to save this to clutter
-  // // Might be good to keep track of back actors
-  // // TODO make a new track for bad actors that are coming in
-  // // existing infra is used to USDC as first token
-  // let token0Address = fetchToken(event.params.curve, ZERO_BI)
-  // let token0 = Token.load(token0Address.toHexString())!
-  // let token1Address = fetchToken(event.params.curve, ONE_BI)
-  // let token1 = Token.load(token1Address.toHexString())!
-  // let assim0Address = fetchAssimilator(Address.fromString(ASSIM_FACTORY_ADDRESS_V2), token0Address)
-  // let assim1Address = fetchAssimilator(Address.fromString(ASSIM_FACTORY_ADDRESS_V2), token1Address)
-  // let assimilator0 = Assimilator.load(assim0Address.toHexString())!
-  // let assimilator1 = Assimilator.load(assim1Address.toHexString())!
-  // let pair = Pair.load(event.params.curve.toHexString())
-  // if (pair === null) {
-  //   pair = new Pair(event.params.curve.toHexString()) as Pair
-  //   let decimals = fetchTokenDecimals(event.params.curve)
-  //   let symbol = fetchTokenSymbol(event.params.curve)
-  //   let name = fetchTokenName(event.params.curve)
-  //   pair.decimals = decimals
-  //   pair.symbol = symbol
-  //   pair.name = name
-  //   pair.alpha = fetchProtocolAlpha(event.params.curve)
-  //   pair.beta = fetchProtocolBeta(event.params.curve)
-  //   pair.delta = fetchProtocolDelta(event.params.curve)
-  //   pair.epsilon = fetchProtocolEpsilon(event.params.curve)
-  //   pair.lambda = fetchProtocolLambda(event.params.curve)
-  //   // pair.protocolFee = fetchProtocolFee(event.address)
-  //   pair.protocolFee = ZERO_BI
-  //   pair.reserve0 = ZERO_BD
-  //   pair.reserve1 = ZERO_BD
-  //   pair.reserveUSD = ZERO_BD
-  //   pair.reserveNative = ZERO_BD
-  //   pair.swapRateUSD = fetchPriceFromAssimilator(assim0Address)
-  //   pair.swapRateNative = ZERO_BD
-  //   //     pair.rewardDuration = ZERO_BI
-  //   //     pair.rewardsForDuration = ZERO_BD
-  //   pair.volumeToken0 = ZERO_BD
-  //   pair.volumeToken1 = ZERO_BD
-  //   pair.volumeUSD = ZERO_BD
-  //   pair.feeUSD = ZERO_BD
-  //   pair.txnsCount = ZERO_BI
-  //   pair.totalLPToken = ZERO_BD
-  //   pair.participantCount = ZERO_BI
-  //   pair.assimilator0 = assimilator0.id
-  //   pair.assimilator1 = assimilator1.id
-  //   pair.token0 = token0.id
-  //   pair.token1 = token1.id
-  //   pair.dfxApproved = fetchIsDFXApproved(event.transaction.from)
-  // }
-  // let factory = DFXFactoryV2.load(FACTORY_ADDRESS_V2)
-  // if (factory === null) {
-  //   factory = new DFXFactoryV2(FACTORY_ADDRESS_V2)
-  //   factory.pairCount = 0
-  //   factory.totalVolumeUSD = ZERO_BD
-  //   factory.totalLiquidityUSD = ZERO_BD
-  //   factory.totalFeeUSD = ZERO_BD
-  // }
-  // factory.pairCount = factory.pairCount + 1
-  // pair.save()
-  // factory.save()
-  // CurveTemplate.create(event.params.curve);
+  // Dont need to save this to clutter
+  // Might be good to keep track of back actors
+  // TODO make a new track for bad actors that are coming in
+  // existing infra is used to USDC as first token
+  let token0Address = fetchToken(event.params.curve, ZERO_BI);
+  let token0 = Token.load(token0Address.toHexString())!;
+  let token1Address = fetchToken(event.params.curve, ONE_BI);
+  let token1 = Token.load(token1Address.toHexString())!;
+  let assim0Address = fetchAssimilator(
+    Address.fromString(ASSIM_FACTORY_ADDRESS_V2),
+    token0Address
+  );
+  let assim1Address = fetchAssimilator(
+    Address.fromString(ASSIM_FACTORY_ADDRESS_V2),
+    token1Address
+  );
+  let assimilator0 = Assimilator.load(assim0Address.toHexString())!;
+  let assimilator1 = Assimilator.load(assim1Address.toHexString())!;
+  let pair = Pair.load(event.params.curve.toHexString());
+  if (pair === null) {
+    pair = new Pair(event.params.curve.toHexString()) as Pair;
+    let decimals = fetchTokenDecimals(event.params.curve);
+    let symbol = fetchTokenSymbol(event.params.curve);
+    let name = fetchTokenName(event.params.curve);
+    pair.decimals = decimals;
+    pair.symbol = symbol;
+    pair.name = name;
+    pair.alpha = fetchProtocolAlpha(event.params.curve);
+    pair.beta = fetchProtocolBeta(event.params.curve);
+    pair.delta = fetchProtocolDelta(event.params.curve);
+    pair.epsilon = fetchProtocolEpsilon(event.params.curve);
+    pair.lambda = fetchProtocolLambda(event.params.curve);
+    // pair.protocolFee = fetchProtocolFee(event.address)
+    pair.protocolFee = ZERO_BI;
+    pair.reserve0 = ZERO_BD;
+    pair.reserve1 = ZERO_BD;
+    pair.reserveUSD = ZERO_BD;
+    pair.reserveNative = ZERO_BD;
+    pair.swapRateUSD = fetchPriceFromAssimilator(assim0Address);
+    pair.swapRateNative = ZERO_BD;
+    //     pair.rewardDuration = ZERO_BI
+    //     pair.rewardsForDuration = ZERO_BD
+    pair.volumeToken0 = ZERO_BD;
+    pair.volumeToken1 = ZERO_BD;
+    pair.volumeUSD = ZERO_BD;
+    pair.feeUSD = ZERO_BD;
+    pair.txnsCount = ZERO_BI;
+    pair.totalLPToken = ZERO_BD;
+    pair.participantCount = ZERO_BI;
+    pair.assimilator0 = assimilator0.id;
+    pair.assimilator1 = assimilator1.id;
+    pair.token0 = token0.id;
+    pair.token1 = token1.id;
+    pair.dfxApproved = fetchIsDFXApproved(event.transaction.from);
+  }
+  let factory = DFXFactoryV2.load(FACTORY_ADDRESS_V2);
+  if (factory === null) {
+    factory = new DFXFactoryV2(FACTORY_ADDRESS_V2);
+    factory.pairCount = 0;
+    factory.totalVolumeUSD = ZERO_BD;
+    factory.totalLiquidityUSD = ZERO_BD;
+    factory.totalFeeUSD = ZERO_BD;
+  }
+  factory.pairCount = factory.pairCount + 1;
+  pair.save();
+  factory.save();
+  CurveTemplate.create(event.params.curve);
 }
 
 export function handleCurveFactoryOwnershipTransferred(
