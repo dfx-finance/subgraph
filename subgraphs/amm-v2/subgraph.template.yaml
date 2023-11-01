@@ -6,7 +6,7 @@ dataSources:
     name: CurveFactoryV2
     network: {{ network }}
     source:
-      address: '{{ factory_address }}'
+      address: '{{ factoryAddress }}'
       abi: CurveFactoryV2
       startBlock: {{ startBlock }}
     mapping:
@@ -44,7 +44,7 @@ dataSources:
     name: AssimilatorFactory
     network: {{ network }}
     source:
-      address: '{{ assim_factory_address }}'
+      address: '{{ assimFactoryAddress }}'
       abi: AssimilatorFactory
       startBlock: {{ startBlock }}
     mapping:

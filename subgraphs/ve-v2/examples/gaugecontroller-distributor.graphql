@@ -1,0 +1,29 @@
+{
+  dfxDistributors(first: 1) {
+    id
+    epoch
+    rate
+    startEpochTime
+    startEpochSupply
+  }
+  gaugeControllers(first: 1) {
+    id
+    timeTotal
+    totalWeight
+    blockNum
+
+    gauges(where: { active: true }) {
+      id
+      symbol
+      active
+
+      weight
+      proportionalWeight
+      weightDelta
+      startProportionalWeight
+
+      lpt
+      lptAmount
+    }
+  }
+}
