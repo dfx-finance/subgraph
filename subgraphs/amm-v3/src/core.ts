@@ -1,29 +1,19 @@
-import { Address, log, BigInt } from "@graphprotocol/graph-ts";
+import { Address } from "@graphprotocol/graph-ts";
 
 import {
-  ZERO_BI,
   ZERO_BD,
   ONE_BI,
-  ONE_BD,
-  fetchTokenDecimals,
-  fetchTokenSymbol,
-  fetchTokenName,
   fetchBalanceOf,
   convertTokenToDecimal,
   fetchLiquidity,
   fetchTotalLPT,
   getTransferType,
   fetchLPTDeposit,
-  fetchProtocolEpsilon,
   calculateProtocolFee,
   fetchTokenPriceInUSD,
 } from "./helpers";
 
-import {
-  CURVE_FACTORY_ADDRESS_V3,
-  ASSIM_FACTORY_ADDRESS_V3,
-  BLACKHOLE_ADDRESS,
-} from "./constants";
+import { CURVE_FACTORY_ADDRESS_V3 } from "./constants";
 
 import {
   Transfer as TransferEvent,
@@ -39,8 +29,6 @@ import {
   DFXFactoryV3,
   Oracle,
 } from "../generated/schema";
-
-import { ERC20 } from "../generated/templates/Curve/ERC20";
 
 import { updatePairHourData } from "./curve-hour-data";
 import { updatePairDayData } from "./curve-day-data";

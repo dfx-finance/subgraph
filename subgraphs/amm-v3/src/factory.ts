@@ -29,9 +29,7 @@ import {
   fetchProtocolDelta,
   fetchProtocolEpsilon,
   fetchProtocolLambda,
-  fetchProtocolFee,
   fetchIsDFXApproved,
-  fetchPriceFromAssimilator,
   fetchTokenPriceInUSD,
 } from "./helpers";
 import {
