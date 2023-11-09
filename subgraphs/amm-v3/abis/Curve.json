@@ -466,12 +466,12 @@
       "outputs": [
         {
           "internalType": "uint256",
-          "name": "",
+          "name": "curvesMinted_",
           "type": "uint256"
         },
         {
           "internalType": "uint256[]",
-          "name": "",
+          "name": "deposits_",
           "type": "uint256[]"
         }
       ],
@@ -515,12 +515,12 @@
       "outputs": [
         {
           "internalType": "uint256",
-          "name": "",
+          "name": "curvesMinted_",
           "type": "uint256"
         },
         {
           "internalType": "uint256[]",
-          "name": "",
+          "name": "deposits_",
           "type": "uint256[]"
         }
       ],
