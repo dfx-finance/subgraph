@@ -8,7 +8,7 @@ Run codegen:
 
 ```bash
 $ graph codegen && graph build
-$ TBA: graph deploy command
+$ graph deploy --studio dfx-ve-v3
 ```
 
 ### Prod Deploy (Goldsky)
