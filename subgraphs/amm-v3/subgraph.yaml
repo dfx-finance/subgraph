@@ -4,11 +4,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: AssimilatorFactory
-    network: matic
+    network: arbitrum-one
     source:
-      address: "0x5127A512A8e9961cF7a10A86A1267e7eF4a75653"
+      address: "0x1134daeAA652E11360631E3CC93e688204D9354b"
       abi: AssimilatorFactory
-      startBlock: 48792347
+      startBlock: 148999522
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -44,11 +44,11 @@ dataSources:
       file: ./src/factory.ts
   - kind: ethereum/contract
     name: CurveFactoryV3
-    network: matic
+    network: arbitrum-one
     source:
-      address: "0x1dD11E6607D8C7aAab3d61ae1d8Da7B82aCa1ae9"
+      address: "0xDe9c71503648C03F529305e03D259f2eBa9c8fDe"
       abi: CurveFactoryV3
-      startBlock: 48792347
+      startBlock: 148999522
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -94,7 +94,7 @@ dataSources:
 templates:
   - kind: ethereum/contract
     name: Curve
-    network: matic
+    network: arbitrum-one
     source:
       abi: Curve
     mapping:

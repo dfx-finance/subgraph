@@ -15,7 +15,6 @@
     "deploy:polygon": "yarn graph deploy --studio dfx-amm-v3-polygon",
     "deploy:arbi": "yarn graph deploy --studio dfx-amm-v3-arbitrum"
   },
-  "devDependencies": {},
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
@@ -27,5 +26,7 @@
       "git add"
     ]
   },
-  "dependencies": {}
+  "dependencies": {
+    "@goldskycom/cli": "^7.0.0"
+  }
 }
