@@ -11,9 +11,9 @@
     "remove-local": "graph remove --node http://localhost:8020/ ve",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 ve",
     "test": "graph test",
-    "prepare:mainnet": "",
-    "prepare:polygon": "",
-    "prepare:arbitrum": ""
+    "prepare:mainnet": "exit 0",
+    "prepare:polygon": "exit 0",
+    "prepare:arbitrum": "exit 0"
   },
   "dependencies": {}
 }
