@@ -37,7 +37,7 @@ $ graph codegen && graph build
 (Dev) Subgraph Studio:
 
 ```bash
-$ graph deploy --studio dfx-amm3
+$ graph deploy --studio dfx-amm-v3
 ```
 
 (Prod) Goldsky
