@@ -10,7 +10,10 @@
     "create-local": "graph create --node http://localhost:8020/ ve",
     "remove-local": "graph remove --node http://localhost:8020/ ve",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 ve",
-    "test": "graph test"
+    "test": "graph test",
+    "prepare:mainnet": "",
+    "prepare:polygon": "",
+    "prepare:arbitrum": ""
   },
   "dependencies": {}
 }
