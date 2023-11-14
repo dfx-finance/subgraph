@@ -15,28 +15,6 @@ export const BLACKHOLE_ADDRESS = "0x0000000000000000000000000000000000000000";
 // export const EUROC = '0x1abaea1f7c830bd89acc67ec4af516284b1bc33c'
 // export const GYEN = '0xc08512927d12348f6620a698105e1baac6ecd911'
 
-/**
- * Mainnet set up
- */
-// export const ASSIM_FACTORY_ADDRESS_V3 = "";
-// export const CURVE_FACTORY_ADDRESS_V3 = "";
-// export const DFX_MULTISIG_ADDRESS = "";
-// export const ZAP_ADDRESS_V3 = "";
-
-/**
- * Polygon set up
- */
-// export const ASSIM_FACTORY_ADDRESS_V3 =
-//   "0x3A3F59467880bd9CABE680e46b23e456B8d903ff";
-// export const CURVE_FACTORY_ADDRESS_V3 =
-//   "0xE5ce84Bba5B27cCfb7D92CB3e1426d8A986854dd";
-// export const DFX_MULTISIG_ADDRESS =
-//   "0x80D27bfb638F4Fea1e862f1bd07DEa577CB77D38";
-// export const ZAP_ADDRESS_V3 = "0xb6c42F1dD6fDd0f44eD669f6c14C05cAB0Bf482B";
-
-/**
- * Arbitrum
- */
 export const ASSIM_FACTORY_ADDRESS_V3 = "{{ assimFactoryAddr }}";
 export const CURVE_FACTORY_ADDRESS_V3 = "{{ curveFactoryAddr }}";
 export const DFX_MULTISIG_ADDRESS = "{{ multisig }}";
