@@ -32,5 +32,6 @@ jobs:
           restore-keys: |
             ${{ matrix.os }}-yarn-
       - run: yarn
+      - run: yarn prepare:mainnet
       - run: yarn codegen
       - run: yarn build
