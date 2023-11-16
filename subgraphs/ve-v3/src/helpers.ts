@@ -1,9 +1,10 @@
 import { Address, BigDecimal, BigInt } from "@graphprotocol/graph-ts";
-import { DFX_DISTRIBUTOR_PROXY } from "../../../packages/constants/index";
+import { DFX_DISTRIBUTOR_PROXY_V3 } from "../../../packages/constants/index";
 // import { Curve } from "../generated/templates/Curve/Curve";
 
 export const ZERO_BI = BigInt.fromI32(0);
 export const ONE_BI = BigInt.fromI32(1);
+export const TWO_BI = BigInt.fromI32(2);
 export const ZERO_BD = BigDecimal.fromString("0");
 export const ONE_BD = BigDecimal.fromString("1");
 export const WEEK_BI = BigInt.fromI32(60 * 60 * 24 * 7); // in sec
@@ -15,7 +16,7 @@ class ConfigAddresses {
 }
 
 export const Addresses: ConfigAddresses = {
-  DFX_DISTRIBUTOR: Address.fromString(DFX_DISTRIBUTOR_PROXY),
+  DFX_DISTRIBUTOR: Address.fromString(DFX_DISTRIBUTOR_PROXY_V3),
 };
 
 export function exponentToBigDecimal(decimals: BigInt): BigDecimal {

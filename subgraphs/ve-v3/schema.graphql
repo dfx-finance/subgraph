@@ -58,7 +58,8 @@ type GaugeController @entity {
   totalWeight: BigDecimal!
   timeTotal: BigInt!
 
-  gauges: [Gauge!]! @derivedFrom(field: "gaugeController")
+  mainnetGauges: [LiquidityGaugeV4!]! @derivedFrom(field: "gaugeController")
+  l2Gauges: [RootGauge!]! @derivedFrom(field: "gaugeController")
   blockNum: BigInt!
 }
 
@@ -75,10 +76,10 @@ type DfxDistributor @entity {
 }
 
 ##
-## Gauge
+## LiquidityGaugeV4
 ##
-type Gauge @entity {
-  gaugeController: GaugeController!
+type LiquidityGaugeV4 @entity {
+  gaugeController: GaugeController
 
   # Contract address
   id: ID!
@@ -102,16 +103,39 @@ type Gauge @entity {
   # calculated
   active: Boolean!
 
-  rewardsAvailable: [GaugeReward!]! @derivedFrom(field: "gauge")
+  rewards: [GaugeReward!]! @derivedFrom(field: "gauge")
   blockNum: BigInt!
 }
 
 type GaugeReward @entity {
   # gauge contract address + "-" + reward index
   id: ID!
-  gauge: Gauge!
+  gauge: LiquidityGaugeV4!
   token: Token!
 
   # mirrored from smart contract
   amount: BigDecimal!
+}
+
+##
+## RootGauge
+##
+type RootGauge @entity {
+  gaugeController: GaugeController!
+
+  # Contract address
+  id: ID!
+  symbol: String!
+
+  # mirrored from GaugeControllerContract
+  weight: BigDecimal!
+  weightDelta: BigDecimal!
+  proportionalWeight: BigDecimal!
+  startProportionalWeight: BigDecimal!
+
+  # calculated
+  active: Boolean!
+
+  reward: String!
+  blockNum: BigInt!
 }

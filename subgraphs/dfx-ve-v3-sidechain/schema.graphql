@@ -1,0 +1,11 @@
+type GaugeRewardReceived @entity(immutable: true) {
+  id: Bytes!
+  messageId: Bytes! # bytes32
+  sourceChainSelector: BigInt! # uint64
+  sender: Bytes! # address
+  token: Bytes! # address
+  tokenAmount: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
