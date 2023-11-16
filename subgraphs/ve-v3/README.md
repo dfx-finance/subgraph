@@ -14,7 +14,7 @@ $ graph deploy --studio dfx-ve-v3
 ### Prod Deploy (Goldsky)
 
 ```bash
-$ goldsky subgraph deploy dfx-ve-v3/X.X.X
+$ goldsky subgraph deploy ve-v3/X.X.X
 ```
 
 ## Events Watched
