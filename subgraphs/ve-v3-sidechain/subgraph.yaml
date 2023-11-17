@@ -18,6 +18,10 @@ dataSources:
       abis:
         - name: ChildChainFactory
           file: ./abis/ChildChainFactory.json
+        - name: ChildChainReceiver
+          file: ./abis/ChildChainReceiver.json
+        - name: ChildChainStreamer
+          file: ./abis/ChildChainStreamer.json                    
         - name: RewardsOnlyGauge
           file: ./abis/RewardsOnlyGauge.json
       eventHandlers:
@@ -36,7 +40,7 @@ templates:
       language: wasm/assemblyscript
       abis:
         - name: ChildChainReceiver
-          file: ./abis/ChildChainReceiver.json
+          file: ./abis/ChildChainReceiver.json          
       entities:
         - Reward
       eventHandlers:
@@ -54,12 +58,20 @@ templates:
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       abis:
+        - name: ChildChainStreamer
+          file: ./abis/ChildChainStreamer.json
         - name: RewardsOnlyGauge
           file: ./abis/RewardsOnlyGauge.json
       entities:
         - Deposit
+        - Withdraw
       eventHandlers:
         - event: Deposit(indexed address,uint256)
           handler: handleDeposit
+        - event: Withdraw(indexed address,uint256)
+          handler: handleWithdraw
+      callHandlers:
+        - function: claim_rewards()
+          handler: handleClaimRewards
       file: ./src/rewards-gauge.ts
 

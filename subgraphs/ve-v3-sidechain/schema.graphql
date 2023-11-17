@@ -24,12 +24,28 @@ type GaugeSet @entity {
 type Receiver @entity {
   id: ID!
 
+  set: GaugeSet!
+
   whitelistedSourceChain: Int! # uint64
   whitelistedSender: Bytes! # address
+  blockNum: BigInt!
+}
+
+type Streamer @entity {
+  id: ID!
+
+  set: GaugeSet!
+  reward_count: Int!
+  reward_tokens: [Bytes!]
+  last_update_time: BigInt!
+
+  blockNum: BigInt!
 }
 
 type Gauge @entity {
   id: ID!
+
+  set: GaugeSet!
 
   decimals: Int!
   symbol: String!
