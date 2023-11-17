@@ -1,44 +1,45 @@
 ###
-### ChildChainReceiver
+### ChildChainFactory
 ###
+type ChildChainFactory @entity {
+  # Contract address
+  id: ID!
+
+  numGauges: BigInt!
+  gaugeSets: [GaugeSet!]! @derivedFrom(field: "factory")
+
+  blockNum: BigInt!
+}
+
+type GaugeSet @entity {
+  id: ID!
+
+  factory: ChildChainFactory!
+
+  receiver: Receiver!
+  streamer: String!
+  gauge: Gauge!
+}
+
 type Receiver @entity {
-  # Contract address
   id: ID!
 
-  whitelistedSourceChain: BigInt! # uint64
+  whitelistedSourceChain: Int! # uint64
   whitelistedSender: Bytes! # address
-  token: Bytes! # address
-  lastAmount: BigInt! # uint256
-  totalAmount: BigInt! # uint256
-  gauge: RewardsOnlyGauge!
-  streamer: Streamer!
-
-  blockNumber: BigInt!
 }
 
-type Streamer @entity {
-  receiver: Receiver!
-  gauge: RewardsOnlyGauge!
-}
-
-###
-### RewardsOnlyGauge
-###
-type RewardsOnlyGauge @entity {
-  # Contract address
+type Gauge @entity {
   id: ID!
+
+  decimals: Int!
   symbol: String!
-
-  lpt: Bytes! # address
-  lptAmount: BigInt! # uint256
-  workingSupply: BigDecimal!
+  name: String!
   totalSupply: BigDecimal!
+
   dfxBalance: BigDecimal!
-  rewardCount: Int!
 
-  receiver: Receiver!
-  streamer: Streamer!
+  lpt: Bytes!
+  lptAmount: BigDecimal!
 
-  rewards: [GaugeReward!]! @derivedFrom(field: "gauge")
   blockNum: BigInt!
 }

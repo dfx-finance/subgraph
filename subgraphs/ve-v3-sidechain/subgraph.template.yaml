@@ -4,11 +4,11 @@ schema:
 dataSources:
   - kind: ethereum
     name: ChildChainFactory
-    network: arbitrum
+    network: {{ network }}
     source:
-      address: "0xf507aC1F0cb6D07ca5373A548C044f7C023f0677"
+      address: "{{ gaugeFactory }}"
       abi: ChildChainFactory
-      startBlock: 151204523
+      startBlock: {{ startBlock }}
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -27,7 +27,7 @@ dataSources:
 templates:
   - name: Receiver
     kind: ethereum/contract
-    network: arbitrum
+    network: {{ network }}
     source:
       abi: ChildChainReceiver
     mapping:
@@ -46,7 +46,7 @@ templates:
 
   - name: Gauge
     kind: ethereum/contract
-    network: arbitrum
+    network: {{ network }}
     source:
       abi: RewardsOnlyGauge
     mapping:

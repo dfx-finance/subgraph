@@ -10,6 +10,8 @@ export const XIDR = "0xebf2096e01455108badcbaf86ce30b6e5a72aa52";
 export const EUROC = "0x1abaea1f7c830bd89acc67ec4af516284b1bc33c";
 export const GYEN = "0xc08512927d12348f6620a698105e1baac6ecd911";
 
+export const DFX_L2 = "0x27f485b62C4A7E635F561A87560Adf5090239E93";
+
 export const DFX_MULTISIG_ADDRESS =
   "0x26f539A0fE189A7f228D7982BF10Bc294FA9070c";
 export const DFX_HARRY_DEV_ADDRESS =
