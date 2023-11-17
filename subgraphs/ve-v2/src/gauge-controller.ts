@@ -15,14 +15,14 @@ import {
   ZERO_BI,
   valueToBigDecimal,
 } from "./helpers";
-import { DFX_GAUGE_CONTROLLER } from "../../../packages/constants";
+import { DFX_GAUGE_CONTROLLER_V2 } from "../../../packages/constants";
 import { _updateWeights } from "./gauge";
 
 /* -- Helpers -- */
 export function getGaugeController(): GaugeController {
-  let gaugeController = GaugeController.load(DFX_GAUGE_CONTROLLER);
+  let gaugeController = GaugeController.load(DFX_GAUGE_CONTROLLER_V2);
   if (gaugeController === null) {
-    gaugeController = new GaugeController(DFX_GAUGE_CONTROLLER);
+    gaugeController = new GaugeController(DFX_GAUGE_CONTROLLER_V2);
     gaugeController.totalWeight = ZERO_BD;
     gaugeController.timeTotal = ZERO_BI;
   }
@@ -48,7 +48,7 @@ export function getActiveGauges(gaugeControllerAddr: Address): Address[] {
 
 // Update the total voting weight available to all gauges
 export function _updateGaugeControllerAttributes(blockNum: BigInt): void {
-  const gaugeControllerAddr = Address.fromString(DFX_GAUGE_CONTROLLER);
+  const gaugeControllerAddr = Address.fromString(DFX_GAUGE_CONTROLLER_V2);
   const gaugeControllerContract = GaugeControllerContract.bind(
     gaugeControllerAddr
   );

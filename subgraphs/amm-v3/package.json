@@ -8,9 +8,9 @@
     "codegen": "yarn graph codegen",
     "build": "yarn graph build",
     "lint": "yarn run eslint './src/**/*.{ts,tsx}' --fix",
-    "prepare:mainnet": "mustache config/mainnet.json subgraph.template.yaml > subgraph.yaml",
-    "prepare:polygon": "mustache config/polygon.json subgraph.template.yaml > subgraph.yaml",
-    "prepare:arbi": "mustache config/arbitrum.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:mainnet": "mustache config/mainnet.json subgraph.template.yaml > subgraph.yaml && mustache config/mainnet.json src/constants.template.ts > src/constants.ts",
+    "prepare:polygon": "mustache config/polygon.json subgraph.template.yaml > subgraph.yaml && mustache config/polygon.json src/constants.template.ts > src/constants.ts",
+    "prepare:arbi": "mustache config/arbitrum.json subgraph.template.yaml > subgraph.yaml && mustache config/arbitrum.json src/constants.template.ts > src/constants.ts",
     "deploy:mainnet": "yarn graph deploy --studio dfx-amm-v3",
     "deploy:polygon": "yarn graph deploy --studio dfx-amm-v3-polygon",
     "deploy:arbi": "yarn graph deploy --studio dfx-amm-v3-arbitrum"

@@ -1,0 +1,8 @@
+{
+  "matic": {
+    "ChildChainReceiver": {
+      "address": "0xEEdb542d94E82e598810681B2E5A749aDCdf7575",
+      "startBlock": 49959813
+    }
+  }
+}

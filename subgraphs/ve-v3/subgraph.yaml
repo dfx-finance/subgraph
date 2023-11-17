@@ -2,35 +2,35 @@ specVersion: 0.0.5
 schema:
   file: ./schema.graphql
 dataSources:
-  - kind: ethereum
-    name: veDFX
-    network: mainnet
-    source:
-      address: "0x3ac91a7a2d30fa25ada4616d337a28ea988988be"
-      abi: veDFX
-      startBlock: 14724071
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.7
-      language: wasm/assemblyscript
-      entities:
-        - Deposit
-      abis:
-        - name: veDFX
-          file: ./abis/veDFX.json
-        - name: ERC20
-          file: ./abis/ERC20.json
-      eventHandlers:
-        - event: Supply(uint256,uint256)
-          handler: handleSupply
-      file: ./src/ve-dfx.ts
+  # - kind: ethereum
+  #   name: veDFX
+  #   network: mainnet
+  #   source:
+  #     address: "0x3ac91a7a2d30fa25ada4616d337a28ea988988be"
+  #     abi: veDFX
+  #     startBlock: 14724071
+  #   mapping:
+  #     kind: ethereum/events
+  #     apiVersion: 0.0.7
+  #     language: wasm/assemblyscript
+  #     entities:
+  #       - Deposit
+  #     abis:
+  #       - name: veDFX
+  #         file: ./abis/veDFX.json
+  #       - name: ERC20
+  #         file: ./abis/ERC20.json
+  #     eventHandlers:
+  #       - event: Supply(uint256,uint256)
+  #         handler: handleSupply
+  #     file: ./src/ve-dfx.ts
   - kind: ethereum
     name: GaugeController
     network: mainnet
     source:
       address: "0x539A33296459ED0DeAFF9febCfD37a05B73Fa8cF"
       abi: GaugeController
-      startBlock: 18315842
+      startBlock: 18315841
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -41,11 +41,17 @@ dataSources:
       abis:
         - name: GaugeController
           file: ./abis/GaugeController.json
+        - name: LiquidityGaugeV4
+          file: ./abis/LiquidityGaugeV4.json
+        - name: CcipRootGauge
+          file: ./abis/CcipRootGauge.json
+        - name: ERC20
+          file: ./abis/ERC20.json               
       eventHandlers:
         - event: NewGauge(address,int128,uint256)
           handler: handleNewGauge
-        # - event: KilledGauge(address)
-        #   handler: handleKilledGauge
+        - event: VoteForGauge(uint256,address,address,uint256)
+          handler: handleVoteForGauge
       file: ./src/gauge-controller.ts
   - kind: ethereum
     name: DfxDistributor
@@ -79,7 +85,7 @@ dataSources:
     source:
       address: "0xCe2b8E0c196b7F9297A9c168Dfe1A97768297835"
       abi: CurveFactoryV3
-      startBlock: 18566782
+      startBlock: 18566781
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -121,7 +127,7 @@ templates:
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransfer
       file: ./src/curve.ts
-  - name: Gauge
+  - name: LiquidityGaugeV4
     kind: ethereum/contract
     network: mainnet
     source:
@@ -131,7 +137,7 @@ templates:
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       abis:
-        - name: Curve
+        - name: CurveV3
           file: ./abis/CurveV3.json
         - name: LiquidityGaugeV4
           file: ./abis/LiquidityGaugeV4.json
@@ -152,4 +158,5 @@ templates:
       callHandlers:
         - function: claim_rewards()
           handler: handleClaimRewards
-      file: ./src/gauge.ts
+      file: ./src/liquidity-gauge.ts
+

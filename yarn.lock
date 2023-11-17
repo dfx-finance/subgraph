@@ -218,6 +218,15 @@
     graphql-import-node "^0.0.5"
     js-yaml "^4.1.0"
 
+"@goldskycom/cli@^7.0.0":
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/@goldskycom/cli/-/cli-7.1.0.tgz#aa5e8ea618a0c5b7e029c01185db32f116a21464"
+  integrity sha512-5ypEeQMRqDyVhMugIi0/Y2AGz9p/UPuSwEtA3ywf6eOAG6WWT5oBavrrTY/XCbntq9pLlQ9xtoQPyldQdGYpGA==
+  dependencies:
+    cuid "^2.1.8"
+    parse-duration "^1.0.3"
+    readline-sync "^1.4.10"
+
 "@graphprotocol/graph-cli@^0.60.0":
   version "0.60.0"
   resolved "https://registry.yarnpkg.com/@graphprotocol/graph-cli/-/graph-cli-0.60.0.tgz#afcae7a966ad348886f49372d36c4ca6c35b9434"
@@ -1287,6 +1296,11 @@ cross-spawn@7.0.3, cross-spawn@^7.0.3:
     path-key "^3.1.0"
     shebang-command "^2.0.0"
     which "^2.0.1"
+
+cuid@^2.1.8:
+  version "2.1.8"
+  resolved "https://registry.yarnpkg.com/cuid/-/cuid-2.1.8.tgz#cbb88f954171e0d5747606c0139fb65c5101eac0"
+  integrity sha512-xiEMER6E7TlTPnDxrM4eRiC6TRgjNX9xzEZ5U/Se2YJKr7Mq4pJn/2XEHjl3STcSh96GmkHPcBXLES8M29wyyg==
 
 dashdash@^1.12.0:
   version "1.14.1"
@@ -2824,7 +2838,7 @@ parse-cache-control@^1.0.1:
   resolved "https://registry.yarnpkg.com/parse-cache-control/-/parse-cache-control-1.0.1.tgz#8eeab3e54fa56920fe16ba38f77fa21aacc2d74e"
   integrity sha512-60zvsJReQPX5/QP0Kzfd/VrpjScIQ7SHBW6bFCYfEP+fp0Eppr1SHhIO5nd1PjZtvclzSzES9D/p5nFJurwfWg==
 
-parse-duration@^1.0.0:
+parse-duration@^1.0.0, parse-duration@^1.0.3:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/parse-duration/-/parse-duration-1.1.0.tgz#5192084c5d8f2a3fd676d04a451dbd2e05a1819c"
   integrity sha512-z6t9dvSJYaPoQq7quMzdEagSFtpGu+utzHqqxmpVWNNZRIXnvqyCvn9XsTdh7c/w0Bqmdz3RB3YnRaKtpRtEXQ==
@@ -3036,6 +3050,11 @@ readdirp@~3.6.0:
   integrity sha512-hOS089on8RduqdbhvQ5Z37A0ESjsqz6qnRcffsMU3495FuTdqSm+7bhJ29JvIOsBDEEnan5DPu9t3To9VRlMzA==
   dependencies:
     picomatch "^2.2.1"
+
+readline-sync@^1.4.10:
+  version "1.4.10"
+  resolved "https://registry.yarnpkg.com/readline-sync/-/readline-sync-1.4.10.tgz#41df7fbb4b6312d673011594145705bf56d8873b"
+  integrity sha512-gNva8/6UAe8QYepIQH/jQ2qn91Qj0B9sYjMBBs3QOB8F2CXcKgLxQaJRP76sWVRQt+QU+8fAkCbCvjjMFu7Ycw==
 
 receptacle@^1.3.2:
   version "1.3.2"

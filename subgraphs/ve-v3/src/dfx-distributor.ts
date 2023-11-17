@@ -1,13 +1,13 @@
 import { Address } from "@graphprotocol/graph-ts";
-import { DFX_GAUGE_CONTROLLER } from "../../../packages/constants";
+import { DFX_GAUGE_CONTROLLER_V3 } from "../../../packages/constants";
 import {
   DfxDistributor as DfxDistributorContract,
   GaugeToggled as GaugeToggledEvent,
   RewardDistributed as RewardDistributedEvent,
   UpdateMiningParameters as UpdateMiningParametersEvent,
 } from "../generated/DfxDistributor/DfxDistributor";
-import { DfxDistributor, Gauge } from "../generated/schema";
-import { getActiveGauges, getGaugeController } from "./gauge-controller";
+import { DfxDistributor, LiquidityGaugeV4 } from "../generated/schema";
+import { getActiveGauges } from "./gauge-controller";
 import { DFX_DECIMALS, ZERO_BD, ZERO_BI, valueToBigDecimal } from "./helpers";
 
 /* -- Helpers -- */
@@ -46,7 +46,7 @@ export function handleGaugeToggled(event: GaugeToggledEvent): void {
   const addr = event.params.gaugeAddr;
   const isActive = !event.params.newStatus;
 
-  const gauge = Gauge.load(addr.toHexString());
+  const gauge = LiquidityGaugeV4.load(addr.toHexString());
   if (gauge) {
     gauge.active = isActive;
     gauge.save();
@@ -60,11 +60,12 @@ export function handleRewardDistributed(event: RewardDistributedEvent): void {
   // -- Gauges
   // Set the current weights as the starting weight on each gauge and reset the newly
   // added weight counter
-  const gaugeController = getGaugeController();
-  const gaugeAddrs = getActiveGauges(Address.fromString(DFX_GAUGE_CONTROLLER));
+  const gaugeAddrs = getActiveGauges(
+    Address.fromString(DFX_GAUGE_CONTROLLER_V3)
+  );
 
   for (let i = 0; i < gaugeAddrs.length; i++) {
-    const gauge = Gauge.load(gaugeAddrs[i].toHexString());
+    const gauge = LiquidityGaugeV4.load(gaugeAddrs[i].toHexString());
     if (gauge) {
       gauge.startProportionalWeight = gauge.proportionalWeight;
       gauge.weightDelta = ZERO_BD;
