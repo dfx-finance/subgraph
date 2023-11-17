@@ -28,6 +28,7 @@ dataSources:
         - event: Registered(address,address,address,address)
           handler: handleNewGaugeSet
       file: ./src/child-chain-factory.ts
+
 templates:
   - name: Receiver
     kind: ethereum/contract
@@ -47,6 +48,29 @@ templates:
         - event: GaugeRewardReceived(indexed bytes32,indexed uint64,address,address,uint256)
           handler: handleGaugeRewardReceived
       file: src/receiver.ts
+
+  - name: Streamer
+    kind: ethereum/contract
+    network: {{ network }}
+    source:
+      abi: ChildChainStreamer
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      abis:
+        - name: ChildChainStreamer
+          file: ./abis/ChildChainStreamer.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+      entities:
+        - GaugeReward
+      callHandlers:
+        - function: add_reward(address,address,uint256)
+          handler: handleAddReward
+        - function: remove_reward(address)
+          handler: handleRemoveReward
+      file: ./src/streamer.ts
 
   - name: Gauge
     kind: ethereum/contract

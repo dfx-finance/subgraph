@@ -12,7 +12,7 @@ import {
   _updateDfxBalance,
   _updateTotalSupply,
   _updateRewardsAvailable,
-  // _updateMinMaxApr
+  // _updateMinMaxApr,
 } from "./gauge-helpers";
 
 // Bundles all update routines into one method
@@ -26,26 +26,22 @@ function _mirrorAttributes(gauge: Gauge): void {
 }
 
 export function handleDeposit(event: DepositEvent): void {
-  const gauge = getGauge(event.address.toHexString());
-
+  const gauge = getGauge(event.address);
   if (gauge) {
     const amount = valueToBigDecimal(event.params.value, 18);
     gauge.lptAmount = gauge.lptAmount.plus(amount);
     gauge.blockNum = event.block.number;
-
     _mirrorAttributes(gauge);
     gauge.save();
   }
 }
 
 export function handleWithdraw(event: WithdrawEvent): void {
-  const gauge = getGauge(event.address.toHexString());
-
+  const gauge = getGauge(event.address);
   if (gauge) {
     const amount = valueToBigDecimal(event.params.value, 18);
     gauge.lptAmount = gauge.lptAmount.minus(amount);
     gauge.blockNum = event.block.number;
-
     _mirrorAttributes(gauge);
     gauge.save();
   }
@@ -55,7 +51,6 @@ export function handleWithdraw(event: WithdrawEvent): void {
 export function handleClaimRewards(call: ClaimRewardsCall): void {
   const gaugeAddr = call.to.toHexString();
   const gauge = Gauge.load(gaugeAddr);
-
   if (gauge) {
     _mirrorAttributes(gauge);
     gauge.save();
