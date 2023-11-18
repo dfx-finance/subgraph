@@ -1,6 +1,4 @@
-import { Address } from "@graphprotocol/graph-ts";
 import { Gauge } from "../generated/schema";
-import { RewardsOnlyGauge as GaugeContract } from "../generated/ChildChainFactory/RewardsOnlyGauge";
 import {
   Deposit as DepositEvent,
   Withdraw as WithdrawEvent,
@@ -12,7 +10,7 @@ import {
   getGauge,
   _updateDfxBalance,
   _updateTotalSupply,
-  // _updateRewardsAvailable,
+  _updateRewardsAvailable,
   // _updateMinMaxApr,
 } from "./gauge-helpers";
 
@@ -20,9 +18,8 @@ import {
 function _mirrorAttributes(gauge: Gauge): void {
   _updateDfxBalance(gauge);
   // _updateWorkingSupply(gauge);
-  // _updateRewardsAvailable(gauge);
+  _updateRewardsAvailable(gauge);
   _updateTotalSupply(gauge);
-  // _updateWeights(gauge);
   // _updateMinMaxApr(gauge);
 }
 

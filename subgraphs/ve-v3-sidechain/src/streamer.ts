@@ -1,5 +1,4 @@
 import { Address } from "@graphprotocol/graph-ts";
-import { GaugeSet, Streamer } from "../generated/schema";
 import {
   Add_rewardCall as AddRewardCall,
   Remove_rewardCall as RemoveRewardCall,

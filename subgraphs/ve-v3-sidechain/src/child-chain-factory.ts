@@ -8,7 +8,6 @@ import {
 import {
   addAllGaugeRewards,
   getGauge,
-  getGaugeReward,
   getGaugeSet,
   getReceiver,
   getStreamer,
