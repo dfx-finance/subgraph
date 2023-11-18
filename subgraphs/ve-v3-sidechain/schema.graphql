@@ -24,19 +24,24 @@ type GaugeSet @entity {
 type Receiver @entity {
   id: ID!
 
+  totalAmount: BigDecimal!
+  latestAmount: BigDecimal!
+
   gaugeSet: GaugeSet!
+
+  blockNum: BigInt!
 }
 
 type Streamer @entity {
   id: ID!
   gaugeSet: GaugeSet!
 
-  reward_count: Int!
-  reward_tokens: [Bytes!]
-  last_update: BigInt!
+  rewardCount: Int!
+  rewardTokens: [Bytes!]
+  lastUpdate: BigInt!
   rewards: [GaugeReward!] @derivedFrom(field: "streamer")
 
-  # blockNum: BigInt!
+  blockNum: BigInt!
 }
 
 type Gauge @entity {
@@ -51,9 +56,9 @@ type Gauge @entity {
   lpt: Bytes!
   lptAmount: BigDecimal!
 
-  blockNum: BigInt!
-
   rewards: [GaugeReward!] @derivedFrom(field: "gauge")
+
+  blockNum: BigInt!
 }
 
 type GaugeReward @entity {

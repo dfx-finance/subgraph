@@ -64,6 +64,8 @@ export function getReceiver(receiverAddr: Address): Receiver {
   let receiver = Receiver.load(receiverAddr.toHexString());
   if (receiver === null) {
     receiver = new Receiver(receiverAddr.toHexString());
+    receiver.totalAmount = ZERO_BD;
+    receiver.latestAmount = ZERO_BD;
   }
   return receiver;
 }
@@ -74,8 +76,8 @@ export function getStreamer(streamerAddr: Address): Streamer {
   if (streamer === null) {
     const streamerInfo = fetchStreamerInfo(streamerAddr);
     streamer = new Streamer(streamerAddr.toHexString());
-    streamer.reward_count = streamerInfo.rewardCount;
-    streamer.last_update = ZERO_BI;
+    streamer.rewardCount = streamerInfo.rewardCount;
+    streamer.lastUpdate = ZERO_BI;
   }
   return streamer;
 }

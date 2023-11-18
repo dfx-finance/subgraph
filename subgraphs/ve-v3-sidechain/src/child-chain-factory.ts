@@ -20,16 +20,19 @@ export function handleNewGaugeSet(event: RegisteredEvent): void {
   // create child mappings -- receiver
   const receiver = getReceiver(event.address);
   receiver.gaugeSet = gaugeSet.id;
+  receiver.blockNum = event.block.number;
   receiver.save();
 
   // create child mappings -- streamer
   const streamer = getStreamer(event.params.streamer);
   streamer.gaugeSet = gaugeSet.id;
+  streamer.blockNum = event.block.number;
   streamer.save();
 
   // create child mappings -- gauge
   const gauge = getGauge(event.params.childGauge);
   gauge.gaugeSet = gaugeSet.id;
+  gauge.blockNum = event.block.number;
   gauge.save();
 
   // add entities and mappings for all starting gauge rewards

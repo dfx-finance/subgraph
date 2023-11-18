@@ -43,6 +43,7 @@ export function handleWithdraw(event: WithdrawEvent): void {
 export function handleClaimRewards(call: ClaimRewardsCall): void {
   const gaugeAddr = call.to;
   const gauge = getGauge(gaugeAddr);
+  gauge.blockNum = call.block.number;
   _mirrorAttributes(gauge);
   gauge.save();
 }
