@@ -12,7 +12,6 @@
       id
       symbol
       totalSupply
-      dfxBalance
       lpt
       lptAmount
       rewards {

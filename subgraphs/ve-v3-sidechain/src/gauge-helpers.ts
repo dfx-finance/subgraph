@@ -89,7 +89,6 @@ export function getGauge(gaugeAddr: Address): Gauge {
     gauge.decimals = gaugeInfo.decimals;
     gauge.name = gaugeInfo.name;
     gauge.symbol = gaugeInfo.symbol;
-    gauge.dfxBalance = ZERO_BD;
     gauge.totalSupply = gaugeInfo.totalSupply;
     gauge.lpt = gaugeInfo.lpt;
     gauge.lptAmount = ZERO_BD;
@@ -144,16 +143,6 @@ export function addAllGaugeRewards(
 }
 
 // /* -- Helpers -- */
-// Update the total DFX available (unclaimed and undistributed) in gauge
-export function _updateDfxBalance(gauge: Gauge): void {
-  const gaugeAddr = Address.fromString(gauge.id);
-
-  const dfxContract = ERC20Contract.bind(Address.fromString(DFX_L2));
-  const rewardAmount = valueToBigDecimal(dfxContract.balanceOf(gaugeAddr), 18);
-
-  gauge.dfxBalance = rewardAmount;
-}
-
 // Update the total amount of veDFX provided to gauge
 export function _updateTotalSupply(gauge: Gauge): void {
   const gaugeAddr = Address.fromString(gauge.id);

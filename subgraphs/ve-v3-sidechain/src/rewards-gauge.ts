@@ -8,7 +8,6 @@ import {
 import { valueToBigDecimal } from "./helpers";
 import {
   getGauge,
-  _updateDfxBalance,
   _updateTotalSupply,
   _updateRewardsAvailable,
   // _updateMinMaxApr,
@@ -16,7 +15,6 @@ import {
 
 // Bundles all update routines into one method
 function _mirrorAttributes(gauge: Gauge): void {
-  _updateDfxBalance(gauge);
   // _updateWorkingSupply(gauge);
   _updateRewardsAvailable(gauge);
   _updateTotalSupply(gauge);
