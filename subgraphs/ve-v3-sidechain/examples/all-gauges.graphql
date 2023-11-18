@@ -4,8 +4,6 @@
     factory
     receiver {
       id
-      whitelistedSender
-      whitelistedSourceChain
     }
     streamer {
       id
@@ -17,6 +15,11 @@
       dfxBalance
       lpt
       lptAmount
+      rewards {
+        id
+        amount
+        decimals
+      }
     }
   }
 }

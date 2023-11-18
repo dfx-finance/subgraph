@@ -24,6 +24,8 @@ dataSources:
           file: ./abis/ChildChainStreamer.json                    
         - name: RewardsOnlyGauge
           file: ./abis/RewardsOnlyGauge.json
+        - name: ERC20
+          file: ./abis/ERC20.json          
       eventHandlers:
         - event: Registered(address,address,address,address)
           handler: handleNewGaugeSet
@@ -94,8 +96,5 @@ templates:
           handler: handleDeposit
         - event: Withdraw(indexed address,uint256)
           handler: handleWithdraw
-      # callHandlers:
-      #   - function: claim_rewards()
-      #     handler: handleClaimRewards
       file: ./src/rewards-gauge.ts
 

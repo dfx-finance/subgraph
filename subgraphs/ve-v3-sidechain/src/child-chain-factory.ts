@@ -1,3 +1,4 @@
+import { Address } from "@graphprotocol/graph-ts";
 import { Registered as RegisteredEvent } from "../generated/ChildChainFactory/ChildChainFactory";
 import {
   Gauge as GaugeTemplate,
@@ -5,7 +6,9 @@ import {
 } from "../generated/templates";
 
 import {
+  addAllGaugeRewards,
   getGauge,
+  getGaugeReward,
   getGaugeSet,
   getReceiver,
   getStreamer,
@@ -29,6 +32,13 @@ export function handleNewGaugeSet(event: RegisteredEvent): void {
   const gauge = getGauge(event.params.childGauge);
   gauge.gaugeSet = gaugeSet.id;
   gauge.save();
+
+  //
+  addAllGaugeRewards(
+    event.params.rootGauge,
+    Address.fromString(gauge.id),
+    Address.fromString(streamer.id)
+  );
 
   // create relations on parent
   gaugeSet.factory = event.address.toHexString();

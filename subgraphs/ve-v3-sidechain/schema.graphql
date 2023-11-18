@@ -34,7 +34,7 @@ type Streamer @entity {
   reward_count: Int!
   reward_tokens: [Bytes!]
   last_update: BigInt!
-  # rewards: [GaugeReward!]
+  rewards: [GaugeReward!] @derivedFrom(field: "streamer")
 
   # blockNum: BigInt!
 }
@@ -55,15 +55,16 @@ type Gauge @entity {
 
   blockNum: BigInt!
 
-  # rewards: [GaugeReward!]
+  rewards: [GaugeReward!] @derivedFrom(field: "gauge")
 }
 
-#type GaugeReward @entity {
-#  id: ID!
+type GaugeReward @entity {
+  id: ID!
 
-#  gauge: Gauge!
+  streamer: Streamer!
+  gauge: Gauge!
 
-#  token: String!
-#  decimals: Int!
-#  amount: BigDecimal!
-#}
+  token: String!
+  decimals: Int!
+  amount: BigDecimal!
+}
