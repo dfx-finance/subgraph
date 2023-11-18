@@ -33,7 +33,7 @@ export function handleNewGaugeSet(event: RegisteredEvent): void {
   gauge.gaugeSet = gaugeSet.id;
   gauge.save();
 
-  //
+  // add entities and mappings for all starting gauge rewards
   addAllGaugeRewards(
     event.params.rootGauge,
     Address.fromString(gauge.id),

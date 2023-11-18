@@ -106,15 +106,19 @@ export function getGauge(gaugeAddr: Address): Gauge {
 // Get or create GaugeReward entity with default empty state
 export function getGaugeReward(
   rootGaugeAddr: Address,
+  streamerAddr: Address,
   gaugeAddr: Address,
   rewardAddr: Address
 ): GaugeReward {
   const rewardId = rootGaugeAddr.toHexString().concat(rewardAddr.toHexString());
   let gaugeReward = GaugeReward.load(rewardId);
   if (gaugeReward === null) {
+    const rewardContract = ERC20Contract.bind(rewardAddr);
     gaugeReward = new GaugeReward(rewardId);
     gaugeReward.gauge = gaugeAddr.toHexString();
+    gaugeReward.streamer = streamerAddr.toHexString();
     gaugeReward.token = rewardAddr.toHexString();
+    gaugeReward.decimals = rewardContract.decimals();
     gaugeReward.amount = ZERO_BD;
   }
   return gaugeReward;
@@ -133,20 +137,13 @@ export function addAllGaugeRewards(
   // create entity for each reward available on gauge
   for (let i: i32 = 0; i < rewardCount; i++) {
     const rewardAddr = streamer.reward_tokens(BigInt.fromI32(i));
-    const rewardContract = ERC20Contract.bind(rewardAddr);
-    // // get or create token for reward
-    // const token = getToken(rewardAddr.toHexString());
-    // create reward entity
-    const rewardId = rootGaugeAddr
-      .toHexString()
-      .concat(rewardAddr.toHexString());
-    let gaugeReward = new GaugeReward(rewardId);
-    gaugeReward.gauge = gaugeAddr.toHexString();
-    gaugeReward.streamer = streamerAddr.toHexString();
-    gaugeReward.token = rewardAddr.toHexString();
-    gaugeReward.decimals = rewardContract.decimals();
-    gaugeReward.amount = ZERO_BD;
-    gaugeReward.save();
+    const reward = getGaugeReward(
+      rootGaugeAddr,
+      streamerAddr,
+      gaugeAddr,
+      rewardAddr
+    );
+    reward.save();
   }
 }
 

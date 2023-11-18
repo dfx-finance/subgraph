@@ -16,12 +16,11 @@ export function handleGaugeRewardReceived(
   const gauge = getGauge(Address.fromString(gaugeSet.gauge));
   const reward = getGaugeReward(
     Address.fromString(gaugeSet.id),
+    Address.fromString(gaugeSet.streamer),
     Address.fromString(gauge.id),
     event.params.token
   );
 
-  reward.gauge = gauge.id;
-  reward.streamer = gaugeSet.streamer;
   reward.amount = reward.amount.plus(
     valueToBigDecimal(event.params.tokenAmount, 18)
   );
