@@ -69,3 +69,4 @@ generated/
 
 subgraphs/amm-v3/subgraph.yaml
 subgraphs/amm-v3/src/constants.ts
+subgraphs/ve-v3-sidechain/subgraph.yaml
