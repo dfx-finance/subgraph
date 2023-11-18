@@ -120,6 +120,7 @@ export function getGaugeReward(
     gaugeReward.token = rewardAddr.toHexString();
     gaugeReward.decimals = rewardContract.decimals();
     gaugeReward.amount = ZERO_BD;
+    gaugeReward.active = true;
   }
   return gaugeReward;
 }

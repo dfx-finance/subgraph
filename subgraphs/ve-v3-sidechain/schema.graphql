@@ -67,4 +67,6 @@ type GaugeReward @entity {
   token: String!
   decimals: Int!
   amount: BigDecimal!
+
+  active: Boolean!
 }
