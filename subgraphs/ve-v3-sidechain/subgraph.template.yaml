@@ -3,7 +3,7 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum
-    name: ChildChainFactory
+    name: GaugeFactory
     network: {{ network }}
     source:
       address: "{{ gaugeFactory }}"

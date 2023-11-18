@@ -4,7 +4,7 @@ import {
   GaugeSet,
   Streamer,
   Receiver,
-  GaugeReward,
+  // GaugeReward,
 } from "../generated/schema";
 import { ChildChainReceiver as ReceiverContract } from "../generated/ChildChainFactory/ChildChainReceiver";
 import { ChildChainStreamer as StreamerContract } from "../generated/ChildChainFactory/ChildChainStreamer";
@@ -21,30 +21,6 @@ import { DFX_L2 } from "../../../packages/constants";
 /**
  * Fetch initial contract data to populate constructor() states
  */
-class ReceiverInfo {
-  constructor(
-    public whitelistedSender: Address,
-    public whitelistedSourceChain: BigInt
-  ) {}
-}
-export function fetchReceiverInfo(receiverAddr: Address): ReceiverInfo {
-  const receiverContract = ReceiverContract.bind(receiverAddr);
-
-  const defaultSender = Address.fromString(CCIP_SENDER_ETH);
-  const whitelistedSender = Address.fromBytes(
-    receiverContract.whitelistedSenders(defaultSender)
-      ? defaultSender
-      : Address.fromI32(0) // default not whitelisted
-  );
-  const whitelistedSourceChain = receiverContract.whitelistedSourceChains(
-    BigInt.fromI64(CCIP_CHAIN_SELECTOR_ETH)
-  )
-    ? BigInt.fromI64(CCIP_CHAIN_SELECTOR_ETH)
-    : ZERO_BI; // default
-
-  return new ReceiverInfo(whitelistedSender, whitelistedSourceChain);
-}
-
 class StreamerInfo {
   constructor(public rewardCount: i32, public lastUpdate: i64) {}
 }
@@ -92,10 +68,7 @@ export function getGaugeSet(rootGaugeAddr: Address): GaugeSet {
 export function getReceiver(receiverAddr: Address): Receiver {
   let receiver = Receiver.load(receiverAddr.toHexString());
   if (receiver === null) {
-    const receiverInfo = fetchReceiverInfo(receiverAddr);
     receiver = new Receiver(receiverAddr.toHexString());
-    receiver.whitelistedSourceChain = receiverInfo.whitelistedSourceChain;
-    receiver.whitelistedSender = receiverInfo.whitelistedSender;
   }
   return receiver;
 }
@@ -121,29 +94,31 @@ export function getGauge(gaugeAddr: Address): Gauge {
     gauge.decimals = gaugeInfo.decimals;
     gauge.name = gaugeInfo.name;
     gauge.symbol = gaugeInfo.symbol;
+    gauge.dfxBalance = ZERO_BD;
     gauge.totalSupply = gaugeInfo.totalSupply;
     gauge.lpt = gaugeInfo.lpt;
     gauge.lptAmount = ZERO_BD;
+    gauge.blockNum = ZERO_BI;
   }
   return gauge;
 }
 
-// Get or create GaugeReward entity with default empty state
-export function getGaugeReward(
-  gauge: Gauge,
-  rewardAddr: Address,
-  rewardIdx: i32
-): GaugeReward {
-  const rewardId = gauge.id + "-" + rewardIdx.toString();
-  let gaugeReward = GaugeReward.load(rewardId);
-  if (gaugeReward === null) {
-    gaugeReward = new GaugeReward(rewardId);
-    gaugeReward.gauge = gauge.id;
-    gaugeReward.token = rewardAddr.toHexString();
-    gaugeReward.amount = ZERO_BD;
-  }
-  return gaugeReward;
-}
+// // Get or create GaugeReward entity with default empty state
+// export function getGaugeReward(
+//   gauge: Gauge,
+//   rewardAddr: Address,
+//   rewardIdx: i32
+// ): GaugeReward {
+//   const rewardId = gauge.id + "-" + rewardIdx.toString();
+//   let gaugeReward = GaugeReward.load(rewardId);
+//   if (gaugeReward === null) {
+//     gaugeReward = new GaugeReward(rewardId);
+//     gaugeReward.gauge = gauge.id;
+//     gaugeReward.token = rewardAddr.toHexString();
+//     gaugeReward.amount = ZERO_BD;
+//   }
+//   return gaugeReward;
+// }
 
 // /* -- Helpers -- */
 // Update the total DFX available (unclaimed and undistributed) in gauge
@@ -167,32 +142,32 @@ export function _updateTotalSupply(gauge: Gauge): void {
   gauge.totalSupply = valueToBigDecimal(totalSupply, dfxDecimals);
 }
 
-export function _updateRewardsAvailable(gauge: Gauge): void {
-  // iterate and update each gauge reward
-  const gaugeSet = getGaugeSet(Address.fromString(gauge.gaugeSet));
-  const streamerContract = StreamerContract.bind(
-    Address.fromString(gaugeSet.streamer)
-  );
-  const numRewards = streamerContract.reward_count().toI32();
+// export function _updateRewardsAvailable(gauge: Gauge): void {
+//   // iterate and update each gauge reward
+//   const gaugeSet = getGaugeSet(Address.fromString(gauge.gaugeSet));
+//   const streamerContract = StreamerContract.bind(
+//     Address.fromString(gaugeSet.streamer)
+//   );
+//   const numRewards = streamerContract.reward_count().toI32();
 
-  for (let i: i32 = 0; i < numRewards; i++) {
-    const gaugeContract = StreamerContract.bind(Address.fromString(gauge.id));
+//   for (let i: i32 = 0; i < numRewards; i++) {
+//     const gaugeContract = StreamerContract.bind(Address.fromString(gauge.id));
 
-    // get rewards contract info
-    const rewardsAddr = gaugeContract.reward_tokens(BigInt.fromI32(i));
-    const rewardContract = ERC20Contract.bind(rewardsAddr);
-    const rewardDecimals = rewardContract.decimals();
+//     // get rewards contract info
+//     const rewardsAddr = gaugeContract.reward_tokens(BigInt.fromI32(i));
+//     const rewardContract = ERC20Contract.bind(rewardsAddr);
+//     const rewardDecimals = rewardContract.decimals();
 
-    // get weekly rewards
-    const rewardsRate = gaugeContract.reward_data(rewardsAddr).rate;
-    const weeklyRewards = valueToBigDecimal(
-      rewardsRate.times(BigInt.fromI32(604800)),
-      rewardDecimals
-    );
+//     // get weekly rewards
+//     const rewardsRate = gaugeContract.reward_data(rewardsAddr).rate;
+//     const weeklyRewards = valueToBigDecimal(
+//       rewardsRate.times(BigInt.fromI32(604800)),
+//       rewardDecimals
+//     );
 
-    // update gauge rewards entity
-    const gaugeReward = getGaugeReward(gauge, rewardsAddr, i);
-    gaugeReward.amount = weeklyRewards;
-    gaugeReward.save();
-  }
-}
+//     // update gauge rewards entity
+//     const gaugeReward = getGaugeReward(gauge, rewardsAddr, i);
+//     gaugeReward.amount = weeklyRewards;
+//     gaugeReward.save();
+//   }
+// }

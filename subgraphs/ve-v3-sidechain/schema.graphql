@@ -1,22 +1,22 @@
 ###
 ### ChildChainFactory
 ###
-type ChildChainFactory @entity {
-  # Contract address
-  id: ID!
+#type ChildChainFactory @entity {
+# Contract address
+# id: ID!
 
-  # numGauges: BigInt!
-  # gaugeSets: [GaugeSet!]! @derivedFrom(field: "factory")
+# numGauges: BigInt!
+# gaugeSets: [GaugeSet!]! @derivedFrom(field: "factory")
 
-  # blockNum: BigInt!
-}
+# blockNum: BigInt!
+#}
 
 type GaugeSet @entity {
   id: ID!
 
-  factory: ChildChainFactory!
+  factory: String!
 
-  receiver: Receiver!
+  receiver: Receiver
   streamer: Streamer!
   gauge: Gauge!
 }
@@ -25,27 +25,22 @@ type Receiver @entity {
   id: ID!
 
   gaugeSet: GaugeSet!
-
-  whitelistedSourceChain: BigInt! # uint64
-  whitelistedSender: Bytes! # address
-  blockNum: BigInt!
 }
 
 type Streamer @entity {
   id: ID!
-
   gaugeSet: GaugeSet!
+
   reward_count: Int!
   reward_tokens: [Bytes!]
   last_update: BigInt!
-  rewards: [GaugeReward!]
+  # rewards: [GaugeReward!]
 
-  blockNum: BigInt!
+  # blockNum: BigInt!
 }
 
 type Gauge @entity {
   id: ID!
-
   gaugeSet: GaugeSet!
 
   decimals: Int!
@@ -60,15 +55,15 @@ type Gauge @entity {
 
   blockNum: BigInt!
 
-  rewards: [GaugeReward!]
+  # rewards: [GaugeReward!]
 }
 
-type GaugeReward @entity {
-  id: ID!
+#type GaugeReward @entity {
+#  id: ID!
 
-  gauge: Gauge!
+#  gauge: Gauge!
 
-  token: String!
-  decimals: Int!
-  amount: BigDecimal!
-}
+#  token: String!
+#  decimals: Int!
+#  amount: BigDecimal!
+#}

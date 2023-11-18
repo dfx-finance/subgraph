@@ -13,11 +13,7 @@ import {
 
 export function handleNewGaugeSet(event: RegisteredEvent): void {
   // create parent mapping
-  const gaugeSet = getGaugeSet(event.params.rootGauge);
-  gaugeSet.factory = event.address.toHexString();
-  gaugeSet.receiver = event.params.receiver.toHexString();
-  gaugeSet.streamer = event.params.streamer.toHexString();
-  gaugeSet.gauge = event.params.childGauge.toHexString();
+  let gaugeSet = getGaugeSet(event.params.rootGauge);
 
   // create child mappings -- receiver
   const receiver = getReceiver(event.address);
@@ -35,6 +31,7 @@ export function handleNewGaugeSet(event: RegisteredEvent): void {
   gauge.save();
 
   // create relations on parent
+  gaugeSet.factory = event.address.toHexString();
   gaugeSet.receiver = receiver.id;
   gaugeSet.streamer = streamer.id;
   gaugeSet.gauge = gauge.id;

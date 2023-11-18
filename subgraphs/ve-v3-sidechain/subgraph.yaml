@@ -3,7 +3,7 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum
-    name: ChildChainFactory
+    name: GaugeFactory
     network: arbitrum-one
     source:
       address: "0xf507aC1F0cb6D07ca5373A548C044f7C023f0677"
@@ -94,8 +94,8 @@ templates:
           handler: handleDeposit
         - event: Withdraw(indexed address,uint256)
           handler: handleWithdraw
-      callHandlers:
-        - function: claim_rewards()
-          handler: handleClaimRewards
+      # callHandlers:
+      #   - function: claim_rewards()
+      #     handler: handleClaimRewards
       file: ./src/rewards-gauge.ts
 

@@ -1,0 +1,22 @@
+{
+  gaugeSets(first: 5) {
+    id
+    factory
+    receiver {
+      id
+      whitelistedSender
+      whitelistedSourceChain
+    }
+    streamer {
+      id
+    }
+    gauge {
+      id
+      symbol
+      totalSupply
+      dfxBalance
+      lpt
+      lptAmount
+    }
+  }
+}
