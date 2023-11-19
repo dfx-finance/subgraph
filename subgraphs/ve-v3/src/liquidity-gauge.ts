@@ -9,13 +9,7 @@ import {
   Claim_rewardsCall as ClaimRewardsCall,
 } from "../generated/templates/LiquidityGaugeV4/LiquidityGaugeV4";
 import { GaugeController as GaugeControllerContract } from "../generated/templates/LiquidityGaugeV4/GaugeController";
-import {
-  DFX_DECIMALS,
-  valueToBigDecimal,
-  WEEK_BI,
-  ZERO_BD,
-  ZERO_BI,
-} from "./helpers";
+import { DFX_DECIMALS, valueToBigDecimal, ZERO_BD } from "./helpers";
 import {
   _updateGaugeControllerAttributes,
   getGaugeController,

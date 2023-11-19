@@ -103,6 +103,26 @@ dataSources:
         - event: NewCurve(indexed address,indexed bytes32,indexed address)
           handler: handleNewCurve
       file: ./src/curve-factory.ts
+  - kind: ethereum
+    name: CCIPSender
+    network: mainnet
+    source:
+      address: "0x7ace867b3a503C6C76834ac223993FBD8963BED2"
+      abi: CcipSender
+      startBlock: 18416068
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - RootGauge
+      abis:
+        - name: CcipSender
+          file: ./abis/CcipSender.json
+      callHandlers:
+        - function: setL2Destination(address,address,uint64)
+          handler: updateL2Destination
+      file: ./src/ccip-sender.ts
 templates:
   - name: Curve
     kind: ethereum/contract
