@@ -204,6 +204,9 @@ function addRootGauge(event: NewGaugeEvent): void {
 
   gauge.blockNum = event.block.number;
   gauge.save();
+
+  // start indexing the gauge
+  RootGaugeTemplate.create(gaugeAddr);
 }
 
 /* -- Main -- */

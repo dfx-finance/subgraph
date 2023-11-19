@@ -1,4 +1,4 @@
-import { Address, BigDecimal, BigInt } from "@graphprotocol/graph-ts";
+import { Address, BigDecimal } from "@graphprotocol/graph-ts";
 import { NewCurve as NewCurveEvent } from "../generated/CurveFactoryV3/CurveFactoryV3";
 import { CurveV3 } from "../generated/CurveFactoryV3/CurveV3";
 import { Pair } from "../generated/schema";

@@ -9,7 +9,6 @@ import {
 } from "./token-helpers";
 
 // Get or create Pair entity with default empty state
-// TODO: Move to a helpers file?
 // Mostly the same as handleNewCurve helper in curve-factory.ts
 export function getPair(pairAddr: string): Pair {
   let pair = Pair.load(pairAddr);
