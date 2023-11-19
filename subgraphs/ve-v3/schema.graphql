@@ -133,6 +133,10 @@ type RootGauge @entity {
   proportionalWeight: BigDecimal!
   startProportionalWeight: BigDecimal!
 
+  # mirrored from CCIPSender
+  destination: String
+  network: Int
+
   # calculated
   active: Boolean!
 
