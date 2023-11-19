@@ -48,8 +48,6 @@ type Gauge @entity {
   name: String!
   totalSupply: BigDecimal!
 
-  dfxBalance: BigDecimal!
-
   lpt: Bytes!
   lptAmount: BigDecimal!
 
