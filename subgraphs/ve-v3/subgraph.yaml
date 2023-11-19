@@ -2,28 +2,28 @@ specVersion: 0.0.5
 schema:
   file: ./schema.graphql
 dataSources:
-  # - kind: ethereum
-  #   name: veDFX
-  #   network: mainnet
-  #   source:
-  #     address: "0x3ac91a7a2d30fa25ada4616d337a28ea988988be"
-  #     abi: veDFX
-  #     startBlock: 14724071
-  #   mapping:
-  #     kind: ethereum/events
-  #     apiVersion: 0.0.7
-  #     language: wasm/assemblyscript
-  #     entities:
-  #       - Deposit
-  #     abis:
-  #       - name: veDFX
-  #         file: ./abis/veDFX.json
-  #       - name: ERC20
-  #         file: ./abis/ERC20.json
-  #     eventHandlers:
-  #       - event: Supply(uint256,uint256)
-  #         handler: handleSupply
-  #     file: ./src/ve-dfx.ts
+  - kind: ethereum
+    name: veDFX
+    network: mainnet
+    source:
+      address: "0x3ac91a7a2d30fa25ada4616d337a28ea988988be"
+      abi: veDFX
+      startBlock: 14724071
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Deposit
+      abis:
+        - name: veDFX
+          file: ./abis/veDFX.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+      eventHandlers:
+        - event: Supply(uint256,uint256)
+          handler: handleSupply
+      file: ./src/ve-dfx.ts
   - kind: ethereum
     name: GaugeController
     network: mainnet
