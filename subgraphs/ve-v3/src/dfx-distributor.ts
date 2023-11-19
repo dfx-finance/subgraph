@@ -6,7 +6,11 @@ import {
   RewardDistributed as RewardDistributedEvent,
   UpdateMiningParameters as UpdateMiningParametersEvent,
 } from "../generated/DfxDistributor/DfxDistributor";
-import { DfxDistributor, LiquidityGaugeV4 } from "../generated/schema";
+import {
+  DfxDistributor,
+  LiquidityGaugeV4,
+  RootGauge,
+} from "../generated/schema";
 import { getActiveGauges } from "./gauge-controller";
 import { DFX_DECIMALS, ZERO_BD, ZERO_BI, valueToBigDecimal } from "./helpers";
 
@@ -46,10 +50,15 @@ export function handleGaugeToggled(event: GaugeToggledEvent): void {
   const addr = event.params.gaugeAddr;
   const isActive = !event.params.newStatus;
 
-  const gauge = LiquidityGaugeV4.load(addr.toHexString());
-  if (gauge) {
-    gauge.active = isActive;
-    gauge.save();
+  const mainnetGauge = LiquidityGaugeV4.load(addr.toHexString());
+  if (mainnetGauge) {
+    mainnetGauge.active = isActive;
+    mainnetGauge.save();
+  }
+  const l2Gauge = RootGauge.load(addr.toHexString());
+  if (l2Gauge) {
+    l2Gauge.active = isActive;
+    l2Gauge.save();
   }
 }
 
@@ -65,11 +74,17 @@ export function handleRewardDistributed(event: RewardDistributedEvent): void {
   );
 
   for (let i = 0; i < gaugeAddrs.length; i++) {
-    const gauge = LiquidityGaugeV4.load(gaugeAddrs[i].toHexString());
-    if (gauge) {
-      gauge.startProportionalWeight = gauge.proportionalWeight;
-      gauge.weightDelta = ZERO_BD;
-      gauge.save();
+    const mainnetGauge = LiquidityGaugeV4.load(gaugeAddrs[i].toHexString());
+    if (mainnetGauge) {
+      mainnetGauge.startProportionalWeight = mainnetGauge.proportionalWeight;
+      mainnetGauge.weightDelta = ZERO_BD;
+      mainnetGauge.save();
+    }
+    const l2Gauge = RootGauge.load(gaugeAddrs[i].toHexString());
+    if (l2Gauge) {
+      l2Gauge.startProportionalWeight = l2Gauge.proportionalWeight;
+      l2Gauge.weightDelta = ZERO_BD;
+      l2Gauge.save();
     }
   }
 }

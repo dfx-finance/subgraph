@@ -23,7 +23,10 @@ import {
   valueToBigDecimal,
 } from "./helpers";
 import { DFX_GAUGE_CONTROLLER_V3 } from "../../../packages/constants";
-import { _updateWeights } from "./liquidity-gauge";
+import {
+  _updateLiquidityGaugeWeights,
+  _updateRootGaugeWeights,
+} from "./liquidity-gauge";
 
 // /* -- Helpers -- */
 export function getGaugeController(): GaugeController {
@@ -204,9 +207,6 @@ function addRootGauge(event: NewGaugeEvent): void {
 
   gauge.blockNum = event.block.number;
   gauge.save();
-
-  // start indexing the gauge
-  RootGaugeTemplate.create(gaugeAddr);
 }
 
 /* -- Main -- */
@@ -233,10 +233,15 @@ export function handleVoteForGauge(event: VoteForGaugeEvent): void {
 
   const gaugeAddrs = getActiveGauges(event.address);
   for (let i = 0; i < gaugeAddrs.length; i++) {
-    const gauge = LiquidityGaugeV4.load(gaugeAddrs[i].toHexString());
-    if (gauge) {
-      _updateWeights(gauge);
-      gauge.save();
+    const mainnetGauge = LiquidityGaugeV4.load(gaugeAddrs[i].toHexString());
+    if (mainnetGauge) {
+      _updateLiquidityGaugeWeights(mainnetGauge);
+      mainnetGauge.save();
+    }
+    const l2Gauge = RootGauge.load(gaugeAddrs[i].toHexString());
+    if (l2Gauge) {
+      _updateRootGaugeWeights(l2Gauge);
+      l2Gauge.save();
     }
   }
 }

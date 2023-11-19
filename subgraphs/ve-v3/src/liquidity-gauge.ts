@@ -1,6 +1,6 @@
 import { Address, BigInt } from "@graphprotocol/graph-ts";
 import { DFX, DFX_GAUGE_CONTROLLER_V3 } from "../../../packages/constants";
-import { LiquidityGaugeV4, GaugeReward } from "../generated/schema";
+import { LiquidityGaugeV4, GaugeReward, RootGauge } from "../generated/schema";
 import { ERC20 as ERC20Contract } from "../generated/templates/LiquidityGaugeV4/ERC20";
 import {
   LiquidityGaugeV4 as LiquidityGaugeV4Contract,
@@ -9,13 +9,7 @@ import {
   Claim_rewardsCall as ClaimRewardsCall,
 } from "../generated/templates/LiquidityGaugeV4/LiquidityGaugeV4";
 import { GaugeController as GaugeControllerContract } from "../generated/templates/LiquidityGaugeV4/GaugeController";
-import {
-  DFX_DECIMALS,
-  valueToBigDecimal,
-  WEEK_BI,
-  ZERO_BD,
-  ZERO_BI,
-} from "./helpers";
+import { DFX_DECIMALS, valueToBigDecimal, ZERO_BD } from "./helpers";
 import {
   _updateGaugeControllerAttributes,
   getGaugeController,
@@ -101,7 +95,27 @@ function _updateRewardsAvailable(gauge: LiquidityGaugeV4): void {
   }
 }
 
-export function _updateWeights(gauge: LiquidityGaugeV4): void {
+export function _updateLiquidityGaugeWeights(gauge: LiquidityGaugeV4): void {
+  const gaugeControllerContract = GaugeControllerContract.bind(
+    Address.fromString(DFX_GAUGE_CONTROLLER_V3)
+  );
+  const gaugeController = getGaugeController();
+  const gaugeAddr = Address.fromString(gauge.id);
+
+  const prevWeight = gauge.weight;
+
+  gauge.weight = valueToBigDecimal(
+    gaugeControllerContract.get_gauge_weight(gaugeAddr),
+    DFX_DECIMALS
+  );
+  gauge.proportionalWeight = gaugeController.totalWeight.gt(ZERO_BD)
+    ? gauge.weight.div(gaugeController.totalWeight)
+    : ZERO_BD;
+
+  gauge.weightDelta = gauge.weight.minus(prevWeight);
+}
+
+export function _updateRootGaugeWeights(gauge: RootGauge): void {
   const gaugeControllerContract = GaugeControllerContract.bind(
     Address.fromString(DFX_GAUGE_CONTROLLER_V3)
   );
@@ -162,12 +176,12 @@ export function _updateWeights(gauge: LiquidityGaugeV4): void {
 // }
 
 // Bundles all update routines into one method
-function _mirrorAttributes(gauge: LiquidityGaugeV4): void {
+function _mirrorLiquidityGaugeAttributes(gauge: LiquidityGaugeV4): void {
   _updateDfxBalance(gauge);
   _updateWorkingSupply(gauge);
   _updateRewardsAvailable(gauge);
   _updateTotalSupply(gauge);
-  _updateWeights(gauge);
+  _updateLiquidityGaugeWeights(gauge);
   // _updateMinMaxApr(gauge);
 }
 
@@ -183,7 +197,7 @@ export function handleDeposit(event: DepositEvent): void {
     gauge.lptAmount = gauge.lptAmount.plus(amount);
     gauge.blockNum = event.block.number;
 
-    _mirrorAttributes(gauge);
+    _mirrorLiquidityGaugeAttributes(gauge);
     gauge.save();
   }
 }
@@ -198,7 +212,7 @@ export function handleWithdraw(event: WithdrawEvent): void {
     gauge.lptAmount = gauge.lptAmount.minus(amount);
     gauge.blockNum = event.block.number;
 
-    _mirrorAttributes(gauge);
+    _mirrorLiquidityGaugeAttributes(gauge);
     gauge.save();
   }
 }
@@ -211,7 +225,7 @@ export function handleClaimRewards(call: ClaimRewardsCall): void {
   const gauge = LiquidityGaugeV4.load(gaugeAddr);
 
   if (gauge) {
-    _mirrorAttributes(gauge);
+    _mirrorLiquidityGaugeAttributes(gauge);
     gauge.save();
   }
 }
