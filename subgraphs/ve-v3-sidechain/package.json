@@ -4,15 +4,19 @@
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/ dfx-ve-v3-sidechain",
-    "create-local": "graph create --node http://localhost:8020/ dfx-ve-v3-sidechain",
-    "remove-local": "graph remove --node http://localhost:8020/ dfx-ve-v3-sidechain",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 dfx-ve-v3-sidechain",
+    "prepare:mainnet": "mustache config/mainnet.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:polygon": "mustache config/polygon.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:arbi": "mustache config/arbitrum.json subgraph.template.yaml > subgraph.yaml",
+    "deploy:mainnet": "yarn graph deploy --studio dfx-amm-v3",
+    "deploy:polygon": "yarn graph deploy --studio dfx-amm-v3-polygon",
+    "deploy:arbi": "yarn graph deploy --studio dfx-amm-v3-arbitrum",
     "test": "graph test"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.59.0",
     "@graphprotocol/graph-ts": "0.30.0"
   },
-  "devDependencies": { "matchstick-as": "0.5.0" }
+  "devDependencies": {
+    "matchstick-as": "0.5.0"
+  }
 }
