@@ -1,0 +1,30 @@
+{
+  gaugeSets(first: 5) {
+    id
+    factory
+    receiver {
+      id
+      blockNum
+      totalAmount
+      latestAmount
+    }
+    streamer {
+      id
+      blockNum
+      rewardCount
+    }
+    gauge {
+      id
+      symbol
+      totalSupply
+      lpt
+      lptAmount
+      rewards {
+        id
+        amount
+        decimals
+      }
+      blockNum
+    }
+  }
+}
