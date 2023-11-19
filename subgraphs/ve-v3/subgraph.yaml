@@ -37,7 +37,7 @@ dataSources:
       language: wasm/assemblyscript
       entities:
         - NewGauge
-        - KilledGauge
+        # - KilledGauge
       abis:
         - name: GaugeController
           file: ./abis/GaugeController.json
