@@ -11,7 +11,6 @@ import { RewardsOnlyGauge as GaugeContract } from "../generated/ChildChainFactor
 import { ERC20 as ERC20Contract } from "../generated/templates/Gauge/ERC20";
 
 import { ZERO_BD, ZERO_BI, valueToBigDecimal } from "./helpers";
-import { DFX_L2 } from "../../../packages/constants";
 
 /**
  * Fetch initial contract data to populate constructor() states

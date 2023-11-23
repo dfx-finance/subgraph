@@ -28,7 +28,7 @@ dataSources:
     name: GaugeController
     network: mainnet
     source:
-      address: "0x539A33296459ED0DeAFF9febCfD37a05B73Fa8cF"
+      address: "0x539a33296459ed0deaff9febcfd37a05b73fa8cf"
       abi: GaugeController
       startBlock: 18315841
     mapping:
@@ -57,7 +57,7 @@ dataSources:
     name: DfxDistributor
     network: mainnet
     source:
-      address: "0xD3E7444d5DB4dDF0F9A1B52d62367C339B7bE8A9"
+      address: "0x539a33296459ed0deaff9febcfd37a05b73fa8cf"
       abi: DfxDistributor
       startBlock: 18567765
     mapping:
@@ -83,7 +83,7 @@ dataSources:
     name: CurveFactoryV3
     network: mainnet
     source:
-      address: "0xCe2b8E0c196b7F9297A9c168Dfe1A97768297835"
+      address: "0xce2b8e0c196b7f9297a9c168dfe1a97768297835"
       abi: CurveFactoryV3
       startBlock: 18566781
     mapping:
@@ -107,7 +107,7 @@ dataSources:
     name: CCIPSender
     network: mainnet
     source:
-      address: "0x7ace867b3a503C6C76834ac223993FBD8963BED2"
+      address: "0x7ace867b3a503c6c76834ac223993fbd8963bed2"
       abi: CcipSender
       startBlock: 18416068
     mapping:

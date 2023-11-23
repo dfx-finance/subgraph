@@ -43,7 +43,9 @@ templates:
       language: wasm/assemblyscript
       abis:
         - name: ChildChainReceiver
-          file: ./abis/ChildChainReceiver.json          
+          file: ./abis/ChildChainReceiver.json
+        - name: ChildChainStreamer
+          file: ./abis/ChildChainStreamer.json                                 
       entities:
         - Reward
       eventHandlers:
@@ -75,7 +77,7 @@ templates:
       file: ./src/streamer.ts
 
   - name: Gauge
-    kind: ethereum/contract
+    kind: ethereum/contract 
     network: {{ network }}
     source:
       abi: RewardsOnlyGauge
@@ -88,6 +90,8 @@ templates:
           file: ./abis/ChildChainStreamer.json
         - name: RewardsOnlyGauge
           file: ./abis/RewardsOnlyGauge.json
+        - name: ERC20
+          file: ./abis/ERC20.json
       entities:
         - Deposit
         - Withdraw

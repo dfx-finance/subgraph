@@ -18,7 +18,7 @@ export function handleNewGaugeSet(event: RegisteredEvent): void {
   let gaugeSet = getGaugeSet(event.params.rootGauge);
 
   // create child mappings -- receiver
-  const receiver = getReceiver(event.address);
+  const receiver = getReceiver(event.params.receiver);
   receiver.gaugeSet = gaugeSet.id;
   receiver.blockNum = event.block.number;
   receiver.save();
