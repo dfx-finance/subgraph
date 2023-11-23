@@ -45,7 +45,9 @@ templates:
         - name: ChildChainReceiver
           file: ./abis/ChildChainReceiver.json
         - name: ChildChainStreamer
-          file: ./abis/ChildChainStreamer.json                                 
+          file: ./abis/ChildChainStreamer.json
+        - name: ERC20
+          file: ./abis/ERC20.json                                            
       entities:
         - Reward
       eventHandlers:
