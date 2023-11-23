@@ -176,7 +176,7 @@ export function _updateRootGaugeWeights(gauge: RootGauge): void {
 // }
 
 // Bundles all update routines into one method
-function _mirrorLiquidityGaugeAttributes(gauge: LiquidityGaugeV4): void {
+export function _mirrorLiquidityGaugeAttributes(gauge: LiquidityGaugeV4): void {
   _updateDfxBalance(gauge);
   _updateWorkingSupply(gauge);
   _updateRewardsAvailable(gauge);

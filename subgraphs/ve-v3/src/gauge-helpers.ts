@@ -1,8 +1,12 @@
 import { Address, BigInt } from "@graphprotocol/graph-ts";
 import { BigDecimal, Bytes } from "@graphprotocol/graph-ts";
-import { BALANCER_VAULT, DFX, USDC } from "../../../packages/constants/index";
-import { BalancerVault as BalancerVaultContract } from "../generated/templates/Gauge/BalancerVault";
-import { ERC20 as ERC20Contract } from "../generated/templates/Gauge/ERC20";
+import {
+  BALANCER_VAULT_V2,
+  DFX,
+  USDC,
+} from "../../../packages/constants/index";
+import { BalancerVault as BalancerVaultContract } from "../generated/templates/LiquidityGaugeV4/BalancerVault";
+import { ERC20 as ERC20Contract } from "../generated/templates/LiquidityGaugeV4/ERC20";
 import { ONE_BD, ZERO_BD, valueToBigDecimal } from "./helpers";
 import { GaugeReward } from "../generated/schema";
 
@@ -24,7 +28,7 @@ function calcSpotPrice(
 
 function getTokenBalances(poolId: Bytes, firstToken: Address): BigDecimal[] {
   const vaultContract = BalancerVaultContract.bind(
-    Address.fromString(BALANCER_VAULT)
+    Address.fromString(BALANCER_VAULT_V2)
   );
   const res = vaultContract.try_getPoolTokens(poolId);
   const tokens = res.value.getTokens();

@@ -57,7 +57,7 @@ dataSources:
     name: DfxDistributor
     network: mainnet
     source:
-      address: "0x539a33296459ed0deaff9febcfd37a05b73fa8cf"
+      address: "0xD3E7444d5DB4dDF0F9A1B52d62367C339B7bE8A9"
       abi: DfxDistributor
       startBlock: 18567765
     mapping:
@@ -71,6 +71,10 @@ dataSources:
           file: ./abis/DfxDistributor.json
         - name: GaugeController
           file: ./abis/GaugeController.json
+        - name: LiquidityGaugeV4
+          file: ./abis/LiquidityGaugeV4.json
+        - name: ERC20
+          file: ./abis/ERC20.json        
       eventHandlers:
         - event: GaugeToggled(indexed address,bool)
           handler: handleGaugeToggled
