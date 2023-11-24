@@ -1,22 +1,9 @@
-###
-### ChildChainFactory
-###
-#type ChildChainFactory @entity {
-# Contract address
-# id: ID!
-
-# numGauges: BigInt!
-# gaugeSets: [GaugeSet!]! @derivedFrom(field: "factory")
-
-# blockNum: BigInt!
-#}
-
 type GaugeSet @entity {
   id: ID!
 
   factory: String!
 
-  receiver: Receiver
+  receiver: Receiver!
   streamer: Streamer!
   gauge: Gauge!
 }

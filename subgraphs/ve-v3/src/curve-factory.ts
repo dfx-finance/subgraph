@@ -43,7 +43,6 @@ export function handleNewCurve(event: NewCurveEvent): void {
     pair.reserve0 = ZERO_BD;
     pair.reserve1 = ZERO_BD;
     pair.reserveUSD = ZERO_BD;
-    pair.swapRateUSD = ZERO_BD;
   }
   pair.save();
   CurveTemplate.create(event.params.curve);

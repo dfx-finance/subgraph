@@ -13,6 +13,7 @@ import {
 } from "../generated/schema";
 import { getActiveGauges } from "./gauge-controller";
 import { DFX_DECIMALS, ZERO_BD, ZERO_BI, valueToBigDecimal } from "./helpers";
+import { _updateRewardsAvailable } from "./liquidity-gauge";
 
 /* -- Helpers -- */
 export function getDfxDistributor(distributorAddr: Address): DfxDistributor {
@@ -21,6 +22,7 @@ export function getDfxDistributor(distributorAddr: Address): DfxDistributor {
     dfxDistributor = new DfxDistributor(distributorAddr.toHexString());
     dfxDistributor.epoch = 0;
     dfxDistributor.rate = ZERO_BI;
+    dfxDistributor.nextRate = ZERO_BI;
     dfxDistributor.startEpochSupply = ZERO_BD;
     dfxDistributor.startEpochTime = 0;
   }
@@ -33,6 +35,9 @@ function _updateDfxDistributorAttributes(distributorAddr: Address): void {
 
   dfxDistributor.epoch = dfxDistributorContract.miningEpoch().toI32();
   dfxDistributor.rate = dfxDistributorContract.rate();
+  dfxDistributor.nextRate = dfxDistributor.rate.minus(
+    dfxDistributorContract.RATE_REDUCTION_COEFFICIENT()
+  );
   dfxDistributor.startEpochSupply = valueToBigDecimal(
     dfxDistributorContract.startEpochSupply(),
     DFX_DECIMALS
@@ -78,6 +83,7 @@ export function handleRewardDistributed(event: RewardDistributedEvent): void {
     if (mainnetGauge) {
       mainnetGauge.startProportionalWeight = mainnetGauge.proportionalWeight;
       mainnetGauge.weightDelta = ZERO_BD;
+      _updateRewardsAvailable(mainnetGauge);
       mainnetGauge.save();
     }
     const l2Gauge = RootGauge.load(gaugeAddrs[i].toHexString());

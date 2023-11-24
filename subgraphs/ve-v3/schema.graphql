@@ -30,9 +30,6 @@ type Pair @entity {
   reserve0: BigDecimal!
   reserve1: BigDecimal!
   reserveUSD: BigDecimal!
-
-  # calculated from trades
-  swapRateUSD: BigDecimal!
 }
 
 ##
@@ -45,6 +42,7 @@ type veDFX @entity {
   symbol: String!
 
   supply: BigDecimal!
+  totalSupply: BigDecimal!
   dfxBalance: BigDecimal!
   blockNum: BigInt!
 }
@@ -71,6 +69,7 @@ type DfxDistributor @entity {
   id: ID!
   epoch: Int!
   rate: BigInt!
+  nextRate: BigInt!
   startEpochSupply: BigDecimal!
   startEpochTime: Int!
 }
@@ -110,11 +109,16 @@ type LiquidityGaugeV4 @entity {
 type GaugeReward @entity {
   # gauge contract address + "-" + reward index
   id: ID!
+
   gauge: LiquidityGaugeV4!
   token: Token!
 
   # mirrored from smart contract
   amount: BigDecimal!
+
+  # amounts for boost APR calcs
+  minAnnualRewards: BigDecimal!
+  maxAnnualRewards: BigDecimal!
 }
 
 ##
@@ -134,8 +138,8 @@ type RootGauge @entity {
   startProportionalWeight: BigDecimal!
 
   # mirrored from CCIPSender
-  destination: String
-  network: Int
+  destination: String!
+  network: Int!
 
   # calculated
   active: Boolean!

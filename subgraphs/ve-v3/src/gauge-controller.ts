@@ -80,47 +80,6 @@ export function _updateGaugeControllerAttributes(blockNum: BigInt): void {
   gaugeController.save();
 }
 
-// function writeGaugesHourData(
-//   gaugeController: GaugeController,
-//   event: VoteForGaugeEvent
-// ): void {
-//   const timestamp = event.block.timestamp.toI32();
-//   const hourIndex = timestamp / 3600;
-//   const hourStartUnix = hourIndex * 3600;
-//   const hourGaugeWeightID = event.address
-//     .toHexString()
-//     .concat("-")
-//     .concat(BigInt.fromI32(hourIndex).toString());
-
-//   // load or create Gauge
-//   const gauge = getGauge(event.params.gauge_addr);
-//   const gaugeAddr = Address.fromBytes(gauge.address);
-
-//   // create default record
-//   let gaugeHourData = GaugeHourData.load(hourGaugeWeightID);
-//   if (gaugeHourData === null) {
-//     gaugeHourData = new GaugeHourData(hourGaugeWeightID);
-//     gaugeHourData.hourStartUnix = hourStartUnix;
-//     gaugeHourData.gauge = gauge.id;
-//     gaugeHourData.lptAmount = ZERO_BI;
-//     gaugeHourData.weight = ZERO_BI;
-//     gaugeHourData.relativeWeight = ZERO_BI;
-//     gaugeHourData.totalWeight = ZERO_BI;
-//   }
-
-//   // update every vote
-//   const weight = gaugeController.get_gauge_weight(gaugeAddr);
-//   const relativeWeight = gaugeController.gauge_relative_weight(gaugeAddr);
-//   gaugeHourData.weight = gaugeHourData.weight; // TODO: plus(weight) here?
-//   gaugeHourData.relativeWeight = relativeWeight;
-
-//   // always keep latest data
-//   gaugeHourData.lptAmount = gauge.lptAmount;
-//   gaugeHourData.totalWeight = gauge.totalWeight;
-
-//   gaugeHourData.save();
-// }
-
 function addLiquidityGaugeV4(
   event: NewGaugeEvent,
   gaugeControllerAddr: string
@@ -174,6 +133,8 @@ function addLiquidityGaugeV4(
     gaugeReward.gauge = gauge.id;
     gaugeReward.token = token.id;
     gaugeReward.amount = ZERO_BD;
+    gaugeReward.minAnnualRewards = ZERO_BD;
+    gaugeReward.maxAnnualRewards = ZERO_BD;
     gaugeReward.save();
   }
 }
@@ -204,6 +165,9 @@ function addRootGauge(event: NewGaugeEvent): void {
   // amounts calculated from previous values
   gauge.startProportionalWeight = ZERO_BD;
   gauge.weightDelta = ZERO_BD;
+
+  gauge.destination = Address.fromI32(0).toHexString();
+  gauge.network = 0;
 
   gauge.blockNum = event.block.number;
   gauge.save();

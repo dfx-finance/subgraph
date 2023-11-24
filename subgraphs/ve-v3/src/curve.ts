@@ -5,7 +5,7 @@ import {
 } from "../generated/templates/Curve/CurveV3";
 import { CurveV3 } from "../generated/CurveFactoryV3/CurveV3";
 import { ERC20 } from "../generated/templates/Curve/ERC20";
-import { USDC } from "../../../packages/constants";
+import { Oracle } from "../generated/templates/Curve/Oracle";
 
 import { ZERO_BD, valueToBigDecimal } from "./helpers";
 import { getPair, getToken } from "./curve-helpers";
@@ -53,21 +53,6 @@ export function handleTrade(event: TradeEvent): void {
   if (!reserveResult.reverted) {
     let reserveUSD = valueToBigDecimal(reserveResult.value.value0, 18);
     pair.reserveUSD = reserveUSD;
-  }
-
-  // update token0's priceUSD and pair's swapRateUSD
-  if (token0.id == USDC) {
-    if (amount1.gt(ZERO_BD)) {
-      let exchangeRateUSD = amount0.div(amount1);
-      pair.swapRateUSD = exchangeRateUSD;
-      token1.priceUSD = exchangeRateUSD;
-    }
-  } else if (token1.id == USDC) {
-    if (amount0.gt(ZERO_BD)) {
-      let exchangeRateUSD = amount1.div(amount0);
-      pair.swapRateUSD = exchangeRateUSD;
-      token0.priceUSD = exchangeRateUSD;
-    }
   }
 
   pair.save();

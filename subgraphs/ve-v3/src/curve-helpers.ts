@@ -1,7 +1,7 @@
-import { Address } from "@graphprotocol/graph-ts";
+import { Address, BigDecimal, BigInt } from "@graphprotocol/graph-ts";
 import { Pair, Token } from "../generated/schema";
 import { fetchCurveInfo } from "./curve-factory";
-import { ZERO_BD } from "./helpers";
+import { ZERO_BD, valueToBigDecimal } from "./helpers";
 import {
   fetchTokenDecimals,
   fetchTokenName,
@@ -28,8 +28,6 @@ export function getPair(pairAddr: string): Pair {
     pair.reserve0 = ZERO_BD;
     pair.reserve1 = ZERO_BD;
     pair.reserveUSD = ZERO_BD;
-
-    pair.swapRateUSD = ZERO_BD;
   }
   return pair;
 }

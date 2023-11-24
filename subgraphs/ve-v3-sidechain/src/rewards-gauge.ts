@@ -10,15 +10,12 @@ import {
   getGauge,
   _updateTotalSupply,
   _updateRewardsAvailable,
-  // _updateMinMaxApr,
 } from "./gauge-helpers";
 
 // Bundles all update routines into one method
 function _mirrorAttributes(gauge: Gauge): void {
-  // _updateWorkingSupply(gauge);
   _updateRewardsAvailable(gauge);
   _updateTotalSupply(gauge);
-  // _updateMinMaxApr(gauge);
 }
 
 export function handleDeposit(event: DepositEvent): void {

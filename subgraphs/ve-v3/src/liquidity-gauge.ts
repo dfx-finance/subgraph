@@ -27,6 +27,8 @@ export function getGaugeReward(
     gaugeReward.gauge = gauge.id;
     gaugeReward.token = rewardAddr.toHexString();
     gaugeReward.amount = ZERO_BD;
+    gaugeReward.minAnnualRewards = ZERO_BD;
+    gaugeReward.maxAnnualRewards = ZERO_BD;
   }
   return gaugeReward;
 }
@@ -64,7 +66,7 @@ function _updateTotalSupply(gauge: LiquidityGaugeV4): void {
   gauge.totalSupply = valueToBigDecimal(totalSupply, dfxDecimals);
 }
 
-function _updateRewardsAvailable(gauge: LiquidityGaugeV4): void {
+export function _updateRewardsAvailable(gauge: LiquidityGaugeV4): void {
   const gaugeAddr = Address.fromString(gauge.id);
 
   // iterate and update each gauge reward

@@ -30,6 +30,10 @@ export function handleSupply(event: SupplyEvent): void {
   const token = _getVeDfxToken();
 
   token.supply = valueToBigDecimal(veDFXContract.supply(), token.decimals);
+  token.totalSupply = valueToBigDecimal(
+    veDFXContract.totalSupply(),
+    token.decimals
+  );
   token.dfxBalance = valueToBigDecimal(
     DFXContract.balanceOf(Address.fromString(VEDFX_ADDRESS)),
     18
