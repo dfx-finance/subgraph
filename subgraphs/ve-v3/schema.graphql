@@ -68,8 +68,8 @@ type DfxDistributor @entity {
   # dfx distributor address
   id: ID!
   epoch: Int!
-  rate: BigInt!
-  nextRate: BigInt!
+  rate: BigDecimal!
+  nextRate: BigDecimal!
   startEpochSupply: BigDecimal!
   startEpochTime: Int!
 }

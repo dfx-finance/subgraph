@@ -26,7 +26,7 @@ import { DFX_GAUGE_CONTROLLER_V3 } from "../../../packages/constants";
 import {
   _updateLiquidityGaugeWeights,
   _updateRootGaugeWeights,
-} from "./liquidity-gauge";
+} from "./gauge-helpers";
 
 // /* -- Helpers -- */
 export function getGaugeController(): GaugeController {

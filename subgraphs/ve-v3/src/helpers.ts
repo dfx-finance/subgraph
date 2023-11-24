@@ -10,6 +10,8 @@ export const ONE_BD = BigDecimal.fromString("1");
 export const WEEK_BI = BigInt.fromI32(60 * 60 * 24 * 7); // in sec
 
 export const DFX_DECIMALS = 18;
+export const TOKENLESS_PRODUCTION = 40;
+export const EPOCHS_PER_YEAR = 52;
 
 class ConfigAddresses {
   DFX_DISTRIBUTOR: Address;

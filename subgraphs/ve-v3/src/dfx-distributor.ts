@@ -12,8 +12,14 @@ import {
   RootGauge,
 } from "../generated/schema";
 import { getActiveGauges } from "./gauge-controller";
-import { DFX_DECIMALS, ZERO_BD, ZERO_BI, valueToBigDecimal } from "./helpers";
-import { _updateRewardsAvailable } from "./liquidity-gauge";
+import {
+  DFX_DECIMALS,
+  ONE_BI,
+  ZERO_BD,
+  ZERO_BI,
+  valueToBigDecimal,
+} from "./helpers";
+import { _updateRewardsAvailable } from "./gauge-helpers";
 
 /* -- Helpers -- */
 export function getDfxDistributor(distributorAddr: Address): DfxDistributor {
@@ -21,8 +27,8 @@ export function getDfxDistributor(distributorAddr: Address): DfxDistributor {
   if (dfxDistributor === null) {
     dfxDistributor = new DfxDistributor(distributorAddr.toHexString());
     dfxDistributor.epoch = 0;
-    dfxDistributor.rate = ZERO_BI;
-    dfxDistributor.nextRate = ZERO_BI;
+    dfxDistributor.rate = ZERO_BD;
+    dfxDistributor.nextRate = ZERO_BD;
     dfxDistributor.startEpochSupply = ZERO_BD;
     dfxDistributor.startEpochTime = 0;
   }
@@ -34,9 +40,9 @@ function _updateDfxDistributorAttributes(distributorAddr: Address): void {
   const dfxDistributor = getDfxDistributor(distributorAddr);
 
   dfxDistributor.epoch = dfxDistributorContract.miningEpoch().toI32();
-  dfxDistributor.rate = dfxDistributorContract.rate();
-  dfxDistributor.nextRate = dfxDistributor.rate.minus(
-    dfxDistributorContract.RATE_REDUCTION_COEFFICIENT()
+  dfxDistributor.rate = valueToBigDecimal(dfxDistributorContract.rate(), 18);
+  dfxDistributor.nextRate = dfxDistributor.rate.div(
+    valueToBigDecimal(dfxDistributorContract.RATE_REDUCTION_COEFFICIENT(), 18)
   );
   dfxDistributor.startEpochSupply = valueToBigDecimal(
     dfxDistributorContract.startEpochSupply(),
