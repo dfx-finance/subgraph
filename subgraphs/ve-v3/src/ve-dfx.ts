@@ -1,20 +1,21 @@
 import { Address } from "@graphprotocol/graph-ts";
+import { DFX, VEDFX_ADDRESS } from "../../../packages/constants";
 import { veDFX as veDFXEntity } from "../generated/schema";
+import { ERC20 as ERC20Contract } from "../generated/veDFX/ERC20";
 import {
   veDFX as VeDFXContract,
   Supply as SupplyEvent,
 } from "../generated/veDFX/veDFX";
-import { ERC20 as ERC20Contract } from "../generated/veDFX/ERC20";
-import { DFX, VEDFX_ADDRESS } from "../../../packages/constants";
 import { valueToBigDecimal } from "./helpers";
 
 // Create or return veDFX entity to update
 function _getVeDfxToken(): veDFXEntity {
-  let token = veDFXEntity.load(VEDFX_ADDRESS);
+  const veDfxAddr = Address.fromString(VEDFX_ADDRESS);
+  let token = veDFXEntity.load(veDfxAddr.toHexString());
   if (token === null) {
-    const veDFXContract = VeDFXContract.bind(Address.fromString(VEDFX_ADDRESS));
+    const veDFXContract = VeDFXContract.bind(veDfxAddr);
 
-    token = new veDFXEntity(VEDFX_ADDRESS);
+    token = new veDFXEntity(veDfxAddr.toHexString());
     token.decimals = veDFXContract.decimals().toI32();
     token.symbol = veDFXContract.symbol();
   }

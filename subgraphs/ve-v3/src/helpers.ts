@@ -1,6 +1,5 @@
 import { Address, BigDecimal, BigInt } from "@graphprotocol/graph-ts";
 import { DFX_DISTRIBUTOR_PROXY_V3 } from "../../../packages/constants/index";
-// import { Curve } from "../generated/templates/Curve/Curve";
 
 export const ZERO_BI = BigInt.fromI32(0);
 export const ONE_BI = BigInt.fromI32(1);
