@@ -28,7 +28,7 @@ import {
   _updateRootGaugeWeights,
 } from "./gauge-helpers";
 
-// /* -- Helpers -- */
+/* -- Helpers -- */
 export function getGaugeController(): GaugeController {
   let gaugeController = GaugeController.load(DFX_GAUGE_CONTROLLER_V3);
   if (gaugeController === null) {

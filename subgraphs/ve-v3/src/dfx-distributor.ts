@@ -13,13 +13,10 @@ import {
 } from "../generated/schema";
 import { getActiveGauges } from "./gauge-controller";
 import {
-  DFX_DECIMALS,
-  ONE_BI,
-  ZERO_BD,
-  ZERO_BI,
-  valueToBigDecimal,
-} from "./helpers";
-import { _updateRewardsAvailable } from "./gauge-helpers";
+  _updateLiquidityGaugeWeights,
+  _updateRewardsAvailable,
+} from "./gauge-helpers";
+import { DFX_DECIMALS, ZERO_BD, valueToBigDecimal } from "./helpers";
 
 /* -- Helpers -- */
 export function getDfxDistributor(distributorAddr: Address): DfxDistributor {
@@ -83,7 +80,6 @@ export function handleRewardDistributed(event: RewardDistributedEvent): void {
   const gaugeAddrs = getActiveGauges(
     Address.fromString(DFX_GAUGE_CONTROLLER_V3)
   );
-
   for (let i = 0; i < gaugeAddrs.length; i++) {
     const mainnetGauge = LiquidityGaugeV4.load(gaugeAddrs[i].toHexString());
     if (mainnetGauge) {
