@@ -1,12 +1,9 @@
-import { Address } from "@graphprotocol/graph-ts";
-import { LiquidityGaugeV4, GaugeReward, RootGauge } from "../generated/schema";
+import { LiquidityGaugeV4 } from "../generated/schema";
 import {
   Deposit as DepositEvent,
   Withdraw as WithdrawEvent,
   Claim_rewardsCall as ClaimRewardsCall,
 } from "../generated/templates/LiquidityGaugeV4/LiquidityGaugeV4";
-import { GaugeController as GaugeControllerContract } from "../generated/templates/LiquidityGaugeV4/GaugeController";
-import { DFX_DECIMALS, valueToBigDecimal, ZERO_BD } from "./helpers";
 import { _updateGaugeControllerAttributes } from "./gauge-controller";
 import {
   _updateDfxBalance,
@@ -15,6 +12,7 @@ import {
   _updateTotalSupply,
   _updateWorkingSupply,
 } from "./gauge-helpers";
+import { valueToBigDecimal } from "./helpers";
 
 // Bundles all update routines into one method
 export function _mirrorLiquidityGaugeAttributes(gauge: LiquidityGaugeV4): void {
