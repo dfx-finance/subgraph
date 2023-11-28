@@ -48,8 +48,12 @@ export function getActiveGauges(gaugeControllerAddr: Address): Address[] {
   let activeAddrs: Address[] = [];
   for (let i = BigInt.fromI32(0); i.lt(numGauges); i = i.plus(ONE_BI)) {
     const gaugeAddr = gaugeControllerContract.gauges(i);
-    const gauge = LiquidityGaugeV4.load(gaugeAddr.toHexString());
-    if (gauge && gauge.active === true) {
+    const mainnetGauge = LiquidityGaugeV4.load(gaugeAddr.toHexString());
+    if (mainnetGauge && mainnetGauge.active === true) {
+      activeAddrs.push(gaugeAddr);
+    }
+    const rootGauge = RootGauge.load(gaugeAddr.toHexString());
+    if (rootGauge && rootGauge.active === true) {
       activeAddrs.push(gaugeAddr);
     }
   }
@@ -80,12 +84,8 @@ export function _updateGaugeControllerAttributes(blockNum: BigInt): void {
   gaugeController.save();
 }
 
-function addLiquidityGaugeV4(
-  event: NewGaugeEvent,
-  gaugeControllerAddr: string
-): void {
+function _addLiquidityGaugeV4(event: NewGaugeEvent): void {
   // create Gauge
-  const gaugeControllerContract = GaugeControllerContract.bind(event.address);
   const gaugeController = getGaugeController();
   const gaugeAddr = event.params.addr;
   const gaugeContract = LiquidityGaugeV4Contract.bind(gaugeAddr);
@@ -95,14 +95,8 @@ function addLiquidityGaugeV4(
   gauge.gaugeController = gaugeController.id;
   gauge.active = true;
 
-  // mirror from GaugeController contract
-  gauge.weight = valueToBigDecimal(
-    gaugeControllerContract.get_gauge_weight(gaugeAddr),
-    DFX_DECIMALS
-  );
-  gauge.proportionalWeight = gaugeController.totalWeight.gt(ZERO_BD)
-    ? gauge.weight.div(gaugeController.totalWeight)
-    : ZERO_BD;
+  gauge.weight = ZERO_BD;
+  gauge.proportionalWeight = ZERO_BD;
 
   // mirror from GaugeContract
   gauge.decimals = gaugeContract.decimals().toI32();
@@ -139,7 +133,7 @@ function addLiquidityGaugeV4(
   }
 }
 
-function addRootGauge(event: NewGaugeEvent): void {
+function _addRootGauge(event: NewGaugeEvent): void {
   const gaugeControllerContract = GaugeControllerContract.bind(event.address);
   const gaugeController = getGaugeController();
   const gaugeAddr = event.params.addr;
@@ -173,29 +167,8 @@ function addRootGauge(event: NewGaugeEvent): void {
   gauge.save();
 }
 
-/* -- Main -- */
-/* Event Handlers */
-// Handle creating entity with default empty state when new gauges are deployed
-export function handleNewGauge(event: NewGaugeEvent): void {
-  _updateGaugeControllerAttributes(event.block.number);
-
-  // create mainnet gauge
-  if (event.params.gauge_type == ZERO_BI) {
-    addLiquidityGaugeV4(event, event.address.toHexString());
-    // start indexing the gauge
-    LiquidityGaugeV4Template.create(event.params.addr);
-  }
-  // create sidechain gauge
-  else if (event.params.gauge_type == TWO_BI) {
-    addRootGauge(event);
-  }
-}
-
-// On every vote, update all gauges weights, relative weights, time weights, and time totals
-export function handleVoteForGauge(event: VoteForGaugeEvent): void {
-  _updateGaugeControllerAttributes(event.block.number);
-
-  const gaugeAddrs = getActiveGauges(event.address);
+function _updateAllGaugeWeights(gaugeControllerAddr: Address): void {
+  const gaugeAddrs = getActiveGauges(gaugeControllerAddr);
   for (let i = 0; i < gaugeAddrs.length; i++) {
     const mainnetGauge = LiquidityGaugeV4.load(gaugeAddrs[i].toHexString());
     if (mainnetGauge) {
@@ -208,4 +181,31 @@ export function handleVoteForGauge(event: VoteForGaugeEvent): void {
       l2Gauge.save();
     }
   }
+}
+
+/* -- Main -- */
+/* Event Handlers */
+// Handle creating entity with default empty state when new gauges are deployed
+export function handleNewGauge(event: NewGaugeEvent): void {
+  _updateGaugeControllerAttributes(event.block.number);
+
+  // create mainnet gauge and start indexing
+  if (event.params.gauge_type == ZERO_BI) {
+    _addLiquidityGaugeV4(event);
+    LiquidityGaugeV4Template.create(event.params.addr); //
+  }
+  // create sidechain gauge
+  // no need to index, tracked by sidechain subgraph
+  else if (event.params.gauge_type == TWO_BI) {
+    _addRootGauge(event);
+  }
+
+  // Update all weights on gauges to consider newly added gauge
+  _updateAllGaugeWeights(event.address);
+}
+
+// On every vote, update all gauges weights, relative weights, time weights, and time totals
+export function handleVoteForGauge(event: VoteForGaugeEvent): void {
+  _updateGaugeControllerAttributes(event.block.number);
+  _updateAllGaugeWeights(event.address);
 }

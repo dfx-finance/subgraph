@@ -39,13 +39,3 @@ export function valueToBigDecimal(value: BigInt, decimals: i32): BigDecimal {
   const _decimals = BigInt.fromI32(decimals);
   return value.toBigDecimal().div(exponentToBigDecimal(_decimals));
 }
-
-// export function fetchPairLiquidity(curveAddress: Address): BigDecimal {
-//   let curveContract = Curve.bind(curveAddress);
-//   let reserveResult = curveContract.try_liquidity();
-//   let reserveTotal = ZERO_BD;
-//   if (!reserveResult.reverted) {
-//     reserveTotal = valueToBigDecimal(reserveResult.value.value0, 18);
-//   }
-//   return reserveTotal;
-// }
