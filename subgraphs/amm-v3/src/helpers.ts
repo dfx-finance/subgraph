@@ -299,9 +299,15 @@ export function getTransferType(
 ): string {
   if (toAddress == BLACKHOLE_ADDRESS) {
     return "withdraw";
-  } else if (fromAddress == BLACKHOLE_ADDRESS && toAddress != ZAP_ADDRESS_V3) {
+  } else if (
+    fromAddress == BLACKHOLE_ADDRESS &&
+    toAddress.toLowerCase() != ZAP_ADDRESS_V3.toLowerCase()
+  ) {
     return "two-sided-deposit";
-  } else if (fromAddress == BLACKHOLE_ADDRESS && toAddress == ZAP_ADDRESS_V3) {
+  } else if (
+    fromAddress == BLACKHOLE_ADDRESS &&
+    toAddress.toLowerCase() == ZAP_ADDRESS_V3.toLowerCase()
+  ) {
     return "single-sided-deposit";
   }
   // else if (isGaugeContract(toAddress)){
@@ -309,7 +315,7 @@ export function getTransferType(
   // } else if (isGaugeContract(fromAddress)){
   //     return "unstake-from-gauge"
   // }
-  else if (fromAddress == ZAP_ADDRESS_V3) {
+  else if (fromAddress.toLowerCase() == ZAP_ADDRESS_V3.toLowerCase()) {
     return "zap-lp-transfer";
   } else {
     return "lp-transfer";
