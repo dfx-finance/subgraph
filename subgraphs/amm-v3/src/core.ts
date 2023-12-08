@@ -115,6 +115,7 @@ export function handleTrade(event: TradeEvent): void {
   let amount0USD = amount0.times(token0.priceUSD);
   if (amount0USD.gt(ZERO_BD)) {
     let swapRateFrom0To1 = amount1USD.div(amount0USD);
+    pair.swapRateFrom0To1 = amount1.div(amount0);
     pair.swapRateFrom0To1USD = swapRateFrom0To1;
   } else {
     pair.swapRateFrom0To1 = ZERO_BD;
@@ -122,6 +123,7 @@ export function handleTrade(event: TradeEvent): void {
   }
   if (amount1.gt(ZERO_BD)) {
     let swapRateFrom1To0 = amount0USD.div(amount1USD);
+    pair.swapRateFrom1To0 = amount0.div(amount1);
     pair.swapRateFrom1To0USD = swapRateFrom1To0;
   } else {
     pair.swapRateFrom1To0 = ZERO_BD;
