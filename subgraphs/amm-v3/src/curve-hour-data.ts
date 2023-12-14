@@ -37,6 +37,8 @@ export function updatePairHourData(event: ethereum.Event): PairHourData {
     pairHourData.maxRateFrom0To1 = ZERO_BD;
     pairHourData.minRateFrom1To0 = ZERO_BD;
     pairHourData.maxRateFrom1To0 = ZERO_BD;
+    pairHourData.hourVolumeToken0 = ZERO_BD;
+    pairHourData.hourVolumeToken1 = ZERO_BD;
     // pairHourData.participantCount = ZERO_BI
   }
   if (pair !== null) {

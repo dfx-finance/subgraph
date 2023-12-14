@@ -133,6 +133,9 @@ type PairHourData @entity {
   minRateFrom1To0: BigDecimal!
   maxRateFrom1To0: BigDecimal!
 
+  hourVolumeToken0: BigDecimal!
+  hourVolumeToken1: BigDecimal!
+
   volumeToken0: BigDecimal!
   volumeToken1: BigDecimal!
   volumeToken0USD: BigDecimal!
