@@ -53,32 +53,32 @@ export function updatePairHourData(event: ethereum.Event): PairHourData {
     pairHourData.swapRateFrom0To1USD = pair.swapRateFrom0To1USD;
     pairHourData.swapRateFrom1To0USD = pair.swapRateFrom1To0USD;
 
-    if (!pair.swapRateFrom0To1.eq(ZERO_BD)) {
+    if (pair.swapRateFrom0To1.notEqual(ZERO_BD)) {
       if (
-        pairHourData.minRateFrom0To1.eq(ZERO_BD) ||
+        pairHourData.minRateFrom0To1.equals(ZERO_BD) ||
         pairHourData.minRateFrom0To1.gt(pair.swapRateFrom0To1)
       ) {
         pairHourData.minRateFrom0To1 = pair.swapRateFrom0To1;
       }
 
       if (
-        pairHourData.maxRateFrom0To1.eq(ZERO_BD) ||
+        pairHourData.maxRateFrom0To1.equals(ZERO_BD) ||
         pairHourData.maxRateFrom0To1.lt(pair.swapRateFrom0To1)
       ) {
         pairHourData.maxRateFrom0To1 = pair.swapRateFrom0To1;
       }
     }
 
-    if (!pair.swapRateFrom1To0.eq(ZERO_BD)) {
+    if (pair.swapRateFrom1To0.notEqual(ZERO_BD)) {
       if (
-        pairHourData.minRateFrom1To0.eq(ZERO_BD) ||
+        pairHourData.minRateFrom1To0.equals(ZERO_BD) ||
         pairHourData.minRateFrom1To0.gt(pair.swapRateFrom1To0)
       ) {
         pairHourData.minRateFrom1To0 = pair.swapRateFrom1To0;
       }
 
       if (
-        pairHourData.maxRateFrom1To0.eq(ZERO_BD) ||
+        pairHourData.maxRateFrom1To0.equals(ZERO_BD) ||
         pairHourData.maxRateFrom1To0.lt(pair.swapRateFrom1To0)
       ) {
         pairHourData.maxRateFrom1To0 = pair.swapRateFrom1To0;
