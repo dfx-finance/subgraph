@@ -152,6 +152,8 @@ export function handleTrade(event: TradeEvent): void {
   pairHourData.volumeToken0 = pairHourData.volumeToken0.plus(amount0);
   pairHourData.volumeToken1 = pairHourData.volumeToken1.plus(amount1);
   pairHourData.volumeUSD = pairHourData.volumeUSD.plus(amount1USD);
+  pairHourData.hourVolumeToken0 = pairHourData.hourVolumeToken0.plus(amount0);
+  pairHourData.hourVolumeToken1 = pairHourData.hourVolumeToken0.plus(amount1);
 
   pairHourData.save();
 
