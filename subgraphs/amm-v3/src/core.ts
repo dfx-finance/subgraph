@@ -1,4 +1,4 @@
-import { Address } from "@graphprotocol/graph-ts";
+import { Address, BigDecimal } from "@graphprotocol/graph-ts";
 
 import {
   ZERO_BD,
@@ -152,6 +152,7 @@ export function handleTrade(event: TradeEvent): void {
   pairHourData.volumeToken0 = pairHourData.volumeToken0.plus(amount0);
   pairHourData.volumeToken1 = pairHourData.volumeToken1.plus(amount1);
   pairHourData.volumeUSD = pairHourData.volumeUSD.plus(amount1USD);
+
   pairHourData.save();
 
   // update daily pair data
