@@ -131,6 +131,7 @@ export function handleTrade(event: TradeEvent): void {
   }
   let feeUSD = calculateProtocolFee(amount1USD, event.address);
 
+  pair.save();
   // update day entities
   let pairHourData = updatePairHourData(event);
   let pairDayData = updatePairDayData(event);
