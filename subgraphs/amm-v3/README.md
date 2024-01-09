@@ -51,5 +51,5 @@ $ goldsky subgraph deploy amm-v3/<version> --path .
 Tag version as "latest" on subgraph:
 
 ```bash
-$ goldsky subgraph create tag amm-v3/<version> --tag latest
+$ goldsky subgraph tag create amm-v3/<version> --tag latest
 ```
