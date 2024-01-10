@@ -93,7 +93,8 @@ export function handleTrade(event: TradeEvent): void {
   pair.reserve1USD = reserve1USD;
   /** */
   pair.reserveNative = fetchLiquidity(event.address);
-  pair.reserveUSD = reserve0USD.plus(reserve1USD);
+  let prevReserveUSD = pair.reserveUSD;
+  pair.reserveUSD = pair.reserveNative;
 
   let poolParticipant = PoolParticipant.load(
     event.address.toHexString() + "-" + event.transaction.from.toHexString()
@@ -141,6 +142,9 @@ export function handleTrade(event: TradeEvent): void {
   let dfx = DFXFactoryV3.load(CURVE_FACTORY_ADDRESS_V3)!;
 
   dfx.totalVolumeUSD = dfx.totalVolumeUSD.plus(amount1USD);
+  dfx.totalLiquidityUSD = dfx.totalLiquidityUSD
+    .minus(prevReserveUSD)
+    .plus(pair.reserveUSD);
   dfx.totalFeeUSD = dfx.totalFeeUSD.plus(feeUSD);
   dfx.save();
 
