@@ -300,9 +300,13 @@ export function handleTransfer(event: TransferEvent): void {
     );
   }
 
+  // TODO: Verify this
   let dfx = DFXFactoryV3.load(CURVE_FACTORY_ADDRESS_V3)!;
+  let prevReserveUSD = pair.reserveUSD;
   pair.reserveUSD = fetchLiquidity(event.address);
-  dfx.totalLiquidityUSD = pair.reserveUSD;
+  dfx.totalLiquidityUSD = dfx.totalLiquidityUSD
+    .minus(prevReserveUSD)
+    .plus(pair.reserveUSD);
   pair.save();
   dfx.save();
 
