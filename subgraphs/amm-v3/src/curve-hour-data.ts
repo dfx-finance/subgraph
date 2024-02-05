@@ -46,11 +46,11 @@ export function updatePairHourData(event: ethereum.Event): PairHourData {
     pairHourData.reserve1 = pair.reserve1;
     pairHourData.reserve0USD = pair.reserve0USD;
     pairHourData.reserve1USD = pair.reserve1USD;
-    pairHourData.volumeToken0 = pair.volumeToken0;
-    pairHourData.volumeToken0USD = pair.volumeToken0USD;
-    pairHourData.volumeToken1 = pair.volumeToken1;
-    pairHourData.volumeToken1USD = pair.volumeToken1USD;
-    pairHourData.volumeUSD = pair.volumeToken0USD.plus(pair.volumeToken1USD);
+    // pairHourData.volumeToken0 = pair.volumeToken0;
+    // pairHourData.volumeToken0USD = pair.volumeToken0USD;
+    // pairHourData.volumeToken1 = pair.volumeToken1;
+    // pairHourData.volumeToken1USD = pair.volumeToken1USD;
+    // pairHourData.volumeUSD = pair.volumeToken0USD.plus(pair.volumeToken1USD);
 
     pairHourData.swapRateFrom0To1USD = pair.swapRateFrom0To1USD;
     pairHourData.swapRateFrom1To0USD = pair.swapRateFrom1To0USD;

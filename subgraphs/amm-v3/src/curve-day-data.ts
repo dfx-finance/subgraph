@@ -46,9 +46,9 @@ export function updatePairDayData(event: ethereum.Event): PairDayData {
 
     pairDayData.swapRateFrom0To1USD = pair.swapRateFrom0To1USD;
     pairDayData.swapRateFrom1To0USD = pair.swapRateFrom1To0USD;
-    pairDayData.volumeToken0 = pair.volumeToken0;
-    pairDayData.volumeToken1 = pair.volumeToken1;
-    pairDayData.volumeUSD = pair.volumeToken0USD.plus(pair.volumeToken1USD);
+    // pairDayData.volumeToken0 = pair.volumeToken0;
+    // pairDayData.volumeToken1 = pair.volumeToken1;
+    // pairDayData.volumeUSD = pair.volumeToken0USD.plus(pair.volumeToken1USD);
     // pairDayData.swapRateUSD = pair.swapRateUSD
     // pairDayData.participantCount = pair.participantCount
     // pairDayData.reserveUSD = pair.reserveUSD
