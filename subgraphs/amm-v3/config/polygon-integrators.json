@@ -1,0 +1,10 @@
+{
+  "assimFactoryAddr": "0x3A3F59467880bd9CABE680e46b23e456B8d903ff",
+  "configAddr": "0x9dDb041C7545d1F644aA57b5b828e8a6c879A11d",
+  "curveFactoryAddr": "0xE5ce84Bba5B27cCfb7D92CB3e1426d8A986854dd",
+  "multisig": "0x80D27bfb638F4Fea1e862f1bd07DEa577CB77D38",
+  "network": "matic",
+  "routerAddr": "0x5cF6d43e4cD920FC7754926a267d46e096baa168",
+  "startBlock": 49699447,
+  "zapAddr": "0x77527E4450236d2E429D667C23Cda4a88C304F21"
+}

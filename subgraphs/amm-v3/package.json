@@ -11,6 +11,9 @@
     "prepare:mainnet": "mustache config/mainnet.json subgraph.template.yaml > subgraph.yaml && mustache config/mainnet.json src/constants.template.ts > src/constants.ts",
     "prepare:polygon": "mustache config/polygon.json subgraph.template.yaml > subgraph.yaml && mustache config/polygon.json src/constants.template.ts > src/constants.ts",
     "prepare:arbi": "mustache config/arbitrum.json subgraph.template.yaml > subgraph.yaml && mustache config/arbitrum.json src/constants.template.ts > src/constants.ts",
+    "prepare:mainnet:int": "mustache config/mainnet-integrators.json subgraph.template.yaml > subgraph.yaml && mustache config/mainnet-integrators.json src/constants.template.ts > src/constants.ts",
+    "prepare:polygon:int": "mustache config/polygon-integrators.json subgraph.template.yaml > subgraph.yaml && mustache config/polygon-integrators.json src/constants.template.ts > src/constants.ts",
+    "prepare:arbi:int": "mustache config/arbitrum-integrators.json subgraph.template.yaml > subgraph.yaml && mustache config/arbitrum-integrators.json src/constants.template.ts > src/constants.ts",
     "deploy:mainnet": "yarn graph deploy --studio dfx-amm-v3",
     "deploy:polygon": "yarn graph deploy --studio dfx-amm-v3-polygon",
     "deploy:arbi": "yarn graph deploy --studio dfx-amm-v3-arbitrum"
