@@ -45,3 +45,11 @@ $ graph deploy --studio dfx-amm-v3
 ```bash
 $ goldsky subgraph deploy amm-v3/<version> --path .
 ```
+
+## Post Deploy
+
+Tag version as "latest" on subgraph:
+
+```bash
+$ goldsky subgraph tag create amm-v3/<version> --tag latest
+```

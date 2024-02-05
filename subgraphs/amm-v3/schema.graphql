@@ -128,6 +128,14 @@ type PairHourData @entity {
   swapRateFrom0To1USD: BigDecimal!
   swapRateFrom1To0USD: BigDecimal!
 
+  minRateFrom0To1: BigDecimal!
+  maxRateFrom0To1: BigDecimal!
+  minRateFrom1To0: BigDecimal!
+  maxRateFrom1To0: BigDecimal!
+
+  hourVolumeToken0: BigDecimal!
+  hourVolumeToken1: BigDecimal!
+
   volumeToken0: BigDecimal!
   volumeToken1: BigDecimal!
   volumeToken0USD: BigDecimal!
