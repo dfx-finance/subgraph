@@ -3,7 +3,6 @@ import { GaugeRewardReceived as GaugeRewardReceivedEvent } from "../generated/Ch
 import {
   _updateRewardsAvailable,
   getGauge,
-  getGaugeReward,
   getGaugeSet,
   getReceiver,
 } from "./gauge-helpers";

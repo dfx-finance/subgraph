@@ -187,3 +187,9 @@ export function _updateRewardsAvailable(gauge: Gauge): void {
     gaugeReward.save();
   }
 }
+
+// Bundles all update routines into one method
+export function mirrorGaugeAttributes(gauge: Gauge): void {
+  _updateRewardsAvailable(gauge);
+  _updateTotalSupply(gauge);
+}
