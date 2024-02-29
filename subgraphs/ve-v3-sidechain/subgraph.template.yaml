@@ -57,6 +57,8 @@ dataSources:
       eventHandlers:
         - event: RegisterGaugeSet(indexed address,address,address,address,uint256)
           handler: handleNewGaugeSet
+        - event: RecalculateSubgraph()
+          handler: handlePoke
       file: ./src/child-chain-registry.ts
 
 templates:

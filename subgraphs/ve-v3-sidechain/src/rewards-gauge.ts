@@ -13,7 +13,7 @@ export function handleDeposit(event: DepositEvent): void {
   const amount = valueToBigDecimal(event.params.value, 18);
   gauge.lptAmount = gauge.lptAmount.plus(amount);
   gauge.blockNum = event.block.number;
-  mirrorGaugeAttributes(gauge);
+  mirrorGaugeAttributes(gauge, event.block.timestamp);
   gauge.save();
 }
 
@@ -22,7 +22,7 @@ export function handleWithdraw(event: WithdrawEvent): void {
   const amount = valueToBigDecimal(event.params.value, 18);
   gauge.lptAmount = gauge.lptAmount.minus(amount);
   gauge.blockNum = event.block.number;
-  mirrorGaugeAttributes(gauge);
+  mirrorGaugeAttributes(gauge, event.block.timestamp);
   gauge.save();
 }
 
@@ -31,6 +31,6 @@ export function handleClaimRewards(call: ClaimRewardsCall): void {
   const gaugeAddr = call.to;
   const gauge = getGauge(gaugeAddr);
   gauge.blockNum = call.block.number;
-  mirrorGaugeAttributes(gauge);
+  mirrorGaugeAttributes(gauge, call.block.timestamp);
   gauge.save();
 }

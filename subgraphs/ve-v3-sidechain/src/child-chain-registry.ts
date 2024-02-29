@@ -66,7 +66,7 @@ export function handlePoke(event: RecalculateSubgraphEvent): void {
     const rootGaugeAddr = activeRootGauges[i];
     const gaugeSet = getGaugeSet(rootGaugeAddr);
     const gauge = getGauge(Address.fromString(gaugeSet.gauge));
-    mirrorGaugeAttributes(gauge);
+    mirrorGaugeAttributes(gauge, event.block.timestamp);
     gauge.save();
   }
 }

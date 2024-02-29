@@ -23,5 +23,5 @@ export function handleGaugeRewardReceived(
   receiver.blockNum = event.block.number;
 
   // Update available reward amount
-  _updateRewardsAvailable(gauge);
+  _updateRewardsAvailable(gauge, event.block.timestamp);
 }
