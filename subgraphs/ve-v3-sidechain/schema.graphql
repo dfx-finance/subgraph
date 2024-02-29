@@ -2,6 +2,7 @@ type GaugeSet @entity {
   id: ID!
 
   factory: String!
+  registry: String
 
   receiver: Receiver!
   streamer: Streamer!

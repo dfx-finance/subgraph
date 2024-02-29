@@ -1,5 +1,6 @@
 {
   "gaugeFactory": "0x1f663325Be403B49508EAad633389797bE91a3b1",
+  "gaugeRegistry": "0x51a58D483f42035DAFA7820c06654aCc430193Ca",
   "network": "arbitrum-one",
   "startBlock": 152677516
 }

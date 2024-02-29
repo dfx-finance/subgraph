@@ -155,7 +155,7 @@ export function _updateTotalSupply(gauge: Gauge): void {
   gauge.totalSupply = valueToBigDecimal(totalSupply, dfxDecimals);
 }
 
-export function _updateRewardsAvailable(gauge: Gauge): void {
+export function _updateRewardsAvailable(gauge: Gauge, timestamp: BigInt): void {
   // iterate and update each gauge reward
   const gaugeSet = getGaugeSet(Address.fromString(gauge.gaugeSet));
   const streamerContract = StreamerContract.bind(
@@ -169,12 +169,19 @@ export function _updateRewardsAvailable(gauge: Gauge): void {
     const rewardContract = ERC20Contract.bind(rewardsAddr);
     const rewardDecimals = rewardContract.decimals();
 
-    // get weekly rewards
-    const rewardsRate = streamerContract.reward_data(rewardsAddr).rate;
-    const weeklyRewards = valueToBigDecimal(
-      rewardsRate.times(BigInt.fromI32(604800)),
-      rewardDecimals
-    );
+    // get remaining weekly rewards
+    const rewardsInfo = streamerContract.reward_data(rewardsAddr);
+    const rewardsRate = rewardsInfo.rate;
+    const rewardsFinish = rewardsInfo.period_finish;
+
+    let weeklyRewards = ZERO_BD;
+    if (timestamp.lt(rewardsFinish)) {
+      const timeRemaining = rewardsFinish.minus(timestamp);
+      weeklyRewards = valueToBigDecimal(
+        rewardsRate.times(BigInt.fromI32(604800)),
+        rewardDecimals
+      );
+    }
 
     // update gauge rewards entity
     const gaugeReward = getGaugeReward(
@@ -186,4 +193,10 @@ export function _updateRewardsAvailable(gauge: Gauge): void {
     gaugeReward.amount = weeklyRewards;
     gaugeReward.save();
   }
+}
+
+// Bundles all update routines into one method
+export function mirrorGaugeAttributes(gauge: Gauge, timestamp: BigInt): void {
+  _updateRewardsAvailable(gauge, timestamp);
+  _updateTotalSupply(gauge);
 }

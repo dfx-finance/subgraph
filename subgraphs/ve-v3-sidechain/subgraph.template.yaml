@@ -25,11 +25,41 @@ dataSources:
         - name: RewardsOnlyGauge
           file: ./abis/RewardsOnlyGauge.json
         - name: ERC20
-          file: ./abis/ERC20.json          
+          file: ./abis/ERC20.json
       eventHandlers:
         - event: Registered(address,address,address,address)
           handler: handleNewGaugeSet
       file: ./src/child-chain-factory.ts
+  - kind: ethereum
+    name: GaugeRegistry
+    network: {{ network }}
+    source:
+      address: "{{ gaugeRegistry }}"
+      abi: ChildChainRegistry
+      startBlock: {{ startBlock }}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - GaugeSet
+      abis:
+        - name: ChildChainRegistry
+          file: ./abis/ChildChainRegistry.json
+        - name: ChildChainReceiver
+          file: ./abis/ChildChainReceiver.json
+        - name: ChildChainStreamer
+          file: ./abis/ChildChainStreamer.json                    
+        - name: RewardsOnlyGauge
+          file: ./abis/RewardsOnlyGauge.json
+        - name: ERC20
+          file: ./abis/ERC20.json          
+      eventHandlers:
+        - event: RegisterGaugeSet(indexed address,address,address,address,uint256)
+          handler: handleNewGaugeSet
+        - event: RecalculateSubgraph()
+          handler: handlePoke
+      file: ./src/child-chain-registry.ts
 
 templates:
   - name: Receiver

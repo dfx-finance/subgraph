@@ -1,5 +1,6 @@
 {
   "gaugeFactory": "0xf6910815e0E2AE393D2092E886D3E26Dca31D5e3",
+  "gaugeRegistry": "0x7c7598F85C2DF093ed5972bc83CC99703Ea317C3",
   "network": "matic",
   "startBlock": 50219541
 }

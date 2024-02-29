@@ -3,7 +3,6 @@ import { GaugeRewardReceived as GaugeRewardReceivedEvent } from "../generated/Ch
 import {
   _updateRewardsAvailable,
   getGauge,
-  getGaugeReward,
   getGaugeSet,
   getReceiver,
 } from "./gauge-helpers";
@@ -24,5 +23,5 @@ export function handleGaugeRewardReceived(
   receiver.blockNum = event.block.number;
 
   // Update available reward amount
-  _updateRewardsAvailable(gauge);
+  _updateRewardsAvailable(gauge, event.block.timestamp);
 }
