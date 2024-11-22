@@ -13,7 +13,8 @@
     "test": "graph test",
     "prepare:mainnet": "exit 0",
     "prepare:polygon": "exit 0",
-    "prepare:arbitrum": "exit 0"
+    "prepare:arbitrum": "exit 0",
+    "prepare:base": "exit 0"
   },
   "dependencies": {}
 }

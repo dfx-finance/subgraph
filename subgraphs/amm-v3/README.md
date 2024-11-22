@@ -37,13 +37,13 @@ $ graph codegen && graph build
 (Dev) Subgraph Studio:
 
 ```bash
-$ graph deploy --studio dfx-amm-v3
+$ graph deploy dfx-amm-v3-<network>
 ```
 
 (Prod) Goldsky
 
 ```bash
-$ goldsky subgraph deploy amm-v3/<version> --path .
+$ goldsky subgraph deploy amm-v3-<network>/<version> --path .
 ```
 
 ## Post Deploy
@@ -51,5 +51,5 @@ $ goldsky subgraph deploy amm-v3/<version> --path .
 Tag version as "latest" on subgraph:
 
 ```bash
-$ goldsky subgraph tag create amm-v3/<version> --tag latest
+$ goldsky subgraph tag create amm-v3-<network>/<version> --tag latest
 ```

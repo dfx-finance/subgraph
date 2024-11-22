@@ -17,7 +17,8 @@
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 dfx-test",
     "prepare:mainnet": "mustache config/mainnet.json template.yaml > subgraph.yaml",
     "prepare:polygon": "mustache config/polygon.json template.yaml > subgraph.yaml",
-    "prepare:arbitrum": ""
+    "prepare:arbitrum": "",
+    "prepare:base": ""
   },
   "devDependencies": {},
   "dependencies": {}

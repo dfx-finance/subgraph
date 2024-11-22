@@ -10,7 +10,8 @@
     "codegen": "yarn workspaces run codegen",
     "prepare:mainnet": "yarn workspaces run prepare:mainnet",
     "prepare:polygon": "yarn workspaces run prepare:polygon",
-    "prepare:arbitrum": "yarn workspaces run prepare:arbitrum"
+    "prepare:arbitrum": "yarn workspaces run prepare:arbitrum",
+    "prepare:base": "yarn workspaces run prepare:base"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "^0.60.0",
